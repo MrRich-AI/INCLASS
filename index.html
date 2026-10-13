@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>In-Class Activities</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0d0a24;--card:#fffaf0;--ink:#14161f;--gold:#f2b134;--pink:#ff4f8b;--muted:#5a5f72}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;font-family:'Atkinson Hyperlegible',Arial,sans-serif;color:#fff;
+    background:radial-gradient(circle at 20% 10%,#3a1f80 0,transparent 45%),radial-gradient(circle at 85% 90%,#5a0f3a 0,transparent 45%),var(--bg);
+    padding:48px 24px}
+  .wrap{max-width:1100px;margin:0 auto}
+  h1{font-family:'Bungee',Impact,sans-serif;font-weight:400;font-size:clamp(34px,6vw,64px);line-height:1;text-shadow:0 4px 0 #b3123a}
+  h1 em{font-style:normal;color:var(--gold);text-shadow:0 4px 0 #8a4a00}
+  .sub{margin:12px 0 34px;font-size:19px;color:#d6d2f0}
+  .tabs{display:flex;gap:12px;margin-bottom:26px;flex-wrap:wrap}
+  .tab{font:inherit;font-weight:700;font-size:18px;padding:10px 24px;border-radius:999px;border:2px solid rgba(255,255,255,.3);background:transparent;color:#fff;cursor:pointer}
+  .tab.on{background:var(--gold);border-color:var(--gold);color:#1a1205}
+  .unit{margin-bottom:28px}
+  .unit h2{font-size:15px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+  a.card{display:block;text-decoration:none;color:var(--ink);background:var(--card);border-radius:18px;padding:22px 24px;border-left:8px solid var(--pink);
+    box-shadow:0 14px 34px rgba(0,0,0,.45);transition:transform .15s}
+  a.card:hover,a.card:focus-visible{transform:translateY(-4px);outline:none;box-shadow:0 0 0 4px var(--gold),0 14px 34px rgba(0,0,0,.45)}
+  a.card h3{font-size:24px;margin-bottom:6px}
+  a.card p{color:var(--muted);font-size:16px}
+  .empty{color:#d6d2f0;font-size:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>In-Class <em>Activities</em></h1>
+  <p class="sub">Choose a grade, then pick an activity.</p>
+  <div class="tabs" id="tabs"></div>
+  <div id="list"></div>
+</div>
+<script>
+/* Add new activities here: grade, unit number, unit title, activity title, short description, folder path */
+var ACTIVITIES = [
+  {grade:'G10', unit:11, unitTitle:'Heroes', title:'Hero or Not?', desc:'Eight real-life dilemmas to discuss and vote on.', path:'G10/unit-11-heroes/hero-or-not/'}
+];
+var GRADES = ['G9','G10'];
+var tabs = document.getElementById('tabs'), list = document.getElementById('list');
+var saved; try{ saved = localStorage.getItem('inclassGrade'); }catch(e){}
+var current = GRADES.indexOf(saved) > -1 ? saved : 'G10';
+function render(){
+  tabs.textContent = '';
+  GRADES.forEach(function(g){
+    var b = document.createElement('button');
+    b.className = 'tab' + (g === current ? ' on' : '');
+    b.textContent = 'Grade ' + g.slice(1);
+    b.onclick = function(){ current = g; try{ localStorage.setItem('inclassGrade', g); }catch(e){} render(); };
+    tabs.appendChild(b);
+  });
+  list.textContent = '';
+  var items = ACTIVITIES.filter(function(a){ return a.grade === current; }).sort(function(a,b){ return a.unit - b.unit; });
+  if(!items.length){ var p = document.createElement('p'); p.className = 'empty'; p.textContent = 'No activities yet.'; list.appendChild(p); return; }
+  var units = {};
+  items.forEach(function(a){ (units[a.unit] = units[a.unit] || []).push(a); });
+  Object.keys(units).sort(function(a,b){ return a - b; }).forEach(function(u){
+    var sec = document.createElement('section'); sec.className = 'unit';
+    var h = document.createElement('h2'); h.textContent = 'Unit ' + u + ' · ' + units[u][0].unitTitle; sec.appendChild(h);
+    var grid = document.createElement('div'); grid.className = 'grid';
+    units[u].forEach(function(a){
+      var c = document.createElement('a'); c.className = 'card'; c.href = a.path;
+      var t = document.createElement('h3'); t.textContent = a.title;
+      var d = document.createElement('p'); d.textContent = a.desc;
+      c.appendChild(t); c.appendChild(d); grid.appendChild(c);
+    });
+    sec.appendChild(grid); list.appendChild(sec);
+  });
+}
+render();
+</script>
+</body>
+</html>
