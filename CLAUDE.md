@@ -79,6 +79,7 @@ These replace the INCLASS look rules for RVW builds.
 ### Fidelity
 - Match the source exactly: wording, order, colours, fonts, sizes, backgrounds, boxes, borders, underlined/bold headings, word banks and layout.
 - Keep all branding and page furniture on every slide: logos, school names, title/marks/time headers, footer bars, page numbers.
+- Exception: leave out Cambridge/publisher identification text — e.g. the running header "CAMBRIDGE IGCSE™ ENGLISH AS A SECOND LANGUAGE: UNIT X TEST" and the footer copyright line "Cambridge IGCSE™ … © Cambridge University Press …". Keep the footer bar and page numbers.
 - Keep typos unchanged and list them; never fix them.
 - Use the closest font where the original isn't available, list each substitution, and give web fonts an offline fallback.
 - Rebuild text and tables as real HTML; use a rendered image only for elements that can't be matched; rebuild low-resolution graphics (e.g. footer bars) in HTML. Extract media at original resolution and embed as base64.
