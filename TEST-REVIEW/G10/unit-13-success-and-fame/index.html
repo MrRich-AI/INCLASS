@@ -147,6 +147,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1b2326;font-family:
 #ptimer.mini{transform:translateX(-50%)!important}
 #ptimer .lab{font-size:18px;font-weight:800;color:var(--teal-dark);letter-spacing:1px;text-transform:uppercase}
 #ptimer.mini .lab{display:none}
+#ptimer button.p1{font-size:16px!important;padding:4px 8px!important}
 #lxToast{bottom:100px!important}
 /* ===== planning timer ===== */
 #ptimer{position:absolute;right:60px;bottom:112px;z-index:25;display:none;align-items:center;gap:10px;background:rgba(255,255,255,.96);border:3px solid var(--teal);border-radius:20px;padding:10px 14px;box-shadow:0 10px 24px rgba(0,0,0,.18)}
@@ -486,7 +487,7 @@ body.student .cvBox,body.presenter .cvBox{display:none!important}
   <!-- ===== Slide timer menu ===== -->
   <div id="tmMenu"><div class="tmQ">Set the timer</div><div class="tmGrid"></div></div>
 
-  <div id="ptimer"><span class="lab">Work timer</span><span class="tt">10:00</span><button data-min="10">10 min</button><button data-min="15">15 min</button><button class="go">▶ Start</button><button class="rs">↺</button></div>
+  <div id="ptimer"><span class="lab">Work timer</span><span class="tt">10:00</span><button data-min="10">10 min</button><button data-min="15">15 min</button><button class="go">▶ Start</button><button class="p1" title="Add 1 minute">+1m</button><button class="rs">↺</button></div>
 
   <div class="navbar show">
     <div class="grp">
@@ -1000,6 +1001,7 @@ var LESSON_REVEALS = ".nrow[data-ev]";
   ptGo.onclick=function(e){e.stopPropagation();ptRun?ptStop():ptStart();};
   ptT.style.cursor='pointer';ptT.title='Click to start / pause';ptT.onclick=function(e){e.stopPropagation();ptRun?ptStop():ptStart();};
   pt.querySelectorAll('[data-min]').forEach(function(b){b.onclick=function(e){e.stopPropagation();ptStop();ptLeft=+b.dataset.min*60;ptShow();};});
+  pt.querySelector('.p1').onclick=function(e){e.stopPropagation();var was=ptLeft;ptLeft+=60;ptShow();if(was<=0)ptStart();};
   pt.querySelector('.rs').onclick=function(e){e.stopPropagation();ptStop();ptLeft=600;ptShow();pt.classList.remove('act');pt.classList.toggle('on',!!slides[cur].dataset.timer);pt.classList.remove('mini');};
   pt.addEventListener('pointerdown',function(e){e.stopPropagation();});
   ptShow();
