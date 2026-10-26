@@ -1001,7 +1001,8 @@ var LESSON_REVEALS = ".nrow[data-ev]";
   ptGo.onclick=function(e){e.stopPropagation();ptRun?ptStop():ptStart();};
   ptT.style.cursor='pointer';ptT.title='Click to start / pause';ptT.onclick=function(e){e.stopPropagation();ptRun?ptStop():ptStart();};
   pt.querySelectorAll('[data-min]').forEach(function(b){b.onclick=function(e){e.stopPropagation();ptStop();ptLeft=+b.dataset.min*60;ptShow();};});
-  pt.querySelector('.p1').onclick=function(e){e.stopPropagation();var was=ptLeft;ptLeft+=60;ptShow();if(was<=0)ptStart();};
+  /* +1m: adds a minute to the set time, or while it counts down (also after Time's up) */
+  pt.querySelector('.p1').onclick=function(e){e.stopPropagation();ptLeft=Math.min(ptLeft+60,99*60);ptShow();};
   pt.querySelector('.rs').onclick=function(e){e.stopPropagation();ptStop();ptLeft=600;ptShow();pt.classList.remove('act');pt.classList.toggle('on',!!slides[cur].dataset.timer);pt.classList.remove('mini');};
   pt.addEventListener('pointerdown',function(e){e.stopPropagation();});
   ptShow();
