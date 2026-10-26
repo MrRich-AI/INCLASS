@@ -97,8 +97,27 @@ These replace the INCLASS look rules for RVW builds.
 - **Note-making / short answer (4 steps):** (1) window opens with the answer's full paragraph; (2) the part paraphrasing the question or heading highlighted light blue; (3) answer words highlighted yellow and bold; (4) window closes and the answer shows with a trimmed excerpt labelled with its paragraph number.
 - Claude picks the distractors; only when more than one plausible distractor is found for a question, ask before building. Reveal all skips the windows; leaving a slide mid-window resets that question to hidden.
 
-### No additions
-No new slides, activities, timers, vocab cards, drag-and-drop or other interactive conversions; no added animations except the evidence-window highlights. Reproduce source pptx animations and click-builds as they are. No roster picker, stopwatch or other INCLASS/Lesson teacher tools.
+### No content additions
+No new slides, activities, vocab cards, drag-and-drop or other interactive conversions; no added animations except the evidence-window highlights and the teacher tools below. Reproduce source pptx animations and click-builds as they are.
+
+### Teacher tools (RVW)
+All teacher tools are present (teacher-only; none change the source content).
+- **Header strip:** a thin strip above the source slide holds the header tools; the source slide is scaled down slightly so nothing covers it or its page furniture.
+- **Header tools:** roster picker 🎡 and slide stopwatch ⏱ (as in INCLASS above, but in the header strip); language sign; COPY/NOTE pencil ✏️.
+  - **Language sign:** dormant = small faded England flag (St George's cross, not the UK flag) next to the 🎡. Click: enlarges to the centre with flag + "ENGLISH ONLY", glows ~1 s, returns to the strip keeping flag + text (vivid). Later clicks flip between English and Vietnamese flag + "ĐƯỢC DÙNG TIẾNG VIỆT"; clicking the enlarged sign switches it too; a quick double click on the strip sign returns it to the faded flag. Resets on every slide change. Flags as built-in SVG, never emoji.
+  - **COPY/NOTE pencil ✏️** (faded, beside the ⏱): 1st click "Copy into your notebook" strip slides down over the slide header; 2nd "Make your notes. Only key words/phrases"; 3rd "Add ideas to your notebook"; 4th hides. The strip glows, pulses and wobbles slightly; resets on slide change; no progress bar. The pencil glows faintly once answers are revealed where copying clearly fits — the strip never appears by itself.
+- **Work timer:** reading exercises get a countdown (10 and 15 min presets, start/pause/reset; click the time to start/pause), red near the end. Once started it stays on screen (small, time + pause only) on every slide; ↺ ends it.
+- **B / W keys:** as in INCLASS.
+- **C key "Close your books":** the shared animation from the Lessons repo (_shared/close-your-books/snippet.html); click skips to the stamp; click / C / Esc returns to the slide.
+- **? key:** cheat sheet of every shortcut.
+- **P key:** presenter view in a second window (current + next slide, all answers and explanations), kept in step with the projector.
+- **Cover boxes:** hold the right mouse button and drag (or Shift + left-drag) to draw solid white boxes over any part of a slide (right-click menu off); left-click a box to remove it; never triggers REV; cleared on slide change.
+- **Click-to-zoom:** small magnifier on reading texts and images opens them full screen, keeping their look with a solid background; answers in gaps can be revealed while zoomed.
+- **First screen:** shown still and dimmed until clicked.
+- **Click-to-pause:** every timer pauses/resumes when clicked.
+
+### Not used in RVW
+O key ("Open your book"), 5/6 break screens and shortcuts, CLUE/VISCLUE, GAMIFY, end-of-deck quiz, Words from today, warmers, student versions (?student/?zh, VI, read-aloud, flashcards).
 
 ### Navigation and media
 - Discreet bottom bar: Contents, Reveal all, Back, slide counter, Next; arrows and Space also work. Contents labels every slide by its source slide/page and section.
