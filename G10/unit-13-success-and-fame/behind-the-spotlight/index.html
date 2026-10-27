@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behind the Spotlight – G10 Unit 13 Success and fame (Project lead-in: Two ways to live with fame; The Four Stages of Fame)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Libre+Franklin:wght@500;600;700;800;900&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{
+  --film:#0d0d10; --smoke:#1d1d22; --ash:#34343c; --silver:#cfd0d6; --dim:#8f909a;
+  --card:#e9e6df; --card2:#f6f4ee; --cink:#16161a; --cmut:#55555e;
+  --lamp:#f2d27a; --lamp2:#c99a2e; --red:#c8403f; --green:#2f8f57;
+  --deco:'Limelight','Didot','Bodoni 72',Georgia,serif;
+  --body:'Libre Franklin','Franklin Gothic Medium','Arial Narrow',Arial,sans-serif;
+  --type:'Special Elite','Courier New',Courier,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#000;overflow:hidden}
+body{font-family:var(--body);color:var(--silver);-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:var(--film)}
+
+/* ---------- atmosphere: spotlight, blinds, grain, vignette ---------- */
+#atmo{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#atmo .spot{position:absolute;left:50%;top:-420px;width:1500px;height:1500px;margin-left:-750px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(235,232,222,.17),rgba(235,232,222,.06) 55%,transparent 75%);animation:spotSway 16s ease-in-out infinite}
+@keyframes spotSway{0%,100%{transform:translateX(-160px)}50%{transform:translateX(160px)}}
+#atmo .blinds{position:absolute;left:-30%;top:-30%;width:160%;height:160%;transform:rotate(-14deg);
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 54px,rgba(0,0,0,.34) 54px 92px);
+  -webkit-mask:radial-gradient(ellipse 60% 55% at 72% 40%,#000 0,transparent 75%);mask:radial-gradient(ellipse 60% 55% at 72% 40%,#000 0,transparent 75%);animation:blind 40s linear infinite}
+@keyframes blind{to{background-position:0 920px}}
+#atmo .vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,transparent 45%,rgba(0,0,0,.72) 100%)}
+#grain{position:absolute;inset:-60px;z-index:60;pointer-events:none;opacity:.10;mix-blend-mode:screen;background-size:256px 256px;animation:grain .5s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-37px,21px)}50%{transform:translate(23px,-41px)}75%{transform:translate(-13px,-17px)}100%{transform:translate(0,0)}}
+#flick{position:absolute;inset:0;z-index:59;pointer-events:none;background:#fff;opacity:0}
+#flick.go{animation:flick .45s steps(1)}
+@keyframes flick{0%{opacity:.10}20%{opacity:0}40%{opacity:.06}60%{opacity:0}}
+
+/* Lesson 1 slides: velvet curtains at the edges */
+.slide.l1::before,.slide.l1::after{content:"";position:absolute;top:0;bottom:92px;width:86px;z-index:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,#141418 0,#2b2b33 14px,#18181d 26px,#0c0c0f 34px,#24242b 46px);box-shadow:0 0 40px rgba(0,0,0,.8)}
+.slide.l1::before{left:0;border-radius:0 0 40px 0}
+.slide.l1::after{right:0;border-radius:0 0 0 40px}
+/* Lesson 2 slides: film sprockets at the edges */
+.slide.l2::before,.slide.l2::after{content:"";position:absolute;top:0;bottom:92px;width:58px;z-index:0;pointer-events:none;background-color:#8c887d;
+  background-image:linear-gradient(90deg,#060608 0 16px,transparent 16px 42px,#060608 42px),repeating-linear-gradient(180deg,transparent 0 26px,#060608 26px 52px);box-shadow:0 0 30px rgba(0,0,0,.8)}
+.slide.l2::before{left:0}.slide.l2::after{right:0}
+
+/* ---------- slides ---------- */
+.slide{position:absolute;inset:0;z-index:2;display:none;padding:34px 130px 0}
+.slide.active{display:block}
+.slide.active .rise{animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+.slide.active .rise.d1{animation-delay:.08s}.slide.active .rise.d2{animation-delay:.16s}.slide.active .rise.d3{animation-delay:.24s}.slide.active .rise.d4{animation-delay:.32s}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}}
+.slide .body{position:absolute;left:130px;right:130px;top:150px;bottom:118px}
+.slide.l2 .body{left:110px;right:110px}
+
+/* slate header: on-air lamp (L1) / frame counter (L2) + title */
+.slate{display:flex;align-items:center;gap:26px;height:96px;position:relative;z-index:3}
+.lampOn{display:flex;align-items:center;gap:12px;padding:8px 18px 8px 12px;border-radius:12px;background:#1a0d0d;border:2px solid #4a1b1b;font:400 22px/1 var(--type);color:#ff9b8e;flex:none}
+.lampOn i{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ffd6cf,#e2453b 55%,#7a1414);box-shadow:0 0 14px #ff4b3d,0 0 30px rgba(255,75,61,.6);animation:onair 2.4s ease-in-out infinite}
+@keyframes onair{50%{box-shadow:0 0 6px #ff4b3d,0 0 12px rgba(255,75,61,.3);filter:brightness(.8)}}
+.frameNo{flex:none;display:flex;align-items:center;gap:10px;padding:8px 16px;border-radius:10px;border:2px solid #3c3c45;font:400 22px/1 var(--type);color:var(--silver);background:#141418}
+.frameNo b{font:400 30px/1 var(--deco);color:var(--lamp)}
+.slate h1{font:400 64px/1.05 var(--deco);color:#f3f1ea;letter-spacing:.5px;text-shadow:0 3px 0 #000,0 0 30px rgba(255,255,255,.08)}
+.slate .seg{margin-left:auto;font:400 26px/1.2 var(--type);color:var(--dim);text-align:right;flex:none}
+.rule{height:2px;margin-top:14px;background:linear-gradient(90deg,transparent,#6d6d78 12%,#6d6d78 88%,transparent);position:relative;z-index:3}
+.rule::after{content:"";position:absolute;left:50%;top:-6px;width:14px;height:14px;margin-left:-7px;transform:rotate(45deg);background:var(--film);border:2px solid #8a8a95}
+
+/* cue cards */
+.card{position:relative;background:linear-gradient(180deg,var(--card2),var(--card));color:var(--cink);border-radius:6px;
+  box-shadow:0 2px 0 #fff inset,0 26px 50px rgba(0,0,0,.55),0 4px 10px rgba(0,0,0,.4);padding:28px 36px}
+.card::after{content:"";position:absolute;inset:0;border-radius:6px;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.022) 0 2px,transparent 2px 5px)}
+.card.dark{background:linear-gradient(180deg,#25252c,#1a1a20);color:var(--silver);border:1px solid #3d3d47;box-shadow:0 26px 50px rgba(0,0,0,.6)}
+.card.dark::after{display:none}
+.task{font:600 38px/1.32 var(--body)}
+.task b{font-weight:800}
+.note{font:400 28px/1.3 var(--type);color:var(--cmut)}
+.dark .note{color:var(--dim)}
+
+/* answers */
+.ans{cursor:pointer;position:relative}
+.ans .a{display:inline-block;transition:opacity .35s,filter .35s,transform .35s}
+.ans:not(.shown) .a{opacity:0;filter:blur(8px);transform:translateY(8px)}
+.ans .hint{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:10px;font:400 26px/1 var(--type);color:#8a8a92;transition:opacity .3s}
+.ans .hint::before{content:"";width:38px;height:38px;border-radius:50%;flex:none;
+  background:radial-gradient(circle at 50% 50%,#2a2a30 0 6px,transparent 7px),conic-gradient(from 0deg,#cfcfd4 0 25%,#9a9aa3 0 50%,#cfcfd4 0 75%,#9a9aa3 0);box-shadow:0 0 0 3px #4a4a52 inset}
+.ans.shown .hint{opacity:0;pointer-events:none}
+.ans.shown .a{animation:lampOn .7s ease}
+@keyframes lampOn{0%{text-shadow:0 0 0 rgba(242,210,122,0)}30%{text-shadow:0 0 26px rgba(242,210,122,.95)}100%{text-shadow:none}}
+.hl{background:linear-gradient(transparent 10%,rgba(242,210,122,.85) 10%,rgba(242,210,122,.85) 90%,transparent 90%);padding:0 6px;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.dark .hl{color:#1a1406}
+
+/* ---------- bottom bar ---------- */
+#bar{position:absolute;left:0;right:0;bottom:0;height:92px;z-index:40;display:flex;align-items:center;gap:16px;padding:0 22px;
+  background:linear-gradient(180deg,#26262c,#121216 60%,#0b0b0e);border-top:2px solid #4a4a54;box-shadow:0 -12px 30px rgba(0,0,0,.6)}
+#bar::before{content:"";position:absolute;left:0;right:0;top:4px;height:2px;background:repeating-linear-gradient(90deg,#55555f 0 18px,transparent 18px 26px);opacity:.5}
+.bb{height:60px;padding:0 22px;border-radius:8px;border:2px solid #5a5a66;background:linear-gradient(180deg,#34343c,#1f1f25);color:#eceae4;font:700 24px/1 var(--body);cursor:pointer;display:flex;align-items:center;gap:10px;flex:none}
+.bb:hover:not(:disabled){border-color:var(--lamp);color:#fff}
+.bb:disabled{opacity:.35;cursor:default}
+.bb.prim{background:linear-gradient(180deg,#f3dc93,#d3a948);color:#1d1503;border-color:#f6e3a6}
+.bb.icon{width:60px;padding:0;justify-content:center}
+.bb svg{width:28px;height:28px}
+#navTitle{flex:1;min-width:0;font:400 26px/1.2 var(--type);color:#a9a9b3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:6px}
+#counter{font:400 30px/1 var(--deco);color:var(--lamp);min-width:110px;text-align:center}
+#revealBtn.hiding{background:linear-gradient(180deg,#4a3b17,#2d240d);border-color:var(--lamp2)}
+
+/* ---------- roster picker (from CONTROL, restyled) ---------- */
+.rpBtn{width:60px;height:60px;border-radius:50%;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;padding:0;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5));transition:transform .15s}
+.rpBtn svg{width:60px;height:60px;overflow:visible}
+.rpBtn .wheel{transform-origin:32px 34px;transform-box:view-box}
+.rpBtn:hover{transform:scale(1.08)}
+.rpBtn.spinning .wheel{animation:rpWheel 2s cubic-bezier(.15,.75,.25,1) forwards}
+@keyframes rpWheel{from{transform:rotate(0)}to{transform:rotate(1440deg)}}
+#rp{position:absolute;z-index:45;width:560px;background:linear-gradient(180deg,#26262d,#18181d);border-radius:14px;box-shadow:0 22px 60px rgba(0,0,0,.7);border:3px solid #8b8b96;padding:18px 24px 22px;display:none;transition:opacity .6s ease;transform-origin:0 100%}
+#rp.open{display:block;animation:rpIn .28s cubic-bezier(.2,.8,.2,1)}
+#rp.fade{opacity:0;pointer-events:none}
+@keyframes rpIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+#rp .rpHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+#rp .rpHL{display:flex;align-items:baseline;gap:18px}
+#rp .rpCls{font:400 34px/1 var(--deco);color:var(--lamp)}
+#rp .rpLeft{font:400 22px/1 var(--type);color:var(--dim)}
+#rp .rpChange{font:700 21px var(--body);color:#d8d8de;background:none;border:none;text-decoration:underline;cursor:pointer;padding:0}
+#rp .rpQ{font:800 34px var(--body);color:#f0eee8;margin:4px 0 18px}
+#rp .rpChoices{display:flex;gap:16px;flex-wrap:wrap}
+#rp .rpChoice{font:400 38px var(--deco);border:2px solid #f6e3a6;border-radius:10px;padding:16px 30px;background:linear-gradient(180deg,#f3dc93,#d3a948);color:#1d1503;cursor:pointer;transition:transform .15s}
+#rp .rpChoice:hover{transform:translateY(-3px)}
+#rp .rpReel{position:relative;height:264px;overflow:hidden;border-radius:10px;background:#0a0a0c;border:2px solid #3a3a42}
+#rp .rpReel::before,#rp .rpReel::after{content:"";position:absolute;left:0;right:0;height:92px;z-index:2;pointer-events:none}
+#rp .rpReel::before{top:0;background:linear-gradient(#0a0a0c,rgba(10,10,12,.2))}
+#rp .rpReel::after{bottom:0;background:linear-gradient(rgba(10,10,12,.2),#0a0a0c)}
+#rp .rpWin{position:absolute;left:10px;right:10px;top:88px;height:88px;border-radius:8px;border:3px solid var(--lamp);box-shadow:0 0 18px rgba(242,210,122,.5),inset 0 0 14px rgba(242,210,122,.2);z-index:3;pointer-events:none}
+#rp .rpStrip{position:absolute;left:0;right:0;top:0;will-change:transform}
+#rp .rpName{height:88px;display:flex;align-items:center;justify-content:center;font:800 54px var(--body);color:#e4e2dc;white-space:nowrap}
+#rp .rpFinal{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:4;pointer-events:none}
+#rp .rpFinal span{font:800 62px var(--body);color:#fff;white-space:nowrap}
+#rp.done .rpStrip{visibility:hidden}
+#rp.done .rpFinal{display:flex}
+#rp.done .rpFinal span{animation:rpPop 1.1s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes rpPop{0%{transform:scale(.6);text-shadow:none}30%{transform:scale(1.35);text-shadow:0 0 30px var(--lamp),0 0 60px rgba(242,210,122,.7)}100%{transform:scale(1);text-shadow:0 0 16px rgba(242,210,122,.6)}}
+#rp .rpView{display:none}
+#rp[data-view="choose"] .rpView.choose,#rp[data-view="spin"] .rpView.spin{display:block}
+#rpPill{position:absolute;z-index:44;display:none;align-items:center;height:66px;padding:0 28px;border-radius:33px;background:#111114;color:#fff;font:800 40px var(--body);white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.5),0 0 0 3px var(--lamp),0 0 18px rgba(242,210,122,.45);pointer-events:none}
+#rpPill.show{display:flex;animation:rpPillIn .5s cubic-bezier(.2,.8,.2,1)}
+#rpPill.msg{color:var(--lamp);font-size:30px}
+@keyframes rpPillIn{from{opacity:0;transform:translateX(-14px) scale(.9)}to{opacity:1;transform:none}}
+
+/* ---------- slide stopwatch (from CONTROL, restyled) ---------- */
+.swBtn{width:58px;height:58px;border:none;background:none;padding:0;cursor:pointer;flex:none;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5));transition:transform .15s}
+.swBtn svg{width:58px;height:58px;overflow:visible}
+.swBtn:hover{transform:scale(1.08)}
+.swBtn.on .swHand{animation:swHand 1.2s linear infinite;transform-origin:32px 37px;transform-box:view-box}
+@keyframes swHand{to{transform:rotate(360deg)}}
+.tmDisp{display:none;align-items:center;gap:10px;height:62px;padding:0 22px;border-radius:10px;background:#0a0908;border:3px solid #4f421f;cursor:pointer;font:700 40px/1 "Consolas","Courier New",monospace;letter-spacing:2px;color:var(--lamp);text-shadow:0 0 8px rgba(242,210,122,.9),0 0 22px rgba(242,210,122,.5);box-shadow:inset 0 0 18px rgba(242,210,122,.15);flex:none}
+.tmDisp.show{display:flex;animation:tmIn .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes tmIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+.tmDisp.still{animation:none}
+.tmDisp .tmIco{font-size:24px;width:24px;text-align:center;letter-spacing:0}
+.tmDisp.ready{animation:tmReady 1.6s ease-in-out infinite}
+@keyframes tmReady{50%{box-shadow:inset 0 0 18px rgba(242,210,122,.18),0 0 0 6px rgba(242,210,122,.22)}}
+.tmDisp.paused .tmTxt{animation:tmBlink 1s steps(1) infinite}
+@keyframes tmBlink{50%{opacity:.25}}
+.tmDisp.warn{color:#ff5a4d;border-color:#7a1d1d;text-shadow:0 0 8px rgba(255,77,77,.95),0 0 24px rgba(255,60,60,.6);animation:tmWarn 1s ease-in-out infinite}
+@keyframes tmWarn{50%{transform:scale(1.07);box-shadow:inset 0 0 18px rgba(255,77,77,.25),0 0 26px rgba(255,60,60,.7)}}
+.tmDisp.up{color:#ffe36a;border-color:#8a6a00;font-size:34px;text-shadow:0 0 10px #ffd23a,0 0 26px #ffb800;animation:tmUp .5s steps(1) infinite}
+.tmDisp.up.upStill{animation:none}
+@keyframes tmUp{50%{color:#ff4d4d;text-shadow:0 0 10px #ff4d4d,0 0 26px #ff2a2a;border-color:#7a1d1d}}
+#tmMenu{position:absolute;z-index:46;display:none;width:600px;background:linear-gradient(180deg,#26262d,#18181d);border:3px solid #8b8b96;border-radius:14px;padding:18px 22px 22px;box-shadow:0 22px 60px rgba(0,0,0,.7)}
+#tmMenu.open{display:block;animation:rpIn .25s cubic-bezier(.2,.8,.2,1)}
+#tmMenu .tmQ{font:800 30px var(--body);color:#f0eee8;margin-bottom:14px}
+#tmMenu .tmGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+#tmMenu .tmOpt{font:700 32px "Consolas","Courier New",monospace;border:2px solid #4f421f;border-radius:10px;padding:14px 12px;background:#0a0908;color:var(--lamp);text-shadow:0 0 8px rgba(242,210,122,.6);cursor:pointer;transition:transform .12s}
+#tmMenu .tmOpt:hover{transform:translateY(-3px)}
+
+/* ---------- work timer (from CONTROL, restyled) ---------- */
+#ptimer{position:absolute;right:130px;top:40px;z-index:30;display:none;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:#0f0f12;border:2px solid #4f421f;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+#ptimer.on{display:flex}
+#ptimer .tt{font:700 44px/1 "Consolas","Courier New",monospace;color:var(--lamp);text-shadow:0 0 10px rgba(242,210,122,.7);min-width:150px;text-align:center}
+#ptimer button{font:700 21px var(--body);height:46px;padding:0 14px;border-radius:8px;border:2px solid #55555f;background:#24242a;color:#eee;cursor:pointer}
+#ptimer button.go{background:linear-gradient(180deg,#f3dc93,#d3a948);color:#1d1503;border-color:#f6e3a6}
+#ptimer.low .tt{color:#ff5a4d;text-shadow:0 0 10px rgba(255,77,77,.9);animation:tmWarn 1s ease-in-out infinite}
+#ptimer.done .tt{color:#ffe36a;font-size:34px}
+#ptimer.mini{right:110px;top:auto;bottom:104px;padding:6px 10px}
+#ptimer.mini .tt{font-size:34px;min-width:120px}
+#ptimer.mini [data-min],#ptimer.mini .rs{display:none}
+
+/* ---------- B / W screens, start gate ---------- */
+#blackout{position:absolute;inset:0;z-index:90;background:#000;display:none;align-items:center;justify-content:center;cursor:none}
+#blackout.on{display:flex;animation:boIn .35s ease}
+#blackout .boTxt{font:400 130px var(--deco);color:#fff;letter-spacing:2px;text-shadow:0 0 30px rgba(255,255,255,.25);animation:boPulse 2.6s ease-in-out infinite}
+#blackout .boTxt span{display:inline-block;animation:boEyes 2.6s ease-in-out infinite}
+@keyframes boPulse{50%{opacity:.75;transform:scale(1.03)}}
+@keyframes boEyes{0%,40%,100%{transform:translateX(0)}50%{transform:translateX(-14px)}70%{transform:translateX(14px)}}
+@keyframes boIn{from{opacity:0}to{opacity:1}}
+#whiteout{position:absolute;inset:0;z-index:90;background:#fff;display:none}
+#whiteout.on{display:block}
+#startGate{position:absolute;inset:0;z-index:95;background:rgba(0,0,0,.55);cursor:pointer}
+#stage.prestart *{animation-play-state:paused!important}
+#stage.prestart #startGate{animation:none}
+
+/* ---------- contents, teacher notes ---------- */
+.pop{position:absolute;inset:0;z-index:70;display:none;background:rgba(0,0,0,.66)}
+.pop.open{display:block;animation:boIn .2s ease}
+.popCard{position:absolute;left:50%;top:60px;bottom:130px;width:1180px;margin-left:-590px;display:flex;flex-direction:column;background:linear-gradient(180deg,#24242b,#16161b);border:3px solid #8b8b96;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.8);padding:26px 34px}
+.popHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.popHead h2{font:400 50px var(--deco);color:#f3f1ea}
+.popX{width:56px;height:56px;border-radius:50%;border:2px solid #6a6a74;background:#1b1b20;color:#fff;font-size:32px;cursor:pointer}
+#contentsList{list-style:none;overflow-y:auto;flex:1;padding-right:10px}
+#contentsList li{display:flex;align-items:center;gap:20px;padding:12px 16px;border-radius:8px;cursor:pointer;font:600 29px var(--body);color:#dddbd5}
+#contentsList li:hover{background:#2e2e36}
+#contentsList li.cur{background:#3a3220;color:#fff;box-shadow:inset 4px 0 0 var(--lamp)}
+#contentsList .num{font:400 28px var(--deco);color:var(--lamp);width:48px;text-align:right;flex:none}
+#contentsList .grp{font:400 24px var(--type);color:var(--dim);margin-left:auto;flex:none}
+#contentsList li.sep{cursor:default;font:400 26px var(--type);color:var(--lamp);padding:20px 16px 6px;background:none!important;box-shadow:none}
+#tnBody{overflow-y:auto;flex:1;font:500 30px/1.45 var(--body);color:#e6e4de}
+#tnBody h3{font:400 30px var(--type);color:var(--lamp);margin:4px 0 12px}
+#tnBody ul{padding-left:34px}#tnBody li{margin:6px 0}
+#tnBody b{color:#fff}
+
+/* ---------- EXPLAIN (from CONTROL, restyled) ---------- */
+.xplBtn{position:absolute;left:96px;bottom:104px;z-index:24;width:66px;height:66px;padding:0;border:none;background:none;cursor:pointer;animation:xplWob 2.6s ease-in-out infinite;transform-origin:50% 88%;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+.xplBtn:hover{animation-play-state:paused;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5)) drop-shadow(0 0 18px rgba(255,200,60,.8))}
+.xplBtn svg{width:100%;height:100%;overflow:visible;display:block}
+.xplBtn .xRays line{animation:xplRay 1.8s ease-in-out infinite}
+.xplBtn .xRays line:nth-child(2n){animation-delay:.45s}
+.xplBtn .xGlow{animation:xplGlow 1.8s ease-in-out infinite}
+.xplBtn.open .xGlow{opacity:1;animation:none}
+@keyframes xplWob{0%,100%{rotate:0deg}18%{rotate:-6deg}36%{rotate:5deg}54%{rotate:-3deg}72%{rotate:2deg}}
+@keyframes xplRay{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes xplGlow{0%,100%{opacity:.35}50%{opacity:.85}}
+#xplWin{position:absolute;inset:0;z-index:70;display:none}
+#xplWin.on{display:block}
+#xplWin .xDim{position:absolute;inset:0;background:rgba(0,0,0,.65);animation:boIn .25s ease both}
+#xplWin .xCard{position:absolute;left:50%;top:28px;width:1700px;max-height:1024px;overflow:hidden;margin-left:-850px;background:#f4f1ea;border-radius:18px;border:4px solid #d9b24e;box-shadow:0 30px 70px rgba(0,0,0,.7);padding:30px 44px 34px;color:#1b1b20;display:flex;flex-direction:column;gap:18px;transform-origin:var(--xo,8% 100%);animation:xplPop .38s cubic-bezier(.2,.9,.3,1.2) both}
+#xplWin .xHead{display:flex;align-items:center;gap:20px}
+#xplWin .xHead svg{width:74px;height:74px;flex:none;overflow:visible}
+#xplWin .xHead .xT{font:400 24px var(--type);color:#8a6410}
+#xplWin .xHead .xS{font:400 44px/1.1 var(--deco);color:#1b1b20}
+#xplWin .xClose{margin-left:auto;align-self:flex-start;width:56px;height:56px;border-radius:50%;border:3px solid #c9b88a;background:#fff;color:#6a5520;font-size:34px;line-height:1;cursor:pointer}
+#xplWin .xBody{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:18px 22px;min-height:0}
+#xplWin .xPart{border-radius:12px;padding:16px 24px 18px;background:#fff;border:3px solid #e2ddd0;animation:xplRise .45s ease both}
+#xplWin .pAbout{grid-column:1 / span 2}#xplWin .pRule{grid-column:1;grid-row:2 / span 2}#xplWin .pEx{grid-column:2;grid-row:2}#xplWin .pWatch{grid-column:2;grid-row:3}
+#xplWin .xLab{font:400 24px var(--type);margin-bottom:6px}
+#xplWin .xTxt{font:600 var(--xf,36px)/1.36 var(--body)}
+#xplWin .xTxt b{font-weight:900;color:#3c2c05}
+#xplWin .xTxt p{margin:0 0 6px}
+#xplWin .pAbout{background:#eceae4;border-color:#c8c5bb}#xplWin .pAbout .xLab{color:#4a4a52}
+#xplWin .pRule{background:#fbf3dc;border-color:#e6cd86}#xplWin .pRule .xLab{color:#8a6410}
+#xplWin .pEx{background:#eef0f4;border-color:#c3c8d4}#xplWin .pEx .xLab{color:#3b4a6b}
+#xplWin .pWatch{background:#f8e9e6;border-color:#e3b1a8}#xplWin .pWatch .xLab{color:#a3352a}
+#xplWin .pEx ul{margin:0;padding-left:34px}#xplWin .pEx li{margin:2px 0}
+#xplWin mark{background:linear-gradient(transparent 12%,#f2d27a 12%,#f2d27a 88%,transparent 88%);color:inherit;padding:0 4px;border-radius:4px;font-weight:800}
+#xplWin .xWrong{color:#a3352a}#xplWin .xWrong s{text-decoration-thickness:3px}
+#xplWin .xRight{color:#1f6e3f}
+@keyframes xplPop{from{opacity:0;transform:scale(.18)}}
+@keyframes xplRise{from{opacity:0;transform:translateY(18px)}}
+
+/* ---------- mute + teacher note buttons ---------- */
+#muteBtn.off svg .wv{display:none}
+#muteBtn.off svg .x{display:block}
+#muteBtn svg .x{display:none}
+
+/* =================================================================== */
+/*                         TITLE SCREEN                                 */
+/* =================================================================== */
+.slide.ttl{padding:0}
+.ttl canvas{position:absolute;inset:0;width:1920px;height:1080px}
+.marquee{position:absolute;left:50%;top:150px;width:1240px;margin-left:-620px;z-index:3;text-align:center;padding:46px 60px 50px;
+  background:linear-gradient(180deg,#1b1b20,#0c0c0f);border-radius:20px;border:4px solid #7a7a85;box-shadow:0 0 0 10px #1a1a1f,0 0 0 14px #5e5e68,0 40px 90px rgba(0,0,0,.85),0 0 120px rgba(242,210,122,.12)}
+.marquee .bulbs{position:absolute;inset:-4px;border-radius:20px;pointer-events:none}
+.marquee .bulbs i{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fffbe8,#f2d27a 45%,#a5741c 80%);box-shadow:0 0 10px #f6d57c,0 0 22px rgba(246,213,124,.6);animation:bulb 1.2s steps(1) infinite}
+@keyframes bulb{50%{background:radial-gradient(circle at 40% 35%,#6a6250,#3a3426 70%);box-shadow:none}}
+.marquee .kick{font:400 34px var(--type);color:#bdbcc4;letter-spacing:3px}
+.marquee h1{font:400 150px/1 var(--deco);color:#f5f2ea;margin:18px 0 10px;text-shadow:0 0 18px rgba(255,255,255,.25),0 6px 0 #000;letter-spacing:2px}
+.marquee h1 span{display:block;font-size:96px;color:var(--lamp);text-shadow:0 0 22px rgba(242,210,122,.6),0 5px 0 #000}
+.marquee .sub{font:600 36px var(--body);color:#d6d4cd;margin-top:18px}
+.ttlFoot{position:absolute;left:0;right:0;bottom:150px;z-index:3;display:flex;justify-content:center;gap:40px}
+.ticket{display:flex;align-items:center;gap:22px;padding:18px 34px 18px 22px;background:linear-gradient(180deg,#efe9dc,#d9d2c2);color:#1b1b20;border-radius:6px;font:700 32px var(--body);box-shadow:0 18px 40px rgba(0,0,0,.7);
+  -webkit-mask:radial-gradient(circle at 0 50%,transparent 16px,#000 17px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 16px,#000 17px) right/51% 100% no-repeat;
+  mask:radial-gradient(circle at 0 50%,transparent 16px,#000 17px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 16px,#000 17px) right/51% 100% no-repeat}
+.ticket b{font:400 40px var(--deco);color:#8a6410;padding-right:18px;border-right:3px dashed #a49c88}
+
+/* =================================================================== */
+/*                         SECTION OPENERS                              */
+/* =================================================================== */
+.leader{position:absolute;left:50%;top:50%;width:520px;height:520px;margin:-300px 0 0 -260px;z-index:20;pointer-events:none;opacity:0}
+.slide.active .leader{animation:leaderOut 2.6s ease forwards}
+@keyframes leaderOut{0%,85%{opacity:1}100%{opacity:0;transform:scale(1.4)}}
+.leader svg{width:100%;height:100%}
+.leader .sweep{transform-origin:260px 260px;animation:sweep .8s linear 3}
+@keyframes sweep{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.leader .n{font:400 260px var(--deco);fill:#f0ede6}
+.leader .n1,.leader .n2,.leader .n3{opacity:0}
+.slide.active .leader .n3{animation:num .8s steps(1) 0s}
+.slide.active .leader .n2{animation:num .8s steps(1) .8s}
+.slide.active .leader .n1{animation:num .8s steps(1) 1.6s}
+@keyframes num{0%{opacity:1}100%{opacity:0}}
+.opener .afterLeader{opacity:0}
+.slide.active.opener .afterLeader{animation:fadeUp .9s cubic-bezier(.2,.8,.2,1) 2.3s forwards}
+.slide.active.opener .afterLeader.d1{animation-delay:2.5s}.slide.active.opener .afterLeader.d2{animation-delay:2.7s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.lessonTag{font:400 34px var(--type);color:var(--dim);text-align:center;margin-top:30px}
+.bigT{font:400 112px/1.02 var(--deco);color:#f5f2ea;text-align:center;margin-top:10px;text-shadow:0 0 24px rgba(255,255,255,.15),0 6px 0 #000}
+.guests{display:flex;justify-content:center;gap:90px;margin-top:56px}
+.guest{width:620px;text-align:center}
+.guest .tv{position:relative;height:380px;border-radius:40px/34px;background:radial-gradient(ellipse at 50% 40%,#3d3d44,#121215 75%);border:10px solid #2c2a26;box-shadow:inset 0 0 60px #000,0 0 0 4px #5b564a,0 30px 60px rgba(0,0,0,.7);overflow:hidden}
+.guest .tv::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 2px,transparent 2px 5px),radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.14),transparent 50%)}
+.guest .tv svg{position:absolute;left:50%;bottom:0;height:92%;transform:translateX(-50%)}
+.guest .plate{display:inline-block;margin-top:-30px;position:relative;z-index:2;padding:14px 34px;background:linear-gradient(180deg,#efe9dc,#d6cfbe);color:#17171b;border-radius:4px;box-shadow:0 12px 26px rgba(0,0,0,.6)}
+.guest .plate b{display:block;font:400 48px/1 var(--deco)}
+.guest .plate span{display:block;font:400 26px var(--type);color:#4b4b52;margin-top:6px}
+
+/* =================================================================== */
+/*                         LESSON 1 SLIDES                              */
+/* =================================================================== */
+.qGrid{display:grid;gap:22px}
+.idea{background:#1c1c22;border:2px solid #3a3a43;border-radius:10px;min-height:130px;display:flex;align-items:center;padding:18px 26px 18px 28px;font:600 38px/1.25 var(--body);color:#ecebe6}
+.idea .hl{color:#1a1406}
+.idea .a{padding-left:4px}
+.idea.ans .hint{left:28px}
+.idea.shown{border-color:#6d5a2a;background:linear-gradient(180deg,#26231c,#1b1913)}
+
+/* vocabulary match (drag-into-gap) */
+.vlist{display:grid;grid-template-columns:1fr 1fr;gap:16px 34px}
+.vrow{display:flex;align-items:center;gap:20px;font:600 33px/1.25 var(--body);color:var(--cink)}
+.v8 .vrow{min-height:138px}
+.v7 .vrow{min-height:84px;font-size:37px}
+.vrow .num{font:400 30px var(--deco);color:#8a6410;width:36px;flex:none;text-align:right}
+.gap{display:inline-flex;align-items:center;justify-content:center;min-width:300px;height:68px;padding:0 16px;border-radius:6px;border:3px dashed #9a978c;background:#fbfaf6;font:800 31px var(--body);color:#1b1b20;flex:none;position:relative;transition:border-color .2s,background .2s}
+.gap.gover{border-color:#c99a2e;background:#fff3cf;transform:scale(1.04)}
+.gap .gg{white-space:nowrap}
+.gap .ga{display:none;white-space:nowrap;color:#1f6e3f}
+.gap.guessed .gg{animation:drop .35s cubic-bezier(.2,1.6,.4,1)}
+@keyframes drop{from{transform:translateY(-16px) scale(1.2)}}
+.gap.shown{border-style:solid}
+.gap.shown:not(.right) .ga{display:inline;animation:slideIn .45s cubic-bezier(.2,.8,.2,1)}
+.gap.shown.wrong .gg{color:#b23a30;text-decoration:line-through;text-decoration-thickness:4px;margin-right:12px;font-size:.8em}
+.gap.shown.right{border-color:#2f8f57;background:#e6f4ea}
+.gap.shown.right .gg::after{content:" ✓";color:#2f8f57}
+.gap.shown.wrong{border-color:#b23a30;background:#fbecea}
+.gap.shown:not(.wrong):not(.right){border-color:#2f8f57;background:#eef7f0}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}}
+.gap:not(.shown) .hint{display:none}
+.gbank{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;padding:18px 20px;border-radius:10px;background:#141418;border:2px solid #3b3b44}
+.gchip{font:800 32px var(--body);padding:12px 24px;border-radius:6px;background:linear-gradient(180deg,#f6f2e6,#ddd6c4);color:#1b1b20;cursor:grab;touch-action:none;user-select:none;box-shadow:0 4px 0 #8f887a,0 8px 16px rgba(0,0,0,.4);transition:opacity .2s,transform .15s}
+.gchip:hover{transform:translateY(-2px)}
+.gchip.used{opacity:.28;cursor:default;transform:none}
+.gchip i{font:400 22px var(--type);font-style:normal;color:#5c5a52;margin-left:8px}
+.gfloat{position:fixed;z-index:999;pointer-events:none;transform-origin:0 0;box-shadow:0 18px 30px rgba(0,0,0,.5)!important}
+.gclear{font:700 22px var(--body);height:50px;padding:0 18px;border-radius:6px;border:2px solid #5a5a66;background:#24242a;color:#ddd;cursor:pointer;margin-left:10px}
+
+/* video slides */
+.vwrap{position:absolute;left:0;top:0;width:900px}
+.vframe{position:relative;width:900px;height:506px;border-radius:10px;overflow:hidden;background:#000;border:6px solid #2d2b27;box-shadow:0 0 0 3px #5b564a,0 30px 60px rgba(0,0,0,.75)}
+.vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vframe .vph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;font:400 30px var(--type);color:#9a9aa3;background:radial-gradient(ellipse,#26262c,#0b0b0d)}
+.vmeta{display:flex;align-items:center;gap:16px;margin-top:16px}
+.ytBtn{white-space:nowrap;display:inline-flex;align-items:center;gap:10px;font:700 22px var(--body);padding:10px 18px;border-radius:8px;background:#1d1d22;border:2px solid #4a4a54;color:#e7e5df;text-decoration:none}
+.ytBtn:hover{border-color:var(--lamp)}
+.watchTag{font:400 26px var(--type);color:var(--lamp)}
+.vside{position:absolute;left:950px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:18px}
+.qa{padding:20px 26px}
+.big .qa{padding:30px 36px;min-height:200px}
+.big .qa .q{font-size:42px}
+.big .qa .q .qn{font-size:42px}
+.big .qa .ans{font-size:44px;margin-top:16px}
+.qa .q{font:700 36px/1.25 var(--body);display:flex;gap:14px}
+.qa .q .qn{font:400 36px var(--deco);color:#8a6410;flex:none}
+.qa .ans{display:block;min-height:56px;margin:12px 0 0 46px;font:800 38px/1.28 var(--body);color:#1b1b20}
+
+/* typed gaps */
+.tline{font:600 38px/1.55 var(--body);color:var(--cink);margin-bottom:40px}
+.tgap{display:flex;align-items:center;gap:26px;margin:12px 0 0 46px}
+.tline .blank{border-color:#8a6410;min-width:120px}
+.tgap input{font:800 34px var(--body);width:340px;flex:none;height:58px;padding:0 14px;border:none;border-bottom:4px solid #6c6a62;background:#fbfaf6;color:#1b1b20;border-radius:4px 4px 0 0;outline:none}
+.tgap input:focus{border-bottom-color:#c99a2e;background:#fff7dc}
+
+.tgap .tk{min-height:48px;font:800 34px/1.3 var(--body);color:#1f6e3f}
+
+.tgap.shown.right input{background:#e6f4ea;border-bottom-color:#2f8f57}
+.tgap.shown.wrong input{background:#fbecea;border-bottom-color:#b23a30;text-decoration:line-through;color:#b23a30}
+.tgap .hint{font-size:22px}
+.tgap .hint::before{width:28px;height:28px}
+.tgap .tk{position:relative}
+
+/* prison bars reveal */
+.prison{position:relative;height:430px;border-radius:10px;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#3a3a42,#101013 70%);border:2px solid #3b3b44}
+.prison svg{position:absolute;inset:0;width:100%;height:100%}
+.prison .bars{transform:translateY(-110%);transition:transform 1s cubic-bezier(.5,0,.3,1.25)}
+.prison.on .bars{transform:none}
+.prisonQ{font:800 64px/1.15 var(--body);color:#1b1b20;text-align:center;margin-top:16px;min-height:80px}
+
+/* lists (Harvey detail) */
+.cols3{display:grid;grid-template-columns:1fr;gap:18px}
+.lst{list-style:none;display:flex;flex-wrap:wrap;gap:12px 14px;margin-top:10px}
+.lst li{flex:none;min-width:200px;height:66px;display:flex;align-items:center;justify-content:center;padding:0 20px;border-radius:6px;border:2px dashed #aaa596;background:#fbfaf6;font:800 34px var(--body);color:#1b1b20}
+.lst li.shown{border-style:solid;border-color:#7c6a3a;background:#fff6dc}
+.lst li .hint{left:50%;transform:translate(-50%,-50%)}
+.lst li .hint::before{width:30px;height:30px}
+.lst li.x .a::before{content:"✗ ";color:#b23a30}
+.lst li.ok .a::before{content:"✓ ";color:#2f8f57}
+.lh{font:700 34px var(--body);display:flex;align-items:center;gap:12px}
+.lh svg{width:44px;height:44px;flex:none}
+
+/* compare chart */
+.chart{width:100%;border-collapse:separate;border-spacing:14px;table-layout:fixed;margin-top:0}
+.chart th{font:400 46px var(--deco);color:#f3f1ea;padding:6px 0 0;text-align:center}
+.chart th.rh{width:240px}
+.chart td.rl{font:400 34px var(--type);color:var(--lamp);text-align:right;padding-right:10px;vertical-align:middle}
+.chart td.c{background:linear-gradient(180deg,var(--card2),var(--card));border-radius:6px;height:214px;padding:16px 28px;vertical-align:middle;font:700 38px/1.28 var(--body);color:#1b1b20;box-shadow:0 14px 30px rgba(0,0,0,.5)}
+.chart td.c .hint{left:24px}
+
+/* discussion */
+.frameStrip{display:flex;align-items:center;gap:20px;padding:24px 30px;border-radius:10px;background:#141418;border:2px solid #4f421f;font:600 42px/1.3 var(--body);color:#f1efe9}
+.frameStrip .fl{font:400 26px var(--type);color:var(--lamp);flex:none}
+.blank{display:inline-block;min-width:150px;border-bottom:4px solid var(--lamp);margin:0 6px;height:1em;vertical-align:-4px}
+.ideas{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:190px;gap:20px}
+
+/* =================================================================== */
+/*                         LESSON 2 SLIDES                              */
+/* =================================================================== */
+.artCard{display:flex;gap:40px;align-items:stretch}
+.paper{flex:1;padding:34px 44px;background:linear-gradient(180deg,#efebe1,#ddd7c9);color:#18181c;border-radius:4px;box-shadow:0 30px 60px rgba(0,0,0,.7);position:relative;transform:rotate(-1.2deg)}
+.paper::before{content:"";position:absolute;left:50%;top:-18px;width:150px;height:40px;margin-left:-75px;background:rgba(220,214,196,.75);box-shadow:0 2px 6px rgba(0,0,0,.25);transform:rotate(2deg)}
+.paper .pub{font:400 30px var(--type);color:#4b4b52}
+.paper .hd{font:400 92px/1.04 var(--deco);margin:20px 0 22px}
+.paper .dek{font:600 40px/1.3 var(--body);color:#2c2c33}
+.paper .by{margin-top:26px;font:700 36px var(--body)}
+.qrBox{width:420px;flex:none;display:flex;flex-direction:column;align-items:center;gap:16px;padding:26px;background:#141418;border:2px solid #3b3b44;border-radius:10px}
+.qrBox img,.qrBox svg{width:300px;height:300px;background:#fff;padding:12px;border-radius:6px}
+.qrBox .note{color:#bdbcc4;text-align:center}
+.linkBtn{display:inline-flex;align-items:center;gap:12px;font:800 28px var(--body);padding:16px 24px;border-radius:8px;background:linear-gradient(180deg,#f3dc93,#d3a948);color:#1d1503;text-decoration:none;border:2px solid #f6e3a6}
+
+/* prediction graph */
+.graphCard{position:absolute;left:0;top:0;width:1250px;bottom:0;padding:22px 28px}
+.graphCard canvas{position:absolute;left:110px;top:30px;width:1100px;height:640px;cursor:crosshair;touch-action:none}
+.graphCard .gsvg{position:absolute;left:110px;top:30px;width:1100px;height:640px;pointer-events:none}
+.gaxis{position:absolute;font:400 28px var(--type);color:#4b4b52}
+.gside{position:absolute;left:1290px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:20px}
+.gside .bb{height:64px;font-size:26px}
+.shape .seg2{stroke-dasharray:1600;stroke-dashoffset:1600}
+.shape.shown .seg2{animation:draw 2.4s ease forwards}
+.shape .lbl{opacity:0}
+.shape.shown .lbl{animation:boIn .5s ease forwards}
+.shape.shown .lbl:nth-of-type(1){animation-delay:.3s}.shape.shown .lbl:nth-of-type(2){animation-delay:.8s}.shape.shown .lbl:nth-of-type(3){animation-delay:1.3s}.shape.shown .lbl:nth-of-type(4){animation-delay:1.8s}.shape.shown .lbl:nth-of-type(5){animation-delay:2.3s}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* film strip of seven frames */
+.strip{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:0;padding:30px 0;background:#08080a;border-radius:6px;box-shadow:0 30px 60px rgba(0,0,0,.7)}
+.strip::before,.strip::after{content:"";position:absolute;left:12px;right:12px;height:18px;background:repeating-linear-gradient(90deg,#d9d6cc 0 22px,transparent 22px 46px);border-radius:3px;opacity:.85}
+.strip::before{top:6px}.strip::after{bottom:6px}
+.fr{position:relative;margin:0 6px;padding:16px 12px 14px;border-radius:4px;background:linear-gradient(180deg,#2e2e35,#18181d);border:2px solid #45454f;text-align:center;min-height:330px;display:flex;flex-direction:column;align-items:center;transition:background .4s,border-color .4s,transform .4s}
+.fr .fi{width:96px;height:96px}
+.fr .fn{font:400 26px var(--deco);color:var(--lamp)}
+.fr .ft{font:800 31px/1.15 var(--body);color:#f1efe9;margin-top:8px;min-height:66px;display:flex;align-items:center}
+.fr .members{margin-top:8px;font:700 30px/1.3 var(--body);color:var(--lamp);min-height:30px}
+.fr .members span{display:block;animation:nameIn .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes nameIn{from{opacity:0;transform:translateY(-20px) scale(1.3)}}
+.fr .tag{margin-top:auto;font:400 22px var(--type);color:var(--dim);opacity:0;transition:opacity .5s}
+.split.shown ~ .x .fr .tag,.sp4 .fr .tag{opacity:1}
+.sp4 .fr.ph{border-color:#c99a2e;background:linear-gradient(180deg,#3a3220,#1f1b10)}
+.sp4 .fr.og{border-color:#8a3a36;background:linear-gradient(180deg,#38201f,#1d1111);transform:translateY(16px)}
+.gpBar{display:flex;align-items:center;gap:16px}
+#gpBtn{height:66px;font-size:28px}
+
+/* note table */
+.ntab{width:100%;height:100%;border-collapse:collapse;table-layout:fixed;background:linear-gradient(180deg,var(--card2),var(--card));border-radius:6px;overflow:hidden;box-shadow:0 26px 50px rgba(0,0,0,.6)}
+.ntab th{font:400 26px var(--type);color:#55555e;text-align:left;padding:12px 18px;border-bottom:3px solid #b9b3a3;background:#e2ddd1}
+.ntab td{padding:6px 18px;border-bottom:1px solid #cfc9bb;font:700 30px/1.2 var(--body);color:#1b1b20;vertical-align:middle}
+.ntab td.h{font:400 33px/1.05 var(--deco);color:#1b1b20;background:#ece7db}
+.ntab td.h small{display:block;font:400 20px var(--type);color:#8a6410}
+.ntab tr:last-child td{border-bottom:none}
+.ntab .ans .hint{left:0;font-size:22px}
+.ntab .ans .hint::before{width:28px;height:28px}
+
+/* bathroom queue */
+.queue{display:flex;align-items:flex-end;gap:6px;height:150px;padding:0 10px}
+.queue i{width:52px;height:120px;flex:none;opacity:0;transform:translateX(60px);transition:opacity .4s,transform .5s cubic-bezier(.2,.8,.2,1);
+  background:no-repeat center bottom/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 92'%3E%3Ccircle cx='20' cy='12' r='10' fill='%23cfd0d6'/%3E%3Cpath d='M6 92V40c0-10 6-16 14-16s14 6 14 16v52z' fill='%23cfd0d6'/%3E%3C/svg%3E")}
+.queue i.k{height:84px;width:40px}
+.queue.on i{opacity:1;transform:none}
+.queue b{white-space:nowrap;font:400 34px var(--type);color:var(--lamp);margin-left:18px;opacity:0;transition:opacity .4s 1.6s;align-self:center}
+.queue.on b{opacity:1}
+/* why four? */
+.whyBox{font:800 40px/1.32 var(--body);color:#1b1b20;min-height:180px}
+
+/* match-up quote cards */
+.mq{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}
+.qc{display:flex;align-items:center;gap:16px;padding:12px 18px;border-radius:6px;background:linear-gradient(180deg,var(--card2),var(--card));box-shadow:0 12px 26px rgba(0,0,0,.5);min-height:150px}
+.qc .who{flex:none;width:118px;font:400 22px var(--type);color:#8a6410;line-height:1.1}
+.qc .who b{display:block;font:400 30px var(--deco);color:#1b1b20}
+.qc .qt{flex:1;font:600 30px/1.25 var(--body);color:#1b1b20}
+.qc .gap{min-width:300px;height:64px;font-size:27px}
+.qc .gap .ga{font-size:26px}
+.mq .gbank{grid-column:1 / span 2}
+.gbank .gchip{font-size:28px;padding:10px 20px}
+
+/* writing */
+.wrFrames{display:flex;flex-direction:column;gap:14px}
+.sampleP{font:600 36px/1.42 var(--body);color:#1b1b20}
+
+/* wrap */
+.theEnd{position:absolute;left:0;right:0;top:250px;text-align:center}
+.theEnd .bigT{font-size:200px}
+.iris{position:absolute;left:50%;top:410px;width:2600px;height:2600px;margin:-1300px 0 0 -1300px;border-radius:50%;box-shadow:0 0 0 2000px #000;pointer-events:none;z-index:5}
+.slide.active .iris{animation:iris 7s ease-in-out 2.5s forwards}
+@keyframes iris{to{width:1240px;height:1240px;margin:-620px 0 0 -620px}}
+
+@media (prefers-reduced-motion:reduce){#atmo .spot,#atmo .blinds,#grain{animation:none}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="atmo"><div class="spot"></div><div class="blinds"></div><div class="vig"></div></div>
+
+  <!-- ============================== 1. TITLE ============================== -->
+  <section class="slide ttl" data-title="Behind the Spotlight" data-grp="Title">
+    <canvas id="ttlCanvas" width="1920" height="1080"></canvas>
+    <div class="marquee">
+      <div class="bulbs" id="bulbs"></div>
+      <div class="kick">Unit 13 · Success and fame</div>
+      <h1>Behind the<span>Spotlight</span></h1>
+      <div class="sub">What does fame really feel like?</div>
+    </div>
+    <div class="ttlFoot">
+      <div class="ticket"><b>1</b>Two ways to live with fame</div>
+      <div class="ticket"><b>2</b>The four stages of fame</div>
+    </div>
+  </section>
+
+  <!-- ============================== 2. LESSON 1 OPENER ============================== -->
+  <section class="slide l1 opener" data-title="Lesson 1: Two ways to live with fame" data-grp="Lesson 1" data-sep="Lesson 1 · Two ways to live with fame">
+    <div class="leader"><svg viewBox="0 0 520 520"><circle cx="260" cy="260" r="250" fill="#18181c" stroke="#bdbcc4" stroke-width="6"/><circle cx="260" cy="260" r="200" fill="none" stroke="#bdbcc4" stroke-width="3"/><line x1="0" y1="260" x2="520" y2="260" stroke="#bdbcc4" stroke-width="3"/><line x1="260" y1="0" x2="260" y2="520" stroke="#bdbcc4" stroke-width="3"/><g class="sweep"><path d="M260 260 L260 10 A250 250 0 0 1 437 83 Z" fill="rgba(255,255,255,.18)"/></g><text class="n n3" x="260" y="350" text-anchor="middle">3</text><text class="n n2" x="260" y="350" text-anchor="middle">2</text><text class="n n1" x="260" y="350" text-anchor="middle">1</text></svg></div>
+    <div class="lessonTag afterLeader">Lesson 1 · tonight on the late show</div>
+    <div class="bigT afterLeader">Two ways to live with fame</div>
+    <div class="guests">
+      <div class="guest afterLeader d1">
+        <div class="tv"><svg viewBox="0 0 300 340"><defs><radialGradient id="gl1" cx="50%" cy="20%" r="70%"><stop offset="0" stop-color="#9a9aa3"/><stop offset="1" stop-color="#2a2a30"/></radialGradient></defs><ellipse cx="150" cy="60" rx="140" ry="70" fill="rgba(255,255,255,.08)"/><path d="M150 46c-38 0-62 28-60 66 1 22 8 40 20 52l-4 24c-46 10-82 34-96 80v72h280v-72c-14-46-50-70-96-80l-4-24c12-12 19-30 20-52 2-38-22-66-60-66z" fill="url(#gl1)"/><path d="M92 104c-6-42 22-66 58-66 40 0 66 24 60 64-8-20-26-30-46-28-12-12-48-12-72 30z" fill="#1d1d22"/><path d="M118 240l32 40 32-40 6 100h-76z" fill="#d8d6cf"/><path d="M144 248h12l6 70-12 16-12-16z" fill="#2a2a30"/></svg></div>
+        <div class="plate"><b>Matt Damon</b><span>actor · Good Will Hunting (1997)</span></div>
+      </div>
+      <div class="guest afterLeader d2">
+        <div class="tv"><svg viewBox="0 0 300 340"><defs><radialGradient id="gl2" cx="50%" cy="20%" r="70%"><stop offset="0" stop-color="#9a9aa3"/><stop offset="1" stop-color="#2a2a30"/></radialGradient></defs><ellipse cx="150" cy="60" rx="140" ry="70" fill="rgba(255,255,255,.08)"/><path d="M150 40c-40 0-64 30-62 70 1 24 9 42 22 54l-4 24c-46 10-82 34-96 80v72h280v-72c-14-46-50-70-96-80l-4-24c13-12 21-30 22-54 2-40-22-70-62-70z" fill="url(#gl2)"/><path d="M116 140c12-10 24-6 34-2 10-4 22-8 34 2-4 10-18 14-34 8-16 6-30 2-34-8z" fill="#1d1d22"/><path d="M110 236l40 44 40-44 8 104h-96z" fill="#d8d6cf"/><path d="M130 252l20 12 20-12-6 16 6 16-20-12-20 12 6-16z" fill="#2a2a30"/></svg></div>
+        <div class="plate"><b>Steve Harvey</b><span>TV host · comedian</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 3. WARM-UP ============================== -->
+  <section class="slide l1" data-title="Warm-up: What can a famous person NOT do easily?" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Before the show</h1><div class="seg">Warm-up</div></div>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="card rise" style="padding:24px 36px"><div class="task">Work in pairs. What can a famous person <b>not</b> do easily? Think of two ideas each.</div></div>
+      <div class="qGrid rise d2" style="grid-template-columns:1fr 1fr 1fr 1fr;grid-auto-rows:270px;margin-top:34px">
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Go shopping without being recognised</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Eat in a restaurant in peace</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Take the bus or the metro</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Make a mistake in private</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Know who their real friends are</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Post online without people judging</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Go to the park with their family</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Keep a relationship private</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 4. VOCAB 1 ============================== -->
+  <section class="slide l1" data-rev="1" data-title="Vocabulary: match the words to their meanings" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Words for tonight</h1><div class="seg">Vocabulary</div></div>
+    <div class="rule"></div>
+    <div class="body" style="top:136px">
+      <div class="gbank rise" style="margin-bottom:22px">
+        <span class="gchip" data-w="balance">balance</span><span class="gchip" data-w="drink the Kool-Aid">drink the Kool-Aid<i>idiom</i></span><span class="gchip" data-w="extras">extras</span><span class="gchip" data-w="find your feet">find your feet<i>idiom</i></span><span class="gchip" data-w="foundation">foundation</span><span class="gchip" data-w="prison">prison</span><span class="gchip" data-w="shield">shield</span><span class="gchip" data-w="vigilant">vigilant</span><button class="gclear">Clear</button>
+      </div>
+      <div class="card rise d2" style="padding:26px 30px">
+        <div class="vlist v8">
+          <div class="vrow"><span class="num">1</span><span class="ans gap" data-ans="vigilant"><span class="gg"></span><span class="ga">vigilant</span></span><span>careful and always watching for problems</span></div>
+          <div class="vrow"><span class="num">2</span><span class="ans gap" data-ans="extras"><span class="gg"></span><span class="ga">extras</span></span><span>people paid to appear in the background of a film or photo</span></div>
+          <div class="vrow"><span class="num">3</span><span class="ans gap" data-ans="find your feet"><span class="gg"></span><span class="ga">find your feet</span></span><span>feel normal and confident again</span></div>
+          <div class="vrow"><span class="num">4</span><span class="ans gap" data-ans="prison"><span class="gg"></span><span class="ga">prison</span></span><span>a place where people are locked up and not free</span></div>
+          <div class="vrow"><span class="num">5</span><span class="ans gap" data-ans="balance"><span class="gg"></span><span class="ga">balance</span></span><span>a situation where things (like power) are equal or fair</span></div>
+          <div class="vrow"><span class="num">6</span><span class="ans gap" data-ans="shield"><span class="gg"></span><span class="ga">shield</span></span><span>protect someone from something bad</span></div>
+          <div class="vrow"><span class="num">7</span><span class="ans gap" data-ans="drink the Kool-Aid"><span class="gg"></span><span class="ga">drink the Kool-Aid</span></span><span>get carried away by hype and believe it</span></div>
+          <div class="vrow"><span class="num">8</span><span class="ans gap" data-ans="foundation"><span class="gg"></span><span class="ga">foundation</span></span><span>the strong base that supports you (e.g. family, values)</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 5. USE TWO ============================== -->
+  <section class="slide l1" data-title="Vocabulary: use two words in sentences" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Your turn</h1><div class="seg">Vocabulary</div></div>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="card rise"><div class="task" style="font-size:42px">Choose <b>two</b> words or idioms from the list. Write one sentence with each.</div>
+        <div class="note" style="margin-top:12px;font-size:32px">balance · drink the Kool-Aid · extras · find your feet · foundation · prison · shield · vigilant</div></div>
+      <div class="qGrid rise d2" style="grid-template-columns:1fr;grid-auto-rows:120px;margin-top:28px">
+        <div class="idea ans"><span class="hint">example</span><span class="a">It took me a few weeks to <span class="hl">find my feet</span> at my new school.</span></div>
+        <div class="idea ans"><span class="hint">example</span><span class="a">My family is my <span class="hl">foundation</span> – they support me when things go wrong.</span></div>
+        <div class="idea ans"><span class="hint">example</span><span class="a">Everyone loved the new phone, but my brother didn't <span class="hl">drink the Kool-Aid</span>.</span></div>
+        <div class="idea ans"><span class="hint">example</span><span class="a">You have to be <span class="hl">vigilant</span> about your password online.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 6. DAMON WATCH 1 ============================== -->
+  <section class="slide l1" data-rev="1" data-title="Video 1: Matt Damon – Watch 1 (gist)" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Guest one: Matt Damon</h1><div class="seg">Watch 1 · the main idea</div></div>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="vwrap rise"><div class="vframe" data-yt="damon"></div><div class="vmeta"><span class="watchTag">Watch with captions on</span></div></div>
+      <div class="vside">
+        <div class="card qa rise d1"><div class="q"><span class="qn">1</span>What strange thing happened at the photoshoot?</div><span class="ans"><span class="hint">answer</span><span class="a">The magazine shoot hired <span class="hl">extras</span> to play his friends.</span></span></div>
+        <div class="card qa rise d2"><div class="q"><span class="qn">2</span>How long did it take him to feel normal again?</div><span class="ans"><span class="hint">answer</span><span class="a"><span class="hl">A couple of years</span></span></span></div>
+        <div class="card qa rise d3"><div class="q"><span class="qn">3</span>What helped him?</div><span class="ans"><span class="hint">answer</span><span class="a"><span class="hl">His work</span> (he kept acting) and <span class="hl">family and friends</span> who “never drank the Kool-Aid”</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 7. DAMON WATCH 2 ============================== -->
+  <section class="slide l1" data-rev="1" data-title="Video 1: Matt Damon – Watch 2 (detail)" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Guest one: Matt Damon</h1><div class="seg">Watch 2 · details</div></div>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="vwrap rise" style="width:720px"><div class="vframe" data-yt="damon" style="width:720px;height:405px"></div><div class="vmeta"><span class="watchTag">Listen for the missing words</span></div></div>
+      <div class="vside" style="left:760px">
+        <div class="card rise d1" style="padding:34px 36px;flex:1">
+          <div class="tline">1&nbsp; The photoshoot was about <span class="blank"></span> after <i>Good Will Hunting</i>.
+            <span class="ans tgap" data-ok="year"><input type="text" spellcheck="false" aria-label="Gap 1"><span class="tk"><span class="hint">answer</span><span class="a">a year to a year and a half</span></span></span></div>
+          <div class="tline">2&nbsp; Film crews “just want to <span class="blank"></span>.”
+            <span class="ans tgap" data-ok="work"><input type="text" spellcheck="false" aria-label="Gap 2"><span class="tk"><span class="hint">answer</span><span class="a">work</span></span></span></div>
+          <div class="tline" style="margin-bottom:0">3&nbsp; His family helped him keep the <span class="blank"></span> in his relationships the same.
+            <span class="ans tgap" data-ok="balance"><input type="text" spellcheck="false" aria-label="Gap 3"><span class="tk"><span class="hint">answer</span><span class="a">power balance</span></span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 8. HARVEY WATCH 1 ============================== -->
+  <section class="slide l1" data-rev="1" data-title="Video 2: Steve Harvey – Watch 1 (gist)" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Guest two: Steve Harvey</h1><div class="seg">Watch 1 · the main idea</div></div>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="vwrap rise"><div class="vframe" data-yt="harvey"></div><div class="vmeta"><span class="watchTag">Watch with captions on</span></div></div>
+      <div class="vside">
+        <div class="card qa rise d1"><div class="q"><span class="qn">1</span>What does he compare fame to?</div></div>
+        <div class="prison rise d2" id="prison">
+          <svg viewBox="0 0 820 430" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f6f78"/><stop offset="1" stop-color="#2a2a30"/></linearGradient>
+              <linearGradient id="bar" x1="0" x2="1"><stop offset="0" stop-color="#7a5a14"/><stop offset=".4" stop-color="#ffe7a1"/><stop offset=".6" stop-color="#e7bc52"/><stop offset="1" stop-color="#6a4c0e"/></linearGradient>
+              <radialGradient id="win" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#fff2c4"/><stop offset="1" stop-color="#c9922c"/></radialGradient></defs>
+            <rect x="0" y="360" width="820" height="70" fill="#141417"/>
+            <path d="M150 360V200l260-110 260 110v160z" fill="url(#hs)"/>
+            <path d="M120 206l290-126 290 126" fill="none" stroke="#9c9ca6" stroke-width="10"/>
+            <rect x="190" y="220" width="110" height="80" fill="url(#win)" opacity=".85"/><rect x="520" y="220" width="110" height="80" fill="url(#win)" opacity=".85"/>
+            <rect x="360" y="250" width="100" height="110" fill="#1c1c20"/><circle cx="440" cy="306" r="5" fill="#e7bc52"/>
+            <rect x="380" y="140" width="60" height="60" rx="30" fill="url(#win)" opacity=".7"/>
+            <path d="M80 360c0-50 30-70 50-70s50 20 50 70z M640 360c0-50 30-70 50-70s50 20 50 70z" fill="#1f2a22"/>
+            <g class="bars"><rect x="0" y="0" width="820" height="22" fill="url(#bar)"/><rect x="0" y="408" width="820" height="22" fill="url(#bar)"/>
+              <g fill="url(#bar)"><rect x="40" y="0" width="22" height="430" rx="11"/><rect x="140" y="0" width="22" height="430" rx="11"/><rect x="240" y="0" width="22" height="430" rx="11"/><rect x="340" y="0" width="22" height="430" rx="11"/><rect x="440" y="0" width="22" height="430" rx="11"/><rect x="540" y="0" width="22" height="430" rx="11"/><rect x="640" y="0" width="22" height="430" rx="11"/><rect x="740" y="0" width="22" height="430" rx="11"/></g>
+              <g fill="#fff" opacity=".7"><circle cx="48" cy="60" r="3"/><circle cx="348" cy="120" r="3"/><circle cx="648" cy="90" r="3"/></g></g>
+          </svg>
+        </div>
+        <div class="card rise d3" style="padding:14px 20px"><span class="ans" id="prisonAns" style="display:block;text-align:center;min-height:70px"><span class="hint" style="left:50%;transform:translate(-50%,-50%)">answer</span><span class="a" style="font:800 46px/1.3 var(--body)">a <span class="hl">big, pretty prison</span></span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 9. HARVEY WATCH 2 ============================== -->
+  <section class="slide l1" data-rev="1" data-title="Video 2: Steve Harvey – Watch 2 (detail)" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Guest two: Steve Harvey</h1><div class="seg">Watch 2 · details</div></div>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="vwrap rise" style="width:760px"><div class="vframe" data-yt="harvey" style="width:760px;height:428px"></div><div class="vmeta"><span class="watchTag">Make two lists while you watch</span></div></div>
+      <div class="vside" style="left:800px;gap:16px">
+        <div class="card rise d1" style="padding:20px 26px">
+          <div class="lh"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" fill="none" stroke="#b23a30" stroke-width="4"/><path d="M9 35L35 9" stroke="#b23a30" stroke-width="4"/></svg>Places he can't go</div>
+          <ul class="lst">
+            <li class="ans x"><span class="hint"></span><span class="a">the movies</span></li><li class="ans x"><span class="hint"></span><span class="a">the mall</span></li><li class="ans x"><span class="hint"></span><span class="a">the food court</span></li><li class="ans x"><span class="hint"></span><span class="a">the park</span></li><li class="ans x"><span class="hint"></span><span class="a">amusement parks</span></li>
+          </ul>
+          <div class="note" style="margin-top:12px;font-size:25px">Why? People only want photos, and his kids hate it.</div>
+        </div>
+        <div class="card rise d2" style="padding:20px 26px">
+          <div class="lh"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" fill="none" stroke="#2f8f57" stroke-width="4"/><path d="M12 23l7 7 13-15" fill="none" stroke="#2f8f57" stroke-width="4"/></svg>But he <i>can</i> go …</div>
+          <ul class="lst"><li class="ans ok" style="min-width:560px"><span class="hint"></span><span class="a">to dinner with his wife (special tables)</span></li></ul>
+        </div>
+        <div class="card rise d3" style="padding:20px 26px">
+          <div class="lh"><svg viewBox="0 0 44 44"><path d="M6 22L22 8l16 14v16H6z" fill="none" stroke="#8a6410" stroke-width="4" stroke-linejoin="round"/><rect x="18" y="26" width="8" height="12" fill="#8a6410"/></svg>What he has at home instead</div>
+          <ul class="lst">
+            <li class="ans"><span class="hint"></span><span class="a">a big house to walk around</span></li><li class="ans"><span class="hint"></span><span class="a">a golf sand trap in the yard</span></li><li class="ans"><span class="hint"></span><span class="a">his cigars</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 10. BATHROOMS ============================== -->
+  <section class="slide l1" data-rev="1" data-title="Video 2: Why does every room have a bathroom?" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>One last question for Steve</h1><div class="seg">Listening</div></div>
+    <div class="rule"></div>
+    <div class="body" style="display:flex;gap:46px;align-items:flex-start">
+      <svg class="rise" viewBox="0 0 420 520" style="width:440px;flex:none;filter:drop-shadow(0 30px 40px rgba(0,0,0,.7))">
+        <defs><linearGradient id="dr" x1="0" x2="1"><stop offset="0" stop-color="#3a3a42"/><stop offset=".5" stop-color="#55555f"/><stop offset="1" stop-color="#2c2c33"/></linearGradient><radialGradient id="kn" cx="40%" cy="35%"><stop offset="0" stop-color="#fff3c4"/><stop offset="1" stop-color="#a5741c"/></radialGradient></defs>
+        <rect x="40" y="20" width="340" height="490" rx="6" fill="#121215" stroke="#6d6d78" stroke-width="6"/>
+        <rect x="60" y="40" width="300" height="470" fill="url(#dr)"/>
+        <rect x="90" y="70" width="240" height="160" rx="4" fill="none" stroke="#24242a" stroke-width="8"/><rect x="90" y="270" width="240" height="200" rx="4" fill="none" stroke="#24242a" stroke-width="8"/>
+        <circle cx="320" cy="270" r="16" fill="url(#kn)"/>
+        <rect x="140" y="120" width="140" height="58" rx="6" fill="#efe9dc"/><text x="210" y="160" text-anchor="middle" style="font:400 30px var(--type)" fill="#1b1b20">WAIT</text>
+        <g fill="#cfd0d6" opacity=".9"><circle cx="210" cy="505" r="3"/></g>
+      </svg>
+      <div style="flex:1;display:flex;flex-direction:column;gap:26px">
+        <div class="card qa rise d1"><div class="q" style="font-size:44px"><span class="qn" style="font-size:44px">?</span>Why does every room in his house have a bathroom?</div>
+          <span class="ans" id="bathAns" style="font-size:42px;min-height:116px"><span class="hint">answer</span><span class="a">He grew up poor: <span class="hl">13 people</span> lived in a house with <span class="hl">one bathroom</span>, so he always had to wait.</span></span></div>
+        <div class="queue" id="queue"></div>
+        <div class="card qa rise d2"><div class="q" style="font-size:40px"><span class="qn">+</span>Bonus: When did he last go to the cinema?</div>
+          <span class="ans" style="font-size:40px"><span class="hint">answer</span><span class="a">In <span class="hl">2000</span>, for the premiere of <i>The Kings of Comedy</i></span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 11. COMPARE CHART ============================== -->
+  <section class="slide l1" data-rev="1" data-title="Compare: Damon and Harvey" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Two guests, two ways</h1><div class="seg">Compare</div></div>
+    <div class="rule"></div>
+    <div class="body" style="top:132px">
+      <table class="chart rise">
+        <tr><th class="rh"></th><th>Matt Damon</th><th>Steve Harvey</th></tr>
+        <tr><td class="rl">Problem</td><td class="c ans"><span class="hint">idea</span><span class="a">People treat him differently, so he isn't sure who his real friends are.</span></td><td class="c ans"><span class="hint">idea</span><span class="a">He has lost his freedom and privacy – he can't go out.</span></td></tr>
+        <tr><td class="rl">How he copes</td><td class="c ans"><span class="hint">idea</span><span class="a">His work, his family, and keeping his relationships equal</span></td><td class="c ans"><span class="hint">idea</span><span class="a">He builds his own world at home (big house, golf, cigars).</span></td></tr>
+        <tr><td class="rl">Attitude</td><td class="c ans"><span class="hint">idea</span><span class="a">Thoughtful and grateful</span></td><td class="c ans"><span class="hint">idea</span><span class="a">Humorous and grateful: “I'm not complaining.”</span></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================== 12. DISCUSS ============================== -->
+  <section class="slide l1" data-xpl="whereas" data-title="Speak: Whose advice is more useful?" data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Over to you</h1><div class="seg">Pair discussion</div></div>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="card rise"><div class="task" style="font-size:44px">Whose advice is more useful for a <b>normal teenager</b>? Why?</div></div>
+      <div class="frameStrip rise d1" style="margin-top:24px"><span class="fl">Say it like this</span><span>Damon copes by <span class="blank"></span>, whereas Harvey <span class="blank"></span>.</span></div>
+      <div class="ideas rise d2" style="margin-top:24px">
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Damon copes by keeping his old friends, whereas Harvey stays at home.</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Damon's advice is more useful: teenagers can keep real friends and stay the same person.</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">Harvey's idea helps too: make your home a place you enjoy.</span></div>
+        <div class="idea ans"><span class="hint">idea</span><span class="a">If you get famous online, remember your family is your foundation.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 13. EXIT TICKET ============================== -->
+  <section class="slide l1" data-xpl="although" data-title="Exit ticket: Although fame ___, both men ___." data-grp="Lesson 1">
+    <div class="slate"><div class="lampOn"><i></i>on air</div><h1>Before you go</h1><div class="seg">Exit ticket</div></div>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="ticket rise" style="display:flex;font-size:46px;padding:34px 60px 34px 40px;width:100%"><b style="font-size:54px">Exit</b><span>Although fame <span class="blank" style="min-width:260px;border-color:#8a6410"></span>, both men <span class="blank" style="min-width:260px;border-color:#8a6410"></span>.</span></div>
+      <div class="note rise d1" style="margin:26px 0 18px 6px;color:var(--dim);font-size:32px">Write one sentence. Show it to your teacher on the way out.</div>
+      <div class="qGrid rise d2" style="grid-template-columns:1fr;grid-auto-rows:150px">
+        <div class="idea ans"><span class="hint">example</span><span class="a">Although fame changed their lives, both men stayed grateful.</span></div>
+        <div class="idea ans"><span class="hint">example</span><span class="a">Although fame brings money, both men lost some of their freedom.</span></div>
+        <div class="idea ans"><span class="hint">example</span><span class="a">Although fame is difficult, both men found ways to cope.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 14. LESSON 2 OPENER ============================== -->
+  <section class="slide l2 opener" data-title="Lesson 2: The Four Stages of Fame" data-grp="Lesson 2" data-sep="Lesson 2 · The Four Stages of Fame">
+    <div class="leader"><svg viewBox="0 0 520 520"><circle cx="260" cy="260" r="250" fill="#18181c" stroke="#bdbcc4" stroke-width="6"/><circle cx="260" cy="260" r="200" fill="none" stroke="#bdbcc4" stroke-width="3"/><line x1="0" y1="260" x2="520" y2="260" stroke="#bdbcc4" stroke-width="3"/><line x1="260" y1="0" x2="260" y2="520" stroke="#bdbcc4" stroke-width="3"/><g class="sweep"><path d="M260 260 L260 10 A250 250 0 0 1 437 83 Z" fill="rgba(255,255,255,.18)"/></g><text class="n n3" x="260" y="350" text-anchor="middle">3</text><text class="n n2" x="260" y="350" text-anchor="middle">2</text><text class="n n1" x="260" y="350" text-anchor="middle">1</text></svg></div>
+    <div class="lessonTag afterLeader">Lesson 2 · now showing</div>
+    <div class="body" style="top:150px">
+      <div class="artCard afterLeader d1">
+        <div class="paper">
+          <div class="pub">The New Republic · 16 January 2014</div>
+          <div class="hd">The Four Stages of Fame</div>
+          <div class="dek">How celebrities learn to accept – and regret – their popularity</div>
+          <div class="by">by Alice Robb</div>
+          <div class="note" style="margin-top:18px;color:#4b4b52">Reports a 2009 study: two psychologists interviewed 15 famous Americans.</div>
+        </div>
+        <div class="qrBox">
+          <div id="qr1"></div>
+          <div class="note">Scan to read, or use your printout</div>
+          <a class="linkBtn" href="https://newrepublic.com/article/116227/celebrity-study-four-phases-accepting-fame" target="_blank" rel="noopener">Open the article</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 15. PREDICTION ============================== -->
+  <section class="slide l2" data-title="Warm-up: How does a new celebrity feel over time?" data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>1</b></div><h1>How does fame feel over time?</h1><div class="seg">Predict</div></div>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="card graphCard rise">
+        <span class="gaxis" style="left:20px;top:40px">high</span><span class="gaxis" style="left:20px;top:620px">low</span>
+        <span class="gaxis" style="left:12px;top:300px;transform:rotate(-90deg);transform-origin:center;width:110px;text-align:center">feelings</span>
+        <span class="gaxis" style="left:110px;top:690px">becomes famous</span><span class="gaxis" style="right:30px;top:690px">years later</span>
+        <svg class="gsvg" viewBox="0 0 1100 640"><g stroke="#cfc9bb" stroke-width="1.5"><line x1="0" y1="160" x2="1100" y2="160"/><line x1="0" y1="320" x2="1100" y2="320"/><line x1="0" y1="480" x2="1100" y2="480"/><line x1="275" y1="0" x2="275" y2="640"/><line x1="550" y1="0" x2="550" y2="640"/><line x1="825" y1="0" x2="825" y2="640"/></g><path d="M0 0V640H1100" fill="none" stroke="#1b1b20" stroke-width="5"/></svg>
+        <canvas id="predCv" width="1100" height="640"></canvas>
+        <svg class="gsvg ans shape" id="shape" viewBox="0 0 1100 640" style="pointer-events:none">
+          <path class="seg2" d="M10 330 C60 200 90 120 150 150 C200 175 210 110 260 120 C330 130 360 60 420 70 C470 80 490 260 560 330 C620 380 660 420 720 400 C800 380 860 430 920 440 C980 450 1040 470 1090 480" fill="none" stroke="#c99a2e" stroke-width="10" stroke-linecap="round"/>
+          <g style="font:700 26px var(--body)" fill="#1b1b20">
+            <text class="lbl" x="70" y="100">love / hate</text><text class="lbl" x="350" y="40">addiction</text><text class="lbl" x="520" y="250">acceptance</text><text class="lbl" x="700" y="360">adaptation</text><text class="lbl" x="860" y="530">ongoing problems</text>
+          </g>
+        </svg>
+      </div>
+      <div class="gside rise d2">
+        <div class="card dark" style="padding:22px 26px"><div class="task" style="font-size:32px;color:#f1efe9">Draw a line: how do a new star's feelings change over time? Compare with a partner.</div></div>
+        <button class="bb" id="predClear">Clear the line</button>
+        <div class="card dark" style="padding:20px 24px"><div class="note">The gold line is <b style="color:var(--lamp)">one possible shape</b> based on the article – check it after reading.</div></div>
+        <span class="ans bb prim" id="shapeBtn" style="justify-content:center">Show a possible shape</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 16. VOCAB 2 ============================== -->
+  <section class="slide l2" data-rev="1" data-title="Vocabulary: match the words to their meanings" data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>2</b></div><h1>Words from the article</h1><div class="seg">Vocabulary</div></div>
+    <div class="rule"></div>
+    <div class="body" style="top:136px">
+      <div class="gbank rise" style="margin-bottom:22px">
+        <span class="gchip" data-w="adapt">adapt</span><span class="gchip" data-w="addiction">addiction</span><span class="gchip" data-w="adoration">adoration</span><span class="gchip" data-w="expectations">expectations</span><span class="gchip" data-w="isolation">isolation</span><span class="gchip" data-w="mistrust">mistrust</span><span class="gchip" data-w="scrutiny">scrutiny</span><button class="gclear">Clear</button>
+      </div>
+      <div class="card rise d2" style="padding:28px 36px">
+        <div class="vlist v7" style="grid-template-columns:1fr;gap:12px">
+          <div class="vrow"><span class="num">1</span><span class="ans gap" data-ans="scrutiny"><span class="gg"></span><span class="ga">scrutiny</span></span><span>very close, careful attention from others</span></div>
+          <div class="vrow"><span class="num">2</span><span class="ans gap" data-ans="adoration"><span class="gg"></span><span class="ga">adoration</span></span><span>very strong love and admiration</span></div>
+          <div class="vrow"><span class="num">3</span><span class="ans gap" data-ans="isolation"><span class="gg"></span><span class="ga">isolation</span></span><span>being alone, away from other people</span></div>
+          <div class="vrow"><span class="num">4</span><span class="ans gap" data-ans="adapt"><span class="gg"></span><span class="ga">adapt</span></span><span>change your behaviour to fit a new situation</span></div>
+          <div class="vrow"><span class="num">5</span><span class="ans gap" data-ans="expectations"><span class="gg"></span><span class="ga">expectations</span></span><span>what others think you should do or be</span></div>
+          <div class="vrow"><span class="num">6</span><span class="ans gap" data-ans="mistrust"><span class="gg"></span><span class="ga">mistrust</span></span><span>feeling you can't rely on or believe someone</span></div>
+          <div class="vrow"><span class="num">7</span><span class="ans gap" data-ans="addiction"><span class="gg"></span><span class="ga">addiction</span></span><span>being unable to stop wanting or doing something</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 17. CONTEXT READING ============================== -->
+  <section class="slide l2" data-rev="1" data-title="Read the introduction: who, how many, what was unusual?" data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>3</b></div><h1>Read the introduction</h1><div class="seg">Pairs</div></div>
+    <div class="rule"></div>
+    <div class="body" style="display:flex;gap:40px">
+      <div class="big" style="flex:1;display:flex;flex-direction:column;gap:26px">
+        <div class="card qa rise"><div class="q"><span class="qn">1</span>Who did the research?</div><span class="ans"><span class="hint">answer</span><span class="a">Two psychologists: <span class="hl">Donna Rockwell and David Giles</span></span></span></div>
+        <div class="card qa rise d1"><div class="q"><span class="qn">2</span>How many people did they interview?</div><span class="ans"><span class="hint">answer</span><span class="a"><span class="hl">15</span> famous Americans, aged 35 to 86</span></span></div>
+        <div class="card qa rise d2"><div class="q"><span class="qn">3</span>What was unusual about the people they interviewed?</div><span class="ans"><span class="hint">answer</span><span class="a">They were <span class="hl">unnamed</span> – and a very mixed group (a governor, athletes, a CEO, a former child star …).</span></span></div>
+      </div>
+      <div class="qrBox rise d3" style="width:360px;align-self:flex-start">
+        <div id="qr2"></div>
+        <div class="note">Read only the introduction (before “Love/hate”)</div>
+        <a class="linkBtn" style="font-size:24px" href="https://newrepublic.com/article/116227/celebrity-study-four-phases-accepting-fame" target="_blank" rel="noopener">Open the article</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 18. JIGSAW ============================== -->
+  <section class="slide l2" data-timer="1" data-title="Jigsaw: one group, one section" data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>4</b></div><h1>One group, one section</h1></div>
+    <div class="rule"></div>
+    <div class="body" style="top:138px">
+      <div class="card rise" style="padding:20px 32px;display:flex;gap:40px;align-items:center">
+        <div class="task" style="font-size:34px">Read <b>only</b> your group's section. Then write:</div>
+        <div class="task" style="font-size:34px"><b style="color:#8a6410">①</b> a one-sentence summary in your own words</div>
+        <div class="task" style="font-size:34px"><b style="color:#8a6410">②</b> a modern example (a YouTuber, an athlete …)</div>
+      </div>
+      <div class="strip rise d2" id="jigStrip" style="margin-top:26px">
+        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><path d="M48 82C20 62 8 46 8 30 8 18 18 10 29 10c8 0 15 5 19 12 4-7 11-12 19-12 11 0 21 8 21 20 0 16-12 32-40 52z" fill="#c8403f" stroke="#f0d8d6" stroke-width="3"/><path d="M48 22l-6 16 10 8-8 12 6 14" fill="none" stroke="#18181d" stroke-width="5" stroke-linejoin="round"/></svg><div class="fn">1</div><div class="ft">Love/hate</div><div class="members"></div></div>
+        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><path d="M22 16v34a26 26 0 0 0 52 0V16H58v34a10 10 0 0 1-20 0V16z" fill="#cfd0d6" stroke="#f3f1ea" stroke-width="2"/><rect x="22" y="12" width="16" height="16" fill="#c8403f"/><rect x="58" y="12" width="16" height="16" fill="#c8403f"/><path d="M16 84l6-8M48 90v-10M80 84l-6-8" stroke="#f2d27a" stroke-width="4" stroke-linecap="round"/></svg><div class="fn">2</div><div class="ft">Addiction</div><div class="members"></div></div>
+        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><circle cx="48" cy="48" r="36" fill="none" stroke="#f2d27a" stroke-width="5" stroke-dasharray="6 5"/><circle cx="48" cy="48" r="27" fill="#2b2a24" stroke="#f2d27a" stroke-width="3"/><path d="M34 49l10 10 19-22" fill="none" stroke="#f2d27a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="fn">3</div><div class="ft">Acceptance</div><div class="members"></div></div>
+        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><path d="M18 40h60l-6-16c-2-6-8-8-24-8s-22 2-24 8z" fill="#3c3c45" stroke="#cfd0d6" stroke-width="3"/><path d="M8 42h80" stroke="#cfd0d6" stroke-width="6" stroke-linecap="round"/><path d="M14 56h28l-2 12c-1 6-5 8-12 8s-12-2-13-8zM54 56h28l-1 12c-1 6-6 8-13 8s-11-2-12-8z" fill="#0b0b0d" stroke="#cfd0d6" stroke-width="3"/><path d="M42 60h12" stroke="#cfd0d6" stroke-width="3"/><path d="M20 62l8-4" stroke="#fff" stroke-width="3" opacity=".6"/></svg><div class="fn">4</div><div class="ft">Adaptation</div><div class="members"></div></div>
+        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><ellipse cx="48" cy="40" rx="24" ry="28" fill="#cfd0d6"/><path d="M28 64c-10 4-16 12-18 24h76c-2-12-8-20-18-24" fill="#8f909a"/><text x="48" y="52" text-anchor="middle" style="font:400 36px var(--deco)" fill="#18181d">?</text></svg><div class="fn">5</div><div class="ft">Loss of self</div><div class="members"></div></div>
+        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><path d="M6 48c10-18 26-28 42-28s32 10 42 28c-10 18-26 28-42 28S16 66 6 48z" fill="#f3f1ea"/><circle cx="48" cy="48" r="16" fill="#3c3c45"/><circle cx="48" cy="48" r="7" fill="#0b0b0d"/><circle cx="53" cy="43" r="3" fill="#fff"/><path d="M14 30c12-8 24-12 34-12s20 2 34 10" fill="none" stroke="#cfd0d6" stroke-width="6" stroke-linecap="round"/><path d="M4 44c14-6 30-8 44-8" stroke="#18181d" stroke-width="10" opacity=".0"/></svg><div class="fn">6</div><div class="ft">Mistrust</div><div class="members"></div></div>
+        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><circle cx="48" cy="46" r="36" fill="none" stroke="#cfd0d6" stroke-width="5"/><g stroke="#8f909a" stroke-width="3"><path d="M48 10v72M12 46h72M23 21l50 50M73 21L23 71"/></g><circle cx="48" cy="46" r="6" fill="#cfd0d6"/><ellipse cx="48" cy="72" rx="12" ry="8" fill="#c99a2e"/><circle cx="58" cy="68" r="5" fill="#c99a2e"/><path d="M30 88h36" stroke="#cfd0d6" stroke-width="5" stroke-linecap="round"/></svg><div class="fn">7</div><div class="ft">Demanding expectations</div><div class="members"></div></div>
+      </div>
+      <div class="gpBar rise d3" style="margin-top:24px">
+        <button class="bb prim" id="gpBtn">Make 7 groups</button>
+        <span class="note" id="gpNote" style="color:var(--dim)">Groups use the class you choose in the student picker.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 19. SHARE AND BUILD ============================== -->
+  <section class="slide l2" data-title="Share and build: note-making table" data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>5</b></div><h1>Share and build</h1><div class="seg">Copy the table and fill it in</div></div>
+    <div class="rule"></div>
+    <div class="body" style="top:128px;bottom:108px">
+      <table class="ntab rise">
+        <colgroup><col style="width:300px"><col><col style="width:560px"></colgroup>
+        <tr><th>Heading</th><th>Summary (sample)</th><th>Modern example (sample)</th></tr>
+        <tr><td class="h"><small>1</small>Love/hate</td><td class="ans"><span class="hint">sample</span><span class="a">New stars enjoy the attention, but they also feel guilty or unsure about it.</span></td><td class="ans"><span class="hint">sample</span><span class="a">A new TikTok star loves the views but hates the rude comments.</span></td></tr>
+        <tr><td class="h"><small>2</small>Addiction</td><td class="ans"><span class="hint">sample</span><span class="a">Fame feels like a “high”, so it is hard to imagine life without it.</span></td><td class="ans"><span class="hint">sample</span><span class="a">A reality-show star who keeps trying to get back on TV.</span></td></tr>
+        <tr><td class="h"><small>3</small>Acceptance</td><td class="ans"><span class="hint">sample</span><span class="a">When fame becomes too much, they decide to accept the good and the bad.</span></td><td class="ans"><span class="hint">sample</span><span class="a">A footballer who says the cameras are just part of the job.</span></td></tr>
+        <tr><td class="h"><small>4</small>Adaptation</td><td class="ans"><span class="hint">sample</span><span class="a">They change how they live (no eye contact, staying home), which can make them lonely.</span></td><td class="ans"><span class="hint">sample</span><span class="a">A singer who only goes out in a cap and sunglasses.</span></td></tr>
+        <tr><td class="h"><small>5</small>Loss of self</td><td class="ans"><span class="hint">sample</span><span class="a">They feel like a “thing”, not a person, and lose their freedom.</span></td><td class="ans"><span class="hint">sample</span><span class="a">An idol whose company decides what they wear and post.</span></td></tr>
+        <tr><td class="h"><small>6</small>Mistrust</td><td class="ans"><span class="hint">sample</span><span class="a">They wonder if people like them for who they are or for their fame.</span></td><td class="ans"><span class="hint">sample</span><span class="a">A YouTuber who isn't sure if new friends just want to be in videos.</span></td></tr>
+        <tr><td class="h"><small>7</small>Demanding expectations</td><td class="ans"><span class="hint">sample</span><span class="a">They create a “public self” and feel they must always be “on” and nice.</span></td><td class="ans"><span class="hint">sample</span><span class="a">An influencer who must smile and reply to fans even when tired.</span></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================== 20. WHY FOUR? ============================== -->
+  <section class="slide l2" data-rev="1" data-title="Notice: Why “four stages” when there are seven headings?" data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>6</b></div><h1>Seven headings, four stages?</h1><div class="seg">Notice</div></div>
+    <div class="rule"></div>
+    <div class="body" style="top:136px">
+      <div class="card rise" style="padding:22px 32px"><div class="task" style="font-size:40px">The headline says <b>“four stages”</b>, but the article has <b>seven</b> headings. Why?</div></div>
+      <div class="strip rise d1" id="whyStrip" style="margin-top:24px">
+        <div class="fr ph"><div class="fn">1</div><div class="ft">Love/hate</div><div class="tag">stage 1</div></div>
+        <div class="fr ph"><div class="fn">2</div><div class="ft">Addiction</div><div class="tag">stage 2</div></div>
+        <div class="fr ph"><div class="fn">3</div><div class="ft">Acceptance</div><div class="tag">stage 3</div></div>
+        <div class="fr ph"><div class="fn">4</div><div class="ft">Adaptation</div><div class="tag">stage 4</div></div>
+        <div class="fr og"><div class="fn">5</div><div class="ft">Loss of self</div><div class="tag">ongoing</div></div>
+        <div class="fr og"><div class="fn">6</div><div class="ft">Mistrust</div><div class="tag">ongoing</div></div>
+        <div class="fr og"><div class="fn">7</div><div class="ft">Demanding expectations</div><div class="tag">ongoing</div></div>
+      </div>
+      <div class="card rise d2" style="margin-top:34px;padding:24px 34px">
+        <span class="ans whyBox" id="whyAns" style="display:block"><span class="hint">answer</span><span class="a">Only the first four are <span class="hl">stages</span> – they happen one after another. The last three are <span class="hl">ongoing difficulties</span> that continue even after a celebrity has adapted.</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 21. QUICK CHECK ============================== -->
+  <section class="slide l2" data-rev="1" data-title="Quick check (optional)" data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>7</b></div><h1>Quick check</h1><div class="seg">Optional · 3 minutes</div></div>
+    <div class="rule"></div>
+    <div class="body big" style="display:flex;flex-direction:column;gap:30px">
+      <div class="card qa rise"><div class="q"><span class="qn">1</span>How many people were interviewed?</div><span class="ans"><span class="hint">answer</span><span class="a"><span class="hl">15</span></span></span></div>
+      <div class="card qa rise d1"><div class="q"><span class="qn">2</span>In which stage do celebrities say fame feels hard to give up?</div><span class="ans"><span class="hint">answer</span><span class="a"><span class="hl">Addiction</span></span></span></div>
+      <div class="card qa rise d2"><div class="q"><span class="qn">3</span>What happens in “demanding expectations”?</div><span class="ans" style="min-height:96px"><span class="hint">answer</span><span class="a">They split into a <span class="hl">public self</span> and a <span class="hl">private self</span>, and feel they must always be “on”.</span></span></div>
+    </div>
+  </section>
+
+  <!-- ============================== 22. MATCH-UP ============================== -->
+  <section class="slide l2" data-rev="1" data-title="Match-up: the videos and the article" data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>8</b></div><h1>Back to our guests</h1><div class="seg">Match each quote to a stage or difficulty</div></div>
+    <div class="rule"></div>
+    <div class="body" style="top:128px">
+      <div class="mq">
+        <div class="gbank reuse rise">
+          <span class="gchip" data-w="love/hate">love/hate</span><span class="gchip" data-w="addiction">addiction</span><span class="gchip" data-w="acceptance">acceptance</span><span class="gchip" data-w="adaptation">adaptation</span><span class="gchip" data-w="loss of self">loss of self</span><span class="gchip" data-w="mistrust">mistrust</span><span class="gchip" data-w="demanding expectations">demanding expectations</span><button class="gclear">Clear</button>
+        </div>
+        <div class="qc rise d1"><div class="who">1<b>Damon</b></div><div class="qt">“They've literally hired extras to play my friends.”</div><span class="ans gap" data-ans="mistrust"><span class="gg"></span><span class="ga">mistrust</span></span></div>
+        <div class="qc rise d1"><div class="who">2<b>Harvey</b></div><div class="qt">“I can't go to movies. I can't go to mall with my kids.”</div><span class="ans gap" data-ans="loss of self"><span class="gg"></span><span class="ga">loss of self</span></span></div>
+        <div class="qc rise d2"><div class="who">3<b>Damon</b></div><div class="qt">“Everybody treats you differently.”</div><span class="ans gap" data-ans="mistrust"><span class="gg"></span><span class="ga">mistrust</span></span></div>
+        <div class="qc rise d2"><div class="who">4<b>Harvey</b></div><div class="qt">Why the big house? “Cause I can't go nowhere.”</div><span class="ans gap" data-ans="adaptation"><span class="gg"></span><span class="ga">adaptation</span></span></div>
+        <div class="qc rise d3"><div class="who">5<b>Damon</b></div><div class="qt">He keeps the power balance with his family and friends the same.</div><span class="ans gap" data-ans="mistrust"><span class="gg"></span><span class="ga">mistrust</span></span></div>
+        <div class="qc rise d3"><div class="who">6<b>Harvey</b></div><div class="qt">Fans want photos. His kids: “Dad, can you just pay attention to us?”</div><span class="ans gap" data-ans="demanding expectations"><span class="gg"></span><span class="ga">demanding expectations</span></span></div>
+        <div class="qc rise d4"><div class="who">7<b>Damon</b></div><div class="qt">“It took a couple years to try to find my feet again.”</div><span class="ans gap" data-ans="acceptance/adaptation"><span class="gg"></span><span class="ga">acceptance / adaptation</span></span></div>
+        <div class="qc rise d4" style="background:linear-gradient(180deg,#2a2a31,#1d1d22);color:#ddd"><div class="who" style="color:var(--lamp)"><b style="color:var(--lamp)">Think</b>about it</div><div class="qt" style="color:#e9e7e1">The article: you “can't build a house” on fame. Harvey built his life <i>in</i> one. Why?</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 23. WRITE ============================== -->
+  <section class="slide l2" data-timer="1" data-title="Write: Damon / Harvey is at the ___ stage because ___." data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>9</b></div><h1>Write it up</h1></div>
+    <div class="rule"></div>
+    <div class="body" style="display:flex;gap:36px">
+      <div class="wrFrames rise" style="width:720px;flex:none">
+        <div class="frameStrip" style="font-size:40px;flex-direction:column;align-items:flex-start;gap:10px"><span class="fl">Start with</span><span><b>Damon</b> / <b>Harvey</b> is at the <span class="blank"></span> stage because <span class="blank"></span>.</span></div>
+        <div class="card dark" style="padding:22px 28px"><div class="note" style="font-size:33px;line-height:1.5;color:#cfcfd6">Use:<br>· a stage or difficulty from the article<br>· a detail from the video as evidence<br>· <b style="color:var(--lamp)">although</b> or <b style="color:var(--lamp)">whereas</b> to compare the two men</div></div>
+      </div>
+      <div class="card rise d2" style="flex:1;padding:30px 36px">
+        <div class="note" style="margin-bottom:12px">Sample answer</div>
+        <span class="ans" style="display:block;min-height:360px"><span class="hint" style="top:30px">sample</span><span class="a sampleP">Harvey is at the adaptation stage because he stays at home and builds his own world there. The article says adaptation can make celebrities reclusive, and Harvey hardly goes out. Damon is past acceptance: it took him a couple of years to find his feet. He also shows mistrust, because the shoot hired fake friends. Although both men are famous, Damon keeps his old friends, whereas Harvey keeps to his house.</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 24. THE END ============================== -->
+  <section class="slide l2" data-title="That's a wrap" data-grp="Wrap-up">
+    <div class="theEnd">
+      <div class="lessonTag">Next: your Unit 13 project</div>
+      <div class="bigT">The End</div>
+      <div class="lessonTag" style="margin-top:20px;font-size:38px;color:#cfcfd6">Fame looks bright from the outside.<br>Now you know what's behind the spotlight.</div>
+    </div>
+    <div class="iris"></div>
+  </section>
+
+  <!-- ============================== TOOLS ============================== -->
+  <div id="ptimer"><span class="tt">10:00</span><button data-min="10">10 min</button><button data-min="15">15 min</button><button class="go">▶ Start</button><button class="p1" title="Add 1 minute">+1m</button><button class="rs" title="Reset">↺</button></div>
+
+  <div id="rp" class="bot" data-view="choose">
+    <div class="rpView choose"><div class="rpQ">Which class?</div><div class="rpChoices"></div></div>
+    <div class="rpView spin">
+      <div class="rpHead"><span class="rpHL"><span class="rpCls"></span><button class="rpChange">Change class</button></span><span class="rpLeft"></span></div>
+      <div class="rpReel"><div class="rpStrip"></div><div class="rpWin"></div><div class="rpFinal"><span></span></div></div>
+    </div>
+  </div>
+  <div id="rpPill"></div>
+  <div id="tmMenu"><div class="tmQ">Set the timer</div><div class="tmGrid"></div></div>
+
+  <div id="bar">
+    <button class="bb" id="contentsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Contents</button>
+    <button class="rpBtn" id="rpBot" title="Pick a student" aria-label="Pick a student"><svg viewBox="0 0 64 66"><circle cx="32" cy="34" r="30" fill="#1b1b20" stroke="#cfd0d6" stroke-width="3"/><g class="wheel"><path d="M32 34L32.00 7.00A27 27 0 0 1 51.09 14.91Z" fill="#f2d27a"/><path d="M32 34L51.09 14.91A27 27 0 0 1 59.00 34.00Z" fill="#55555f"/><path d="M32 34L59.00 34.00A27 27 0 0 1 51.09 53.09Z" fill="#e9e6df"/><path d="M32 34L51.09 53.09A27 27 0 0 1 32.00 61.00Z" fill="#8a2f2e"/><path d="M32 34L32.00 61.00A27 27 0 0 1 12.91 53.09Z" fill="#f2d27a"/><path d="M32 34L12.91 53.09A27 27 0 0 1 5.00 34.00Z" fill="#55555f"/><path d="M32 34L5.00 34.00A27 27 0 0 1 12.91 14.91Z" fill="#e9e6df"/><path d="M32 34L12.91 14.91A27 27 0 0 1 32.00 7.00Z" fill="#8a2f2e"/></g><circle cx="32" cy="34" r="5" fill="#1b1b20" stroke="#cfd0d6" stroke-width="2.5"/><path d="M25 0H39L32 11Z" fill="#f2d27a" stroke="#1b1b20" stroke-width="1.5" stroke-linejoin="round"/></svg></button>
+    <div class="tmDisp" id="tmBot"></div>
+    <button class="swBtn" id="swBot" title="Timer" aria-label="Timer"><svg viewBox="0 0 64 66"><rect x="24" y="0" width="16" height="5" rx="2.5" fill="#cfd0d6"/><rect x="27" y="3" width="10" height="8" rx="2" fill="#cfd0d6"/><path d="M48 13l5-5 4 4-5 5z" fill="#cfd0d6"/><circle cx="32" cy="37" r="26" fill="#f4f1ea" stroke="#cfd0d6" stroke-width="4"/><circle cx="32" cy="37" r="20" fill="none" stroke="#1b1b20" stroke-width="2.4" stroke-dasharray="2 8.47"/><g class="swHand"><path d="M32 37V19" stroke="#c8403f" stroke-width="3.5" stroke-linecap="round"/></g><circle cx="32" cy="37" r="3.5" fill="#1b1b20"/></svg></button>
+    <span id="navTitle"></span>
+    <button class="bb" id="revealBtn">Reveal all</button>
+    <button class="bb icon" id="muteBtn" title="Sound effects on/off" aria-label="Sound effects on/off"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 4V5L7 9H3z"/><g class="wv" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M16 8.5a5 5 0 0 1 0 7"/><path d="M18.6 6a8.5 8.5 0 0 1 0 12"/></g><g class="x" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M16 9l6 6M22 9l-6 6"/></g></svg></button>
+    <button class="bb icon" id="tnBtn" title="Teacher notes" aria-label="Teacher notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18v11H3z" fill="rgba(255,255,255,.08)"/><path d="M3 9l2-5 16 3-1 2" /><path d="M7 4.6l-1 4.2M12 5.5l-1 3.5M17 6.4l-1 2.6"/><path d="M6 13h8M6 16h12"/></svg></button>
+    <button class="bb" id="prevBtn">‹ Back</button>
+    <span id="counter">1 / 24</span>
+    <button class="bb prim" id="nextBtn">Next ›</button>
+  </div>
+
+  <div class="pop" id="contents"><div class="popCard"><div class="popHead"><h2>Contents</h2><button class="popX" id="closeContents" aria-label="Close">×</button></div><ul id="contentsList"></ul></div></div>
+  <div class="pop" id="tnPop"><div class="popCard" style="width:1100px;margin-left:-550px"><div class="popHead"><h2>Teacher notes</h2><button class="popX" id="tnClose" aria-label="Close">×</button></div><div id="tnBody"></div></div></div>
+
+  <div id="flick"></div>
+  <div id="grain"></div>
+</div>
+
+<!-- ===== Videos: edit the YouTube IDs here ===== -->
+<script>
+var VIDEOS = {
+  damon:  {id:"R6SSLaP5Ex8", label:"Matt Damon on becoming famous"},
+  harvey: {id:"tPFK8Z7j0MY", label:"Steve Harvey: fame is a big, pretty prison"}
+};
+var ARTICLE_URL = "https://newrepublic.com/article/116227/celebrity-study-four-phases-accepting-fame";
+var QR_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39 39" shape-rendering="crispEdges"><rect width="39" height="39" fill="#fff"/><path d="M1,1h1v1h-1zM2,1h1v1h-1zM3,1h1v1h-1zM4,1h1v1h-1zM5,1h1v1h-1zM6,1h1v1h-1zM7,1h1v1h-1zM9,1h1v1h-1zM11,1h1v1h-1zM12,1h1v1h-1zM13,1h1v1h-1zM14,1h1v1h-1zM15,1h1v1h-1zM17,1h1v1h-1zM19,1h1v1h-1zM21,1h1v1h-1zM24,1h1v1h-1zM26,1h1v1h-1zM28,1h1v1h-1zM29,1h1v1h-1zM31,1h1v1h-1zM32,1h1v1h-1zM33,1h1v1h-1zM34,1h1v1h-1zM35,1h1v1h-1zM36,1h1v1h-1zM37,1h1v1h-1zM1,2h1v1h-1zM7,2h1v1h-1zM10,2h1v1h-1zM13,2h1v1h-1zM15,2h1v1h-1zM17,2h1v1h-1zM19,2h1v1h-1zM20,2h1v1h-1zM27,2h1v1h-1zM29,2h1v1h-1zM31,2h1v1h-1zM37,2h1v1h-1zM1,3h1v1h-1zM3,3h1v1h-1zM4,3h1v1h-1zM5,3h1v1h-1zM7,3h1v1h-1zM10,3h1v1h-1zM11,3h1v1h-1zM12,3h1v1h-1zM14,3h1v1h-1zM15,3h1v1h-1zM18,3h1v1h-1zM19,3h1v1h-1zM20,3h1v1h-1zM21,3h1v1h-1zM22,3h1v1h-1zM24,3h1v1h-1zM25,3h1v1h-1zM28,3h1v1h-1zM31,3h1v1h-1zM33,3h1v1h-1zM34,3h1v1h-1zM35,3h1v1h-1zM37,3h1v1h-1zM1,4h1v1h-1zM3,4h1v1h-1zM4,4h1v1h-1zM5,4h1v1h-1zM7,4h1v1h-1zM9,4h1v1h-1zM10,4h1v1h-1zM11,4h1v1h-1zM12,4h1v1h-1zM13,4h1v1h-1zM16,4h1v1h-1zM17,4h1v1h-1zM21,4h1v1h-1zM26,4h1v1h-1zM27,4h1v1h-1zM28,4h1v1h-1zM29,4h1v1h-1zM31,4h1v1h-1zM33,4h1v1h-1zM34,4h1v1h-1zM35,4h1v1h-1zM37,4h1v1h-1zM1,5h1v1h-1zM3,5h1v1h-1zM4,5h1v1h-1zM5,5h1v1h-1zM7,5h1v1h-1zM9,5h1v1h-1zM10,5h1v1h-1zM11,5h1v1h-1zM14,5h1v1h-1zM15,5h1v1h-1zM18,5h1v1h-1zM21,5h1v1h-1zM23,5h1v1h-1zM24,5h1v1h-1zM26,5h1v1h-1zM27,5h1v1h-1zM28,5h1v1h-1zM29,5h1v1h-1zM31,5h1v1h-1zM33,5h1v1h-1zM34,5h1v1h-1zM35,5h1v1h-1zM37,5h1v1h-1zM1,6h1v1h-1zM7,6h1v1h-1zM9,6h1v1h-1zM11,6h1v1h-1zM12,6h1v1h-1zM15,6h1v1h-1zM17,6h1v1h-1zM20,6h1v1h-1zM27,6h1v1h-1zM29,6h1v1h-1zM31,6h1v1h-1zM37,6h1v1h-1zM1,7h1v1h-1zM2,7h1v1h-1zM3,7h1v1h-1zM4,7h1v1h-1zM5,7h1v1h-1zM6,7h1v1h-1zM7,7h1v1h-1zM9,7h1v1h-1zM11,7h1v1h-1zM13,7h1v1h-1zM15,7h1v1h-1zM17,7h1v1h-1zM19,7h1v1h-1zM21,7h1v1h-1zM23,7h1v1h-1zM25,7h1v1h-1zM27,7h1v1h-1zM29,7h1v1h-1zM31,7h1v1h-1zM32,7h1v1h-1zM33,7h1v1h-1zM34,7h1v1h-1zM35,7h1v1h-1zM36,7h1v1h-1zM37,7h1v1h-1zM9,8h1v1h-1zM12,8h1v1h-1zM15,8h1v1h-1zM16,8h1v1h-1zM17,8h1v1h-1zM18,8h1v1h-1zM19,8h1v1h-1zM22,8h1v1h-1zM25,8h1v1h-1zM28,8h1v1h-1zM1,9h1v1h-1zM5,9h1v1h-1zM7,9h1v1h-1zM8,9h1v1h-1zM9,9h1v1h-1zM11,9h1v1h-1zM14,9h1v1h-1zM16,9h1v1h-1zM18,9h1v1h-1zM20,9h1v1h-1zM21,9h1v1h-1zM22,9h1v1h-1zM23,9h1v1h-1zM24,9h1v1h-1zM25,9h1v1h-1zM27,9h1v1h-1zM29,9h1v1h-1zM30,9h1v1h-1zM31,9h1v1h-1zM32,9h1v1h-1zM33,9h1v1h-1zM34,9h1v1h-1zM37,9h1v1h-1zM1,10h1v1h-1zM3,10h1v1h-1zM5,10h1v1h-1zM8,10h1v1h-1zM11,10h1v1h-1zM13,10h1v1h-1zM15,10h1v1h-1zM17,10h1v1h-1zM19,10h1v1h-1zM24,10h1v1h-1zM25,10h1v1h-1zM27,10h1v1h-1zM28,10h1v1h-1zM29,10h1v1h-1zM30,10h1v1h-1zM33,10h1v1h-1zM36,10h1v1h-1zM3,11h1v1h-1zM7,11h1v1h-1zM8,11h1v1h-1zM9,11h1v1h-1zM10,11h1v1h-1zM11,11h1v1h-1zM12,11h1v1h-1zM17,11h1v1h-1zM19,11h1v1h-1zM23,11h1v1h-1zM24,11h1v1h-1zM25,11h1v1h-1zM27,11h1v1h-1zM28,11h1v1h-1zM31,11h1v1h-1zM34,11h1v1h-1zM1,12h1v1h-1zM3,12h1v1h-1zM4,12h1v1h-1zM12,12h1v1h-1zM18,12h1v1h-1zM20,12h1v1h-1zM21,12h1v1h-1zM22,12h1v1h-1zM23,12h1v1h-1zM30,12h1v1h-1zM31,12h1v1h-1zM32,12h1v1h-1zM35,12h1v1h-1zM36,12h1v1h-1zM1,13h1v1h-1zM2,13h1v1h-1zM3,13h1v1h-1zM5,13h1v1h-1zM6,13h1v1h-1zM7,13h1v1h-1zM8,13h1v1h-1zM10,13h1v1h-1zM11,13h1v1h-1zM12,13h1v1h-1zM15,13h1v1h-1zM16,13h1v1h-1zM18,13h1v1h-1zM19,13h1v1h-1zM22,13h1v1h-1zM23,13h1v1h-1zM25,13h1v1h-1zM28,13h1v1h-1zM29,13h1v1h-1zM30,13h1v1h-1zM31,13h1v1h-1zM32,13h1v1h-1zM35,13h1v1h-1zM36,13h1v1h-1zM37,13h1v1h-1zM1,14h1v1h-1zM2,14h1v1h-1zM3,14h1v1h-1zM4,14h1v1h-1zM9,14h1v1h-1zM10,14h1v1h-1zM11,14h1v1h-1zM13,14h1v1h-1zM16,14h1v1h-1zM17,14h1v1h-1zM21,14h1v1h-1zM23,14h1v1h-1zM24,14h1v1h-1zM25,14h1v1h-1zM27,14h1v1h-1zM28,14h1v1h-1zM29,14h1v1h-1zM33,14h1v1h-1zM34,14h1v1h-1zM36,14h1v1h-1zM1,15h1v1h-1zM2,15h1v1h-1zM3,15h1v1h-1zM4,15h1v1h-1zM6,15h1v1h-1zM7,15h1v1h-1zM10,15h1v1h-1zM11,15h1v1h-1zM12,15h1v1h-1zM14,15h1v1h-1zM16,15h1v1h-1zM19,15h1v1h-1zM21,15h1v1h-1zM23,15h1v1h-1zM24,15h1v1h-1zM25,15h1v1h-1zM27,15h1v1h-1zM28,15h1v1h-1zM29,15h1v1h-1zM32,15h1v1h-1zM33,15h1v1h-1zM34,15h1v1h-1zM35,15h1v1h-1zM4,16h1v1h-1zM5,16h1v1h-1zM8,16h1v1h-1zM11,16h1v1h-1zM12,16h1v1h-1zM13,16h1v1h-1zM14,16h1v1h-1zM16,16h1v1h-1zM18,16h1v1h-1zM20,16h1v1h-1zM21,16h1v1h-1zM22,16h1v1h-1zM24,16h1v1h-1zM25,16h1v1h-1zM27,16h1v1h-1zM28,16h1v1h-1zM29,16h1v1h-1zM32,16h1v1h-1zM33,16h1v1h-1zM35,16h1v1h-1zM36,16h1v1h-1zM37,16h1v1h-1zM2,17h1v1h-1zM3,17h1v1h-1zM4,17h1v1h-1zM5,17h1v1h-1zM7,17h1v1h-1zM8,17h1v1h-1zM11,17h1v1h-1zM12,17h1v1h-1zM13,17h1v1h-1zM15,17h1v1h-1zM17,17h1v1h-1zM18,17h1v1h-1zM21,17h1v1h-1zM22,17h1v1h-1zM23,17h1v1h-1zM24,17h1v1h-1zM30,17h1v1h-1zM31,17h1v1h-1zM34,17h1v1h-1zM35,17h1v1h-1zM37,17h1v1h-1zM1,18h1v1h-1zM4,18h1v1h-1zM9,18h1v1h-1zM11,18h1v1h-1zM12,18h1v1h-1zM15,18h1v1h-1zM19,18h1v1h-1zM24,18h1v1h-1zM28,18h1v1h-1zM29,18h1v1h-1zM33,18h1v1h-1zM35,18h1v1h-1zM36,18h1v1h-1zM2,19h1v1h-1zM3,19h1v1h-1zM4,19h1v1h-1zM7,19h1v1h-1zM11,19h1v1h-1zM12,19h1v1h-1zM14,19h1v1h-1zM15,19h1v1h-1zM16,19h1v1h-1zM21,19h1v1h-1zM22,19h1v1h-1zM24,19h1v1h-1zM25,19h1v1h-1zM28,19h1v1h-1zM29,19h1v1h-1zM32,19h1v1h-1zM33,19h1v1h-1zM35,19h1v1h-1zM3,20h1v1h-1zM9,20h1v1h-1zM14,20h1v1h-1zM15,20h1v1h-1zM16,20h1v1h-1zM17,20h1v1h-1zM18,20h1v1h-1zM22,20h1v1h-1zM23,20h1v1h-1zM24,20h1v1h-1zM25,20h1v1h-1zM27,20h1v1h-1zM35,20h1v1h-1zM36,20h1v1h-1zM3,21h1v1h-1zM4,21h1v1h-1zM5,21h1v1h-1zM6,21h1v1h-1zM7,21h1v1h-1zM12,21h1v1h-1zM14,21h1v1h-1zM15,21h1v1h-1zM18,21h1v1h-1zM19,21h1v1h-1zM21,21h1v1h-1zM22,21h1v1h-1zM23,21h1v1h-1zM25,21h1v1h-1zM29,21h1v1h-1zM30,21h1v1h-1zM31,21h1v1h-1zM32,21h1v1h-1zM34,21h1v1h-1zM35,21h1v1h-1zM8,22h1v1h-1zM10,22h1v1h-1zM11,22h1v1h-1zM13,22h1v1h-1zM14,22h1v1h-1zM16,22h1v1h-1zM17,22h1v1h-1zM21,22h1v1h-1zM24,22h1v1h-1zM26,22h1v1h-1zM27,22h1v1h-1zM28,22h1v1h-1zM29,22h1v1h-1zM30,22h1v1h-1zM32,22h1v1h-1zM33,22h1v1h-1zM1,23h1v1h-1zM2,23h1v1h-1zM3,23h1v1h-1zM4,23h1v1h-1zM7,23h1v1h-1zM8,23h1v1h-1zM10,23h1v1h-1zM11,23h1v1h-1zM12,23h1v1h-1zM13,23h1v1h-1zM14,23h1v1h-1zM16,23h1v1h-1zM18,23h1v1h-1zM21,23h1v1h-1zM23,23h1v1h-1zM24,23h1v1h-1zM25,23h1v1h-1zM28,23h1v1h-1zM32,23h1v1h-1zM33,23h1v1h-1zM34,23h1v1h-1zM35,23h1v1h-1zM1,24h1v1h-1zM3,24h1v1h-1zM9,24h1v1h-1zM10,24h1v1h-1zM11,24h1v1h-1zM13,24h1v1h-1zM15,24h1v1h-1zM17,24h1v1h-1zM18,24h1v1h-1zM19,24h1v1h-1zM21,24h1v1h-1zM22,24h1v1h-1zM25,24h1v1h-1zM28,24h1v1h-1zM30,24h1v1h-1zM32,24h1v1h-1zM33,24h1v1h-1zM35,24h1v1h-1zM2,25h1v1h-1zM3,25h1v1h-1zM5,25h1v1h-1zM7,25h1v1h-1zM8,25h1v1h-1zM11,25h1v1h-1zM13,25h1v1h-1zM14,25h1v1h-1zM15,25h1v1h-1zM18,25h1v1h-1zM20,25h1v1h-1zM21,25h1v1h-1zM22,25h1v1h-1zM23,25h1v1h-1zM24,25h1v1h-1zM25,25h1v1h-1zM30,25h1v1h-1zM31,25h1v1h-1zM34,25h1v1h-1zM35,25h1v1h-1zM36,25h1v1h-1zM37,25h1v1h-1zM1,26h1v1h-1zM3,26h1v1h-1zM4,26h1v1h-1zM5,26h1v1h-1zM8,26h1v1h-1zM11,26h1v1h-1zM12,26h1v1h-1zM13,26h1v1h-1zM15,26h1v1h-1zM17,26h1v1h-1zM19,26h1v1h-1zM22,26h1v1h-1zM24,26h1v1h-1zM26,26h1v1h-1zM27,26h1v1h-1zM28,26h1v1h-1zM29,26h1v1h-1zM30,26h1v1h-1zM33,26h1v1h-1zM34,26h1v1h-1zM5,27h1v1h-1zM6,27h1v1h-1zM7,27h1v1h-1zM10,27h1v1h-1zM11,27h1v1h-1zM13,27h1v1h-1zM14,27h1v1h-1zM17,27h1v1h-1zM22,27h1v1h-1zM23,27h1v1h-1zM24,27h1v1h-1zM25,27h1v1h-1zM26,27h1v1h-1zM28,27h1v1h-1zM32,27h1v1h-1zM34,27h1v1h-1zM35,27h1v1h-1zM4,28h1v1h-1zM6,28h1v1h-1zM8,28h1v1h-1zM11,28h1v1h-1zM12,28h1v1h-1zM13,28h1v1h-1zM18,28h1v1h-1zM21,28h1v1h-1zM22,28h1v1h-1zM27,28h1v1h-1zM28,28h1v1h-1zM31,28h1v1h-1zM32,28h1v1h-1zM33,28h1v1h-1zM35,28h1v1h-1zM1,29h1v1h-1zM2,29h1v1h-1zM4,29h1v1h-1zM5,29h1v1h-1zM7,29h1v1h-1zM8,29h1v1h-1zM10,29h1v1h-1zM14,29h1v1h-1zM15,29h1v1h-1zM16,29h1v1h-1zM18,29h1v1h-1zM19,29h1v1h-1zM20,29h1v1h-1zM21,29h1v1h-1zM22,29h1v1h-1zM23,29h1v1h-1zM25,29h1v1h-1zM27,29h1v1h-1zM28,29h1v1h-1zM29,29h1v1h-1zM30,29h1v1h-1zM31,29h1v1h-1zM32,29h1v1h-1zM33,29h1v1h-1zM34,29h1v1h-1zM35,29h1v1h-1zM37,29h1v1h-1zM9,30h1v1h-1zM10,30h1v1h-1zM11,30h1v1h-1zM13,30h1v1h-1zM15,30h1v1h-1zM16,30h1v1h-1zM17,30h1v1h-1zM18,30h1v1h-1zM24,30h1v1h-1zM27,30h1v1h-1zM29,30h1v1h-1zM33,30h1v1h-1zM1,31h1v1h-1zM2,31h1v1h-1zM3,31h1v1h-1zM4,31h1v1h-1zM5,31h1v1h-1zM6,31h1v1h-1zM7,31h1v1h-1zM9,31h1v1h-1zM10,31h1v1h-1zM12,31h1v1h-1zM14,31h1v1h-1zM16,31h1v1h-1zM18,31h1v1h-1zM19,31h1v1h-1zM22,31h1v1h-1zM24,31h1v1h-1zM25,31h1v1h-1zM29,31h1v1h-1zM31,31h1v1h-1zM33,31h1v1h-1zM1,32h1v1h-1zM7,32h1v1h-1zM10,32h1v1h-1zM18,32h1v1h-1zM19,32h1v1h-1zM21,32h1v1h-1zM22,32h1v1h-1zM29,32h1v1h-1zM33,32h1v1h-1zM34,32h1v1h-1zM35,32h1v1h-1zM36,32h1v1h-1zM1,33h1v1h-1zM3,33h1v1h-1zM4,33h1v1h-1zM5,33h1v1h-1zM7,33h1v1h-1zM9,33h1v1h-1zM10,33h1v1h-1zM11,33h1v1h-1zM14,33h1v1h-1zM15,33h1v1h-1zM16,33h1v1h-1zM18,33h1v1h-1zM22,33h1v1h-1zM23,33h1v1h-1zM29,33h1v1h-1zM30,33h1v1h-1zM31,33h1v1h-1zM32,33h1v1h-1zM33,33h1v1h-1zM34,33h1v1h-1zM35,33h1v1h-1zM36,33h1v1h-1zM1,34h1v1h-1zM3,34h1v1h-1zM4,34h1v1h-1zM5,34h1v1h-1zM7,34h1v1h-1zM10,34h1v1h-1zM19,34h1v1h-1zM23,34h1v1h-1zM24,34h1v1h-1zM27,34h1v1h-1zM29,34h1v1h-1zM30,34h1v1h-1zM31,34h1v1h-1zM32,34h1v1h-1zM35,34h1v1h-1zM36,34h1v1h-1zM37,34h1v1h-1zM1,35h1v1h-1zM3,35h1v1h-1zM4,35h1v1h-1zM5,35h1v1h-1zM7,35h1v1h-1zM10,35h1v1h-1zM11,35h1v1h-1zM14,35h1v1h-1zM15,35h1v1h-1zM16,35h1v1h-1zM19,35h1v1h-1zM23,35h1v1h-1zM24,35h1v1h-1zM25,35h1v1h-1zM26,35h1v1h-1zM27,35h1v1h-1zM28,35h1v1h-1zM29,35h1v1h-1zM31,35h1v1h-1zM35,35h1v1h-1zM1,36h1v1h-1zM7,36h1v1h-1zM11,36h1v1h-1zM12,36h1v1h-1zM13,36h1v1h-1zM16,36h1v1h-1zM18,36h1v1h-1zM19,36h1v1h-1zM22,36h1v1h-1zM24,36h1v1h-1zM28,36h1v1h-1zM30,36h1v1h-1zM31,36h1v1h-1zM33,36h1v1h-1zM34,36h1v1h-1zM35,36h1v1h-1zM36,36h1v1h-1zM1,37h1v1h-1zM2,37h1v1h-1zM3,37h1v1h-1zM4,37h1v1h-1zM5,37h1v1h-1zM6,37h1v1h-1zM7,37h1v1h-1zM9,37h1v1h-1zM10,37h1v1h-1zM12,37h1v1h-1zM13,37h1v1h-1zM14,37h1v1h-1zM18,37h1v1h-1zM19,37h1v1h-1zM20,37h1v1h-1zM21,37h1v1h-1zM22,37h1v1h-1zM23,37h1v1h-1zM25,37h1v1h-1zM30,37h1v1h-1zM31,37h1v1h-1zM32,37h1v1h-1zM35,37h1v1h-1zM36,37h1v1h-1zM37,37h1v1h-1z" fill="#111"/></svg>';
+</script>
+
+<!-- ===== Teacher notes: one entry per slide (by data-title) ===== -->
+<script>
+var TEACHER_NOTES = {
+ "Behind the Spotlight": ["Two lessons in one file: Lesson 1 (30 min) ends at the exit ticket; Lesson 2 (40 min) starts at the film-leader countdown.","Keys: B = black “Eyes on me” screen, W = white screen. Space / → reveal the next answer on answer slides."],
+ "Lesson 1: Two ways to live with fame": ["Introduce the two guests: Matt Damon (actor; <i>Good Will Hunting</i>, 1997, made him famous) and Steve Harvey (TV host and comedian).","Quick question: Who would you rather be? Why?"],
+ "Warm-up: What can a famous person NOT do easily?": ["<b>0–3 min.</b> Pairs brainstorm. Each pair shares two ideas.","Use 🎡 to pick pairs to share. Click the idea cards for extra ideas once students have shared."],
+ "Vocabulary: match the words to their meanings": ["Drag each word into its meaning, or let students come to the board. Space / → reveals one answer at a time.","<b>Lesson 1 (3–7 min):</b> 8 items. <b>Lesson 2 (5–10 min):</b> 7 words – check as a class."],
+ "Vocabulary: use two words in sentences": ["Students write two sentences, then read one to a partner.","Click the examples only after students have tried."],
+ "Video 1: Matt Damon – Watch 1 (gist)": ["<b>7–15 min.</b> Captions on (CC button in the player). Play the whole clip (about 2:40).","Language: two bleeped swear words appear in the captions (about 0:44 and 1:25).","Damon is talking to the photographer from that late-90s magazine shoot.","If the video doesn't load, use the “Watch on YouTube” link under it."],
+ "Video 1: Matt Damon – Watch 2 (detail)": ["Play again. Type the class's guesses into the gaps, then reveal (Space / →). Green = right, red = wrong.","Gap 1 accepts any answer with “year”; gap 3 accepts “balance” or “power balance”."],
+ "Video 2: Steve Harvey – Watch 1 (gist)": ["<b>15–22 min.</b> Watch 1 for the main idea. The reveal drops gold bars over the house: the house is pretty, but it is still a prison.","Language: Harvey says “big ass house” (about 0:57) and “damn” at the very end. He also mentions smoking cigars."],
+ "Video 2: Steve Harvey – Watch 2 (detail)": ["Watch 2: students make two lists – places he can't go, and what he has at home instead.","Point out the exception: he can still go to dinner with his wife."],
+ "Video 2: Why does every room have a bathroom?": ["Ask the class first. Answer: he grew up poor in a family of 13 with one bathroom."],
+ "Compare: Damon and Harvey": ["<b>22–28 min.</b> Students copy and complete the chart (problem / how he copes / attitude), then reveal cell by cell."],
+ "Speak: Whose advice is more useful?": ["Pairs discuss with the frame <i>Damon copes by ___, whereas Harvey ___.</i>","Light bulb = explanation of <i>whereas</i> and <i>copes by + -ing</i>."],
+ "Exit ticket: Although fame ___, both men ___.": ["<b>28–30 min.</b> One sentence each, shown on the way out.","Light bulb = explanation of <i>although</i> (no <i>but</i> in the same sentence)."],
+ "Lesson 2: The Four Stages of Fame": ["Article: Alice Robb, <i>The New Republic</i>, 2014 – reports Rockwell &amp; Giles's 2009 study (15 unnamed famous Americans aged 35–86).","Hand out the printout now, or let students scan the QR code.","Content note: the Addiction section has a celebrity comparing fame to drugs, with one crude phrase."],
+ "Warm-up: How does a new celebrity feel over time?": ["<b>0–5 min.</b> Link back to Lesson 1. Students sketch a quick line graph of a new star's feelings (high/low) over time and compare with a partner.","Draw the class's idea on the graph with the mouse. The gold line is one possible reading of the article – show it, or save it for after the jigsaw."],
+ "Read the introduction: who, how many, what was unusual?": ["<b>10–15 min.</b> Pairs read the introduction only (before “Love/hate”).","Note the intro also says the media doesn't like celebrities who complain about fame – compare Harvey's “I'm not complaining”."],
+ "Jigsaw: one group, one section": ["<b>15–25 min.</b> Seven groups, one heading each. “Make 7 groups” shuffles the class you chose in 🎡 (click again to reshuffle).","Each group writes (1) a one-sentence summary in their own words and (2) a modern example.","Work timer: top right (10 or 15 min). Once started it stays on screen."],
+ "Share and build: note-making table": ["<b>25–35 min.</b> Groups report in article order. Everyone copies the seven-row table.","Click a cell to show a sample summary or example after each group reports."],
+ "Notice: Why “four stages” when there are seven headings?": ["Ask the question at the end of the share. Reveal: the four phases are a sequence; the last three are ongoing difficulties (the article introduces them with “Even once they've adapted …”)."],
+ "Quick check (optional)": ["Optional, 3 minutes."],
+ "Match-up: the videos and the article": ["<b>35–40 min.</b> Pairs match each quote to a stage or difficulty. Words can be used more than once.","Quote 7 accepts acceptance <i>or</i> adaptation.","Quotes 3 (Damon) and 6 (Harvey) are extra items added to your key.","Harvey's original words are “big ass house” – shortened on the slide."],
+ "Write: Damon / Harvey is at the ___ stage because ___.": ["Students write 4–5 sentences. Work timer top right.","Show the sample only after students have written."],
+ "That's a wrap": ["Preview the Unit 13 project."]
+};
+</script>
+
+<!-- ===== EXPLAIN data ===== -->
+<script>
+var EXPLAIN_DATA = {
+ "whereas": {
+  title: "Comparing two people: whereas",
+  about: "You compare two people who do things in <b>different</b> ways.",
+  rule: [
+   "<b>Whereas</b> joins two different ideas in <b>one</b> sentence.",
+   "Put a <b>comma</b> before <i>whereas</i> when it is in the middle of the sentence.",
+   "After <i>whereas</i>, you need a full idea: <b>who</b> + <b>what they do</b>.",
+   "<b>cope by</b> + verb<b>-ing</b>: <i>She copes by talking to her mum.</i>"
+  ],
+  examples: [
+   "My brother likes football, <mark>whereas</mark> I prefer basketball.",
+   "Lan studies at night, <mark>whereas</mark> Minh studies in the morning.",
+   "He copes by <mark>listening</mark> to music, <mark>whereas</mark> I go for a run."
+  ],
+  watch: {wrong: "I like tea, whereas coffee.", right: "I like tea, whereas my sister likes coffee.", why: "After <i>whereas</i>, say who and what they do."}
+ },
+ "although": {
+  title: "A surprising contrast: although",
+  about: "One sentence that shows a <b>surprising</b> contrast.",
+  rule: [
+   "Use <b>Although</b> + idea 1, idea 2.",
+   "Put a <b>comma</b> after the first part.",
+   "Both parts need a full idea (a subject and a verb).",
+   "Don't use <b>but</b> in the same sentence as <i>although</i>."
+  ],
+  examples: [
+   "<mark>Although</mark> she was tired, she finished her homework.",
+   "<mark>Although</mark> the test was hard, both of us passed.",
+   "<mark>Although</mark> it was raining, we played football."
+  ],
+  watch: {wrong: "Although it was raining, but we played football.", right: "Although it was raining, we played football.", why: "<i>Although</i> already shows the contrast. Don't add <i>but</i>."}
+ }
+};
+</script>
+
+<!-- ===== CLASS ROSTERS — edit names here (from CONTROL; G10 only) ===== -->
+<script>
+var ROSTERS = {
+  "10A1": ["Felicia", "Andy", "Jeremy", "Kevin", "Izza", "Bob", "Henry", "Melissa", "Katie", "Ashley", "Jena", "Aavni", "Sam", "Nicky", "Lam", "Camry", "Tony"]
+};
+</script>
+
+<!-- ===== Sound effects (mute button in the bottom bar) ===== -->
+<script>
+var SFX=(function(){
+  var ac=null,muted=false;
+  try{muted=localStorage.getItem('bts_mute')==='1';}catch(e){}
+  function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+  var nb=null;
+  function noise(c,t,d,f,type,v){if(!nb){nb=c.createBuffer(1,c.sampleRate,c.sampleRate);var x=nb.getChannelData(0);for(var i=0;i<x.length;i++)x[i]=Math.random()*2-1;}
+    var s=c.createBufferSource(),fl=c.createBiquadFilter(),g=c.createGain();s.buffer=nb;fl.type=type||'bandpass';fl.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(0.0001,t+d);s.connect(fl);fl.connect(g);g.connect(c.destination);s.start(t);s.stop(t+d+.02);}
+  function tone(c,t,f,d,v,type){var o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.005);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.02);}
+  var S={
+    reveal:function(c,t){noise(c,t,.05,2600,'highpass',.25);noise(c,t+.06,.08,1400,'bandpass',.18);tone(c,t+.02,2400,.18,.03);},
+    right:function(c,t){tone(c,t,1568,.9,.12);tone(c,t,3136,.4,.03);},
+    wrong:function(c,t){tone(c,t,140,.3,.22,'triangle');noise(c,t,.12,300,'lowpass',.2);},
+    slide:function(c,t){for(var i=0;i<4;i++)noise(c,t+i*.035,.03,900,'bandpass',.08);},
+    drop:function(c,t){noise(c,t,.04,1800,'bandpass',.22);tone(c,t,520,.05,.04,'square');},
+    tick:function(c,t){tone(c,t,2300,.03,.06,'square');}
+  };
+  return {
+    play:function(n){if(muted)return;var c=audio();if(!c||!S[n])return;S[n](c,c.currentTime+.01);},
+    toggle:function(){muted=!muted;try{localStorage.setItem('bts_mute',muted?'1':'0');}catch(e){}return muted;},
+    isMuted:function(){return muted;}
+  };
+})();
+</script>
+
+<!-- ===== Roster picker (from CONTROL; single bottom-bar button) ===== -->
+<script>
+(function(){
+  var stage=document.getElementById('stage'),rp=document.getElementById('rp'),pill=document.getElementById('rpPill');
+  var btnBot=document.getElementById('rpBot'),btns=[btnBot];
+  var choices=rp.querySelector('.rpChoices'),strip=rp.querySelector('.rpStrip'),finalSpan=rp.querySelector('.rpFinal span');
+  var clsEl=rp.querySelector('.rpCls'),leftEl=rp.querySelector('.rpLeft'),changeBtn=rp.querySelector('.rpChange');
+  var ROW=88,DUR=2000,GLOW=1100,FADE=600;
+  var classes=Object.keys(ROSTERS).filter(function(k){return ROSTERS[k]&&ROSTERS[k].length;});
+  var cls=null,pools={},spinning=false,raf=null,ac=null,timers=[],allOut=false,onChoose=null;
+  function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+  function beep(f,dur,vol,when){var a=audio();if(!a)return;var t=a.currentTime+(when||0);var o=a.createOscillator(),g=a.createGain();o.type='square';o.frequency.value=f;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+dur+0.02);}
+  function tick(){beep(2300,0.03,0.07);}
+  function ding(){beep(1320,0.09,0.09,0);beep(1760,0.16,0.09,0.1);}
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function pool(){if(!pools[cls])pools[cls]=shuffle(ROSTERS[cls]);return pools[cls];}
+  function updLeft(){leftEl.textContent=pool().length+' of '+ROSTERS[cls].length+' left';}
+  function clearTimers(){timers.forEach(clearTimeout);timers=[];}
+  function later(fn,ms){timers.push(setTimeout(fn,ms));}
+  function anchor(){var sr=stage.getBoundingClientRect(),k=sr.width/1920,r=btnBot.getBoundingClientRect();return {x:(r.right-sr.left)/k+16,top:(r.top-sr.top)/k,bottom:(r.bottom-sr.top)/k,left:(r.left-sr.left)/k};}
+  function placeWin(){var a=anchor();rp.style.left=Math.max(20,a.left-20)+'px';rp.style.top='auto';rp.style.bottom=(1080-a.top+14)+'px';}
+  function showPill(text,isMsg){var a=anchor();pill.textContent=text;pill.classList.toggle('msg',!!isMsg);pill.style.left=Math.max(20,a.left-10)+'px';pill.style.top=(a.top-84)+'px';pill.classList.remove('show');void pill.offsetWidth;pill.classList.add('show');}
+  function hidePill(){pill.classList.remove('show');}
+  function openWin(){placeWin();rp.classList.remove('fade');rp.classList.add('open');}
+  function closeWin(){rp.classList.remove('open','fade','done');}
+  function showChoose(){
+    rp.dataset.view='choose';choices.innerHTML='';
+    classes.forEach(function(k){var b=document.createElement('button');b.className='rpChoice';b.textContent=k;
+      b.onclick=function(e){e.stopPropagation();cls=k;allOut=false;if(onChoose){var f=onChoose;onChoose=null;closeWin();f(k);return;}startSpinView();spin();};
+      choices.appendChild(b);});
+  }
+  function startSpinView(){rp.dataset.view='spin';clsEl.textContent=cls;changeBtn.style.display=classes.length>1?'':'none';updLeft();}
+  function stopSpin(){if(raf){cancelAnimationFrame(raf);raf=null;}spinning=false;btns.forEach(function(b){b.classList.remove('spinning');});}
+  function spin(){
+    var p=pool();
+    if(!p.length){pools[cls]=shuffle(ROSTERS[cls]);p=pools[cls];allOut=false;updLeft();}
+    rp.classList.remove('done');
+    var pick=p[0],all=ROSTERS[cls],seq=[],N=Math.max(30,all.length+8);
+    for(var i=0;i<N;i++){var nm=all[Math.floor(Math.random()*all.length)];if(i>N-4&&nm===pick)nm=all[(all.indexOf(nm)+1)%all.length];seq.push(nm);}
+    seq.push(pick);seq.push(all[Math.floor(Math.random()*all.length)]);
+    strip.innerHTML=seq.map(function(n){return '<div class="rpName">'+n.replace(/[&<>]/g,'')+'</div>';}).join('');
+    var target=(seq.length-3)*ROW,t0=null,lastRow=-1,lastTick=0;
+    spinning=true;strip.style.transform='translateY(0)';
+    var b=btnBot;b.classList.remove('spinning');void b.offsetWidth;b.classList.add('spinning');
+    function ease(x){return 1-Math.pow(1-x,4);}
+    function frame(ts){
+      if(t0===null)t0=ts;
+      var x=Math.min(1,(ts-t0)/DUR),y=target*ease(x),row=Math.floor((y+ROW/2)/ROW);
+      strip.style.transform='translateY('+(-y)+'px)';
+      if(row!==lastRow){lastRow=row;if(ts-lastTick>28){tick();lastTick=ts;}}
+      if(x<1){raf=requestAnimationFrame(frame);return;}
+      raf=null;spinning=false;p.shift();updLeft();if(!p.length)allOut=true;
+      finalSpan.textContent=pick;rp.classList.add('done');ding();
+      later(function(){rp.classList.add('fade');},GLOW);
+      later(function(){closeWin();showPill(pick);},GLOW+FADE);
+    }
+    raf=requestAnimationFrame(frame);
+  }
+  function onIcon(e){
+    e.stopPropagation();audio();
+    if(spinning)return;
+    clearTimers();hidePill();onChoose=null;
+    if(!cls&&classes.length===1)cls=classes[0];
+    if(!cls){if(rp.classList.contains('open')){closeWin();return;}showChoose();openWin();return;}
+    if(allOut){closeWin();allOut=false;showPill('Everyone’s had a turn! Click for a new round',true);return;}
+    startSpinView();openWin();spin();
+  }
+  btns.forEach(function(b){b.addEventListener('click',onIcon);});
+  changeBtn.addEventListener('click',function(e){e.stopPropagation();stopSpin();clearTimers();cls=null;closeWin();showChoose();openWin();});
+  rp.addEventListener('click',function(e){e.stopPropagation();});
+  rp.addEventListener('pointerdown',function(e){e.stopPropagation();});
+  window.rosterPicker={
+    close:function(){stopSpin();clearTimers();closeWin();hidePill();onChoose=null;},
+    /* shared class choice: the group picker uses the same class */
+    getClass:function(){if(!cls&&classes.length===1)cls=classes[0];return cls;},
+    askClass:function(cb){onChoose=cb;showChoose();openWin();},
+    roster:function(k){return (ROSTERS[k]||[]).slice();}
+  };
+  if(!classes.length)btns.forEach(function(b){b.style.display='none';});
+})();
+</script>
+
+<!-- ===== Time's-up sounds (from CONTROL) ===== -->
+<script>
+var TIMER_SOUNDS=(function(){
+  function tone(c,o,f,t,d,p){
+    p=p||{};var os=c.createOscillator(),g=c.createGain(),v=p.v==null?0.2:p.v,a=p.a||0.005;
+    os.type=p.type||'sine';os.frequency.setValueAtTime(f,t);
+    if(p.f2)os.frequency[p.lin?'linearRampToValueAtTime':'exponentialRampToValueAtTime'](p.f2,t+(p.glide||d));
+    if(p.vib){var l=c.createOscillator(),lg=c.createGain();l.frequency.value=p.vib;lg.gain.value=p.vibAmt||f*0.03;l.connect(lg);lg.connect(os.frequency);l.start(t);l.stop(t+d+0.05);}
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+a);
+    if(p.hold){g.gain.setValueAtTime(v,t+d-0.04);g.gain.exponentialRampToValueAtTime(0.0001,t+d);}
+    else g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+    var node=os;
+    if(p.lp){var fl=c.createBiquadFilter();fl.type='lowpass';fl.frequency.value=p.lp;os.connect(fl);node=fl;}
+    node.connect(g);g.connect(o);os.start(t);os.stop(t+d+0.05);
+  }
+  var nbuf=null;
+  function noise(c,o,t,d,p){
+    p=p||{};
+    if(!nbuf||nbuf.sampleRate!==c.sampleRate){nbuf=c.createBuffer(1,c.sampleRate*2,c.sampleRate);var x=nbuf.getChannelData(0);for(var i=0;i<x.length;i++)x[i]=Math.random()*2-1;}
+    var s=c.createBufferSource(),g=c.createGain(),fl=c.createBiquadFilter(),v=p.v==null?0.2:p.v;
+    s.buffer=nbuf;s.loop=true;fl.type=p.ft||'highpass';fl.frequency.value=p.ff||5000;if(p.q)fl.Q.value=p.q;
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+(p.a||0.003));
+    if(p.hold){g.gain.setValueAtTime(v,t+d-0.04);}
+    g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+    s.connect(fl);fl.connect(g);g.connect(o);s.start(t);s.stop(t+d+0.05);
+  }
+  function bell(c,o,f,t,d,v){[1,2.76,5.4,8.93].forEach(function(r,i){tone(c,o,f*r,t,d/(1+i*0.6),{v:v/(1+i*1.4),a:0.002});});}
+  var C4=261.63;function n(s){return C4*Math.pow(2,s/12);}
+  return [
+    {name:'Digital alarm clock',play:function(c,o,t){for(var g=0;g<5;g++)for(var b=0;b<4;b++)tone(c,o,2000,t+g*0.6+b*0.09,0.06,{type:'square',v:0.2,hold:1});}},
+    {name:'Game-show buzzer',play:function(c,o,t){[110,116.5,220].forEach(function(f){tone(c,o,f,t,2.6,{type:'sawtooth',v:0.16,hold:1,lp:1400});});}},
+    {name:'Boxing bell',play:function(c,o,t){for(var i=0;i<3;i++)bell(c,o,820,t+i*0.45,i<2?0.6:3.6,0.3);}},
+    {name:'8-bit victory jingle',play:function(c,o,t){[[0,0,.12],[4,.13,.12],[7,.26,.12],[12,.39,.25],[7,.68,.12],[12,.81,.7]].forEach(function(x){tone(c,o,n(x[0]+12),t+x[1],x[2],{type:'square',v:0.1,hold:1});});[[5,1.6],[9,1.72],[12,1.84],[17,1.96]].forEach(function(x){tone(c,o,n(x[0]+12),t+x[1],x[1]>1.9?0.9:0.11,{type:'square',v:0.1,hold:1});});tone(c,o,n(5),t+1.96,0.9,{type:'triangle',v:0.15,hold:1});}},
+    {name:'Gong',play:function(c,o,t){noise(c,o,t,0.4,{ft:'lowpass',ff:900,v:0.18});[85,131,178,229,301].forEach(function(f,i){tone(c,o,f,t,5,{v:0.22/(1+i*0.5),a:0.03,vib:4,vibAmt:1.5});});}},
+    {name:'School bell',play:function(c,o,t){var g=c.createGain(),l=c.createOscillator(),lg=c.createGain();g.gain.value=0.5;l.frequency.value=28;lg.gain.value=0.5;l.connect(lg);lg.connect(g.gain);l.start(t);l.stop(t+2.9);g.connect(o);[1050,2898,5670].forEach(function(f,i){tone(c,g,f,t,2.8,{v:0.16/(1+i),hold:1});});}},
+    {name:'Arcade fanfare',play:function(c,o,t){for(var i=0;i<10;i++)tone(c,o,n(i*2+7),t+i*0.07,0.09,{type:'square',v:0.09});[0,4,7,12].forEach(function(s){tone(c,o,n(s+19),t+0.8,2.15,{type:'sawtooth',v:0.07,lp:3000,vib:6,vibAmt:4,hold:1});});}},
+    {name:'Spaceship alert',play:function(c,o,t){for(var i=0;i<5;i++)tone(c,o,380,t+i*0.58,0.52,{type:'sawtooth',f2:900,glide:0.5,v:0.22,hold:1,lp:2200});}},
+    {name:'Xylophone run',play:function(c,o,t){var sc=[0,2,4,7,9,12,14,16,19,21,24],seq=sc.concat(sc.slice(0,-1).reverse());seq.forEach(function(s,i){tone(c,o,n(s+12),t+i*0.1,0.5,{v:0.22,a:0.002});tone(c,o,n(s+12)*4,t+i*0.1,0.1,{v:0.05});});tone(c,o,n(12),t+2.1,0.9,{v:0.25});}},
+    {name:'Air horn',play:function(c,o,t){[[0,.45],[.6,.45],[1.2,1.6]].forEach(function(b){[440,446,554,560].forEach(function(f){tone(c,o,f,t+b[0],b[1],{type:'sawtooth',v:0.07,hold:1,lp:2500,a:0.02});});});}},
+    {name:'Cuckoo clock',play:function(c,o,t){for(var i=0;i<4;i++){tone(c,o,784,t+i*0.72,0.28,{type:'triangle',v:0.3,a:0.02});tone(c,o,622,t+i*0.72+0.3,0.36,{type:'triangle',v:0.3,a:0.02});}}},
+    {name:'Drum roll and cymbal',play:function(c,o,t){for(var i=0;i<34;i++){var tt=t+i*0.055;noise(c,o,tt,0.05,{ft:'bandpass',ff:1800,q:0.8,v:0.05+i*0.006});}noise(c,o,t+1.9,1.1,{ft:'highpass',ff:5000,v:0.2});tone(c,o,60,t+1.9,0.4,{v:0.3});}},
+    {name:'Train whistle',play:function(c,o,t){[[0,.7],[.85,1.9]].forEach(function(b){[440,523,659].forEach(function(f){tone(c,o,f,t+b[0],b[1],{v:0.09,a:0.06,hold:1,vib:5,vibAmt:3});});noise(c,o,t+b[0],b[1],{ft:'bandpass',ff:1500,q:1.5,v:0.05,a:0.05,hold:1});});}},
+    {name:'Doorbell ding-dong',play:function(c,o,t){[0,1.4].forEach(function(s){tone(c,o,659,t+s,1.2,{v:0.3});tone(c,o,1318,t+s,0.4,{v:0.06});tone(c,o,523,t+s+0.55,1.4,{v:0.3});tone(c,o,1046,t+s+0.55,0.4,{v:0.06});});}},
+    {name:'Laser zaps',play:function(c,o,t){for(var i=0;i<9;i++)tone(c,o,1800-i*60,t+i*0.32,0.22,{type:'square',f2:150,v:0.15,lp:4000});}},
+    {name:'Wind chimes',play:function(c,o,t){var pen=[0,2,4,7,9];for(var i=0;i<16;i++){var s=pen[Math.floor(Math.random()*5)]+12*(2+Math.floor(Math.random()*2));bell(c,o,n(s),t+Math.random()*2.2,1.2,0.12);}}},
+    {name:'Sad trombone',play:function(c,o,t){[[-2,0,.45],[-3,.5,.45],[-4,1,.45],[-5,1.5,1.4]].forEach(function(x,i){tone(c,o,n(x[0]-5),t+x[1],x[2],{type:'sawtooth',v:0.26,a:0.04,hold:1,lp:1100,vib:i===3?6:0,vibAmt:5});});}}
+  ];
+})();
+</script>
+
+<!-- ===== Slide stopwatch (from CONTROL; bottom bar) ===== -->
+<script>
+(function(){
+  var stage=document.getElementById('stage'),menu=document.getElementById('tmMenu');
+  var swBot=document.getElementById('swBot'),dBot=document.getElementById('tmBot');
+  var TIMES=[['1m',60],['2m',120],['3m',180],['4m',240],['5m',300],['7.5m',450],['10m',600],['12m',720],['15m',900]];
+  var SOUND_LEN=3,total=0,left=0,endAt=0,state='off',iv=null,ac=null,master=null,lastSound=-1,upT=null;
+  function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+  function fmt(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
+  function render(){
+    var d=dBot;
+    if(state==='off'){d.className='tmDisp';d.innerHTML='';}
+    else{
+      var cls='tmDisp show',ico='',txt=fmt(left);
+      if(state==='ready'){cls+=' ready';ico='▶';}
+      else if(state==='paused'){cls+=' paused';ico='❚❚';}
+      else if(state==='up'){cls+=' up';txt='TIME’S UP';}
+      if((state==='run'||state==='paused')&&left<=total*0.1)cls+=' warn';
+      var keep=d.classList.contains('show');
+      d.className=cls+(keep&&state!=='ready'&&state!=='up'?' still':'')+(d.classList.contains('upStill')&&state==='up'?' upStill':'');
+      var ic=d.querySelector('.tmIco'),tx=d.querySelector('.tmTxt');
+      if(!tx){d.innerHTML='<span class="tmIco"></span><span class="tmTxt"></span>';ic=d.querySelector('.tmIco');tx=d.querySelector('.tmTxt');}
+      if(ic.textContent!==ico)ic.textContent=ico;ic.style.display=ico?'':'none';
+      if(tx.textContent!==txt)tx.textContent=txt;
+    }
+    swBot.classList.toggle('on',state==='run');
+  }
+  function stopTick(){if(iv){clearInterval(iv);iv=null;}clearTimeout(upT);}
+  function stopSound(){if(master){try{master.gain.cancelScheduledValues(0);master.gain.value=0;master.disconnect();}catch(e){}master=null;}}
+  function tickNow(){
+    left=(endAt-performance.now())/1000;
+    if(left<=0){left=0;stopTick();state='up';render();playSound();upT=setTimeout(function(){dBot.classList.add('upStill');},3000);return;}
+    render();
+  }
+  function playSound(){
+    var c=audio();if(!c||!window.TIMER_SOUNDS)return;
+    var i;do{i=Math.floor(Math.random()*TIMER_SOUNDS.length);}while(TIMER_SOUNDS.length>1&&i===lastSound);lastSound=i;
+    stopSound();master=c.createGain();master.connect(c.destination);
+    var t=c.currentTime+0.02;master.gain.setValueAtTime(1,t);master.gain.setValueAtTime(1,t+SOUND_LEN-0.25);master.gain.linearRampToValueAtTime(0,t+SOUND_LEN);
+    TIMER_SOUNDS[i].play(c,master,t);
+    var m=master;setTimeout(function(){if(master===m){try{m.disconnect();}catch(e){}master=null;}},SOUND_LEN*1000+200);
+  }
+  function setTime(sec){stopTick();stopSound();total=left=sec;state='ready';dBot.classList.remove('upStill');render();}
+  function clearTimer(){stopTick();stopSound();state='off';total=left=0;dBot.classList.remove('upStill');render();}
+  dBot.addEventListener('click',function(e){
+    e.stopPropagation();audio();closeMenu();
+    if(state==='ready'){endAt=performance.now()+left*1000;state='run';render();iv=setInterval(tickNow,100);}
+    else if(state==='run'){tickNow();if(state!=='run')return;stopTick();state='paused';render();}
+    else if(state==='paused'){endAt=performance.now()+left*1000;state='run';render();iv=setInterval(tickNow,100);}
+    else if(state==='up'){clearTimer();}
+  });
+  var grid=menu.querySelector('.tmGrid');
+  TIMES.forEach(function(x){var b=document.createElement('button');b.className='tmOpt';b.textContent=x[0];b.onclick=function(e){e.stopPropagation();closeMenu();setTime(x[1]);};grid.appendChild(b);});
+  function placeMenu(){var sr=stage.getBoundingClientRect(),k=sr.width/1920,r=swBot.getBoundingClientRect();menu.style.left=Math.max(16,(r.left-sr.left)/k-60)+'px';menu.style.top='auto';menu.style.bottom=(1080-(r.top-sr.top)/k+14)+'px';}
+  function closeMenu(){menu.classList.remove('open');}
+  swBot.addEventListener('click',function(e){e.stopPropagation();audio();if(menu.classList.contains('open')){closeMenu();return;}placeMenu();menu.classList.add('open');});
+  menu.addEventListener('click',function(e){e.stopPropagation();});
+  menu.addEventListener('pointerdown',function(e){e.stopPropagation();});
+  document.addEventListener('pointerdown',function(e){if(menu.classList.contains('open')&&!e.target.closest('#tmMenu,.swBtn'))closeMenu();});
+  window.slideTimer={close:function(){closeMenu();clearTimer();}};
+  render();
+})();
+</script>
+
+<!-- ===== Main engine: fit, navigation, contents, REV, reveals, drag-into-gap, typed gaps, videos ===== -->
+<script>
+(function(){
+  var stage=document.getElementById('stage');
+  var scale=1;
+  function fit(){scale=Math.min(window.innerWidth/1920,window.innerHeight/1080);stage.style.transform='translate(-50%,-50%) scale('+scale+')';}
+  window.addEventListener('resize',fit);fit();
+  window.getScale=function(){return scale;};
+
+  /* film grain: a small noise tile drawn once */
+  (function(){var c=document.createElement('canvas');c.width=c.height=256;var x=c.getContext('2d'),d=x.createImageData(256,256);
+    for(var i=0;i<d.data.length;i+=4){var v=Math.random()*255|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=Math.random()<.5?255:0;}
+    x.putImageData(d,0,0);document.getElementById('grain').style.backgroundImage='url('+c.toDataURL()+')';})();
+
+  /* QR codes for the article */
+  (function(){var q=document.getElementById('queue');if(!q)return;var h='';for(var i=0;i<13;i++)h+='<i class="'+(i%3==1?'k':'')+'" style="transition-delay:'+(i*0.09)+'s"></i>';q.innerHTML=h+'<b>13 people · 1 bathroom</b>';})();
+  ['qr1','qr2'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=QR_SVG;});
+
+  var slides=[].slice.call(document.querySelectorAll('#stage > .slide'));
+  var cur=0,revealBtn=document.getElementById('revealBtn');
+
+  /* ---- reveals ---- */
+  function revealables(s){return [].slice.call(s.querySelectorAll('.ans'));}
+  function hasAnswers(s){return revealables(s).length>0;}
+  function allShown(s){return revealables(s).every(function(e){return e.classList.contains('shown');});}
+  function setShown(el,on,quiet){
+    if(el.classList.contains('shown')===on)return;
+    el.classList.toggle('shown',on);
+    if(on&&!quiet){
+      if(el.classList.contains('gap')&&el.dataset.guess)SFX.play(gapOK(el)?'right':'wrong');
+      else if(el.classList.contains('tgap')&&tgVal(el))SFX.play(tgOK(el)?'right':'wrong');
+      else SFX.play('reveal');
+    }
+    afterChange(el);
+  }
+  function afterChange(el){
+    if(el.classList.contains('gap'))markGap(el);
+    if(el.classList.contains('tgap'))markTg(el);
+    if(el.id==='prisonAns')document.getElementById('prison').classList.toggle('on',el.classList.contains('shown'));
+    if(el.id==='bathAns')document.getElementById('queue').classList.toggle('on',el.classList.contains('shown'));
+    if(el.id==='whyAns')document.getElementById('whyStrip').classList.toggle('sp4',el.classList.contains('shown'));
+    var s=el.closest('.slide');if(s===slides[cur])updateRevealBtn();
+  }
+  document.querySelectorAll('.ans').forEach(function(el){
+    el.addEventListener('click',function(e){
+      if(e.target.closest('input'))return;
+      e.stopPropagation();setShown(el,!el.classList.contains('shown'));
+    });
+  });
+  function updateRevealBtn(){
+    var s=slides[cur];
+    if(!hasAnswers(s)){revealBtn.disabled=true;revealBtn.textContent='Reveal all';revealBtn.classList.remove('hiding');return;}
+    revealBtn.disabled=false;
+    if(allShown(s)){revealBtn.textContent='Hide all';revealBtn.classList.add('hiding');}
+    else{revealBtn.textContent='Reveal all';revealBtn.classList.remove('hiding');}
+  }
+  revealBtn.addEventListener('click',function(e){
+    e.stopPropagation();var s=slides[cur],show=!allShown(s);
+    revealables(s).forEach(function(el){setShown(el,show,true);});
+    if(show)SFX.play('reveal');updateRevealBtn();
+  });
+
+  /* ---- drag words into gaps (from CONTROL) ---- */
+  function norm(s){return (s||'').toLowerCase().replace(/[^a-z ]/g,'').replace(/\s+/g,' ').trim();}
+  function gapOK(gp){var g=norm(gp.dataset.guess);return !!g&&gp.dataset.ans.split('/').some(function(a){return norm(a)===g;});}
+  function markGap(gp){
+    var want=(gp.classList.contains('shown')&&gp.dataset.guess)?(gapOK(gp)?'right':'wrong'):'';
+    gp.classList.toggle('right',want==='right');gp.classList.toggle('wrong',want==='wrong');
+  }
+  function setGuess(gp,chip){
+    var s=gp.closest('.slide'),reuse=chip.closest('.gbank').classList.contains('reuse');
+    if(!reuse&&gp.dataset.guess){var old=s.querySelector('.gchip[data-w="'+gp.dataset.guess+'"]');if(old)old.classList.remove('used');}
+    gp.dataset.guess=chip.dataset.w;gp.querySelector('.gg').textContent=chip.dataset.w;
+    gp.classList.remove('guessed');void gp.offsetWidth;gp.classList.add('guessed');
+    if(!reuse)chip.classList.add('used');
+    markGap(gp);SFX.play('drop');
+  }
+  document.querySelectorAll('.gbank').forEach(function(bank){
+    var s=bank.closest('.slide'),clr=bank.querySelector('.gclear');
+    if(clr)clr.onclick=function(e){e.stopPropagation();
+      s.querySelectorAll('.gap[data-ans]').forEach(function(gp){delete gp.dataset.guess;gp.querySelector('.gg').textContent='';gp.classList.remove('guessed','right','wrong');});
+      bank.querySelectorAll('.gchip').forEach(function(c){c.classList.remove('used');});};
+    bank.querySelectorAll('.gchip').forEach(function(chip){
+      chip.addEventListener('click',function(e){e.stopPropagation();});
+      chip.addEventListener('pointerdown',function(e){
+        if(chip.classList.contains('used'))return;
+        e.preventDefault();e.stopPropagation();
+        var r=chip.getBoundingClientRect(),dx=e.clientX-r.left,dy=e.clientY-r.top;
+        var fl=chip.cloneNode(true);fl.classList.add('gfloat');fl.style.transform='scale('+scale+')';document.body.appendChild(fl);
+        var over=null;
+        function mv(ev){
+          fl.style.left=(ev.clientX-dx)+'px';fl.style.top=(ev.clientY-dy)+'px';
+          var el=document.elementFromPoint(ev.clientX,ev.clientY),gp=el&&el.closest('.gap[data-ans]');
+          if(gp&&(gp.classList.contains('shown')||gp.closest('.slide')!==s))gp=null;
+          if(over&&over!==gp)over.classList.remove('gover');
+          over=gp;if(gp)gp.classList.add('gover');
+        }
+        function up(){
+          window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);
+          window.__gdragEnd=Date.now();fl.remove();if(over){over.classList.remove('gover');setGuess(over,chip);}
+        }
+        mv(e);
+        window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up);
+      });
+    });
+  });
+
+  /* ---- typed gaps ---- */
+  function tgVal(tg){return norm(tg.querySelector('input').value);}
+  function tgOK(tg){var v=tgVal(tg);return !!v&&tg.dataset.ok.split('|').some(function(k){return v.indexOf(norm(k))>-1;});}
+  function markTg(tg){var on=tg.classList.contains('shown')&&!!tgVal(tg);tg.classList.toggle('right',on&&tgOK(tg));tg.classList.toggle('wrong',on&&!tgOK(tg));}
+  document.querySelectorAll('.tgap input').forEach(function(inp){
+    inp.addEventListener('click',function(e){e.stopPropagation();});
+    inp.addEventListener('keydown',function(e){e.stopPropagation();if(e.key==='Enter'||e.key==='Escape')inp.blur();});
+    inp.addEventListener('input',function(){markTg(inp.closest('.tgap'));});
+  });
+
+  /* ---- videos: loaded when their slide opens, paused when it closes ---- */
+  function ytSrc(k){return 'https://www.youtube-nocookie.com/embed/'+VIDEOS[k].id+'?rel=0&modestbranding=1&cc_load_policy=1&cc_lang_pref=en&hl=en&enablejsapi=1&playsinline=1';}
+  document.querySelectorAll('.vframe[data-yt]').forEach(function(f){
+    var k=f.dataset.yt;
+    f.innerHTML='<div class="vph">Loading video …</div>';
+    var meta=f.parentNode.querySelector('.vmeta');
+    if(meta)meta.insertAdjacentHTML('beforeend','<a class="ytBtn" href="https://www.youtube.com/watch?v='+VIDEOS[k].id+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="24" height="24"><rect x="1" y="4" width="22" height="16" rx="5" fill="#c8403f"/><path d="M10 8.5v7l6-3.5z" fill="#fff"/></svg>Watch on YouTube</a>');
+  });
+  function videosOn(s){s.querySelectorAll('.vframe[data-yt]').forEach(function(f){if(!f.querySelector('iframe'))f.innerHTML='<iframe src="'+ytSrc(f.dataset.yt)+'" title="'+VIDEOS[f.dataset.yt].label+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';});}
+  function videosOff(s){s.querySelectorAll('.vframe iframe').forEach(function(fr){try{fr.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[]}),'*');}catch(e){}});}
+
+  /* ---- navigation ---- */
+  var counter=document.getElementById('counter'),navTitle=document.getElementById('navTitle');
+  var flick=document.getElementById('flick');
+  function go(i,quiet){
+    if(i<0||i>=slides.length)return;
+    if(window.rosterPicker)rosterPicker.close();
+    if(window.slideTimer)slideTimer.close();
+    if(window.lessonExtras)lessonExtras.onSlide();
+    closePops();
+    var old=slides[cur];old.classList.remove('active');videosOff(old);
+    cur=i;var s=slides[cur];
+    s.classList.add('active');
+    counter.textContent=(cur+1)+' / '+slides.length;
+    navTitle.textContent=s.dataset.title;
+    document.getElementById('prevBtn').disabled=cur===0;
+    document.getElementById('nextBtn').disabled=cur===slides.length-1;
+    updateRevealBtn();videosOn(s);
+    var ptm=document.getElementById('ptimer');ptm.classList.toggle('on',!!s.dataset.timer||ptm.classList.contains('act'));ptm.classList.toggle('mini',!s.dataset.timer);
+    if(!quiet){flick.classList.remove('go');void flick.offsetWidth;flick.classList.add('go');SFX.play('slide');}
+    if(window.onSlideEnter)window.onSlideEnter(s);
+  }
+  window.goSlide=go;
+
+  /* ---- REV ---- */
+  function isRev(s){return s&&s.dataset.rev==='1';}
+  var stacks=new Map();
+  slides.forEach(function(s){
+    var st=[];stacks.set(s,st);
+    revealables(s).forEach(function(el){
+      new MutationObserver(function(){var i=st.indexOf(el);if(el.classList.contains('shown')){if(i<0)st.push(el);}else if(i>=0)st.splice(i,1);}).observe(el,{attributes:true,attributeFilter:['class']});
+    });
+    s.addEventListener('click',function(e){
+      if(s!==slides[cur]||!isRev(s))return;
+      if(Date.now()-(window.__gdragEnd||0)<400)return;
+      if(String(window.getSelection?window.getSelection():'').trim())return;
+      if(e.target.closest('.ans,button,a,input,.gchip,.gbank,.xplBtn,#ptimer,.vframe'))return;
+      revForward();
+    });
+  });
+  function revForward(){
+    var s=slides[cur];
+    if(isRev(s)){var next=revealables(s).find(function(el){return !el.classList.contains('shown');});if(next){setShown(next,true);return;}}
+    go(cur+1);
+  }
+  function revBack(){
+    var s=slides[cur];
+    if(isRev(s)){var st=stacks.get(s);if(st&&st.length){setShown(st[st.length-1],false,true);return;}}
+    go(cur-1);
+  }
+  document.addEventListener('dblclick',function(e){e.stopPropagation();},true);
+  document.getElementById('prevBtn').onclick=function(e){e.stopPropagation();go(cur-1);};
+  document.getElementById('nextBtn').onclick=function(e){e.stopPropagation();go(cur+1);};
+  document.addEventListener('keydown',function(e){
+    if(e.target&&e.target.closest&&e.target.closest('input,textarea'))return;
+    if(e.key==='Escape'){closePops();return;}
+    if(document.querySelector('.pop.open'))return;
+    if(e.key===' '||e.code==='Space'){e.preventDefault();if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();revForward();return;}
+    if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();revForward();return;}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();revBack();return;}
+  });
+
+  /* ---- contents + teacher notes ---- */
+  var contents=document.getElementById('contents'),list=document.getElementById('contentsList');
+  function buildContents(){
+    list.innerHTML='';
+    slides.forEach(function(s,i){
+      if(s.dataset.sep){var h=document.createElement('li');h.className='sep';h.textContent=s.dataset.sep;list.appendChild(h);}
+      var li=document.createElement('li');if(i===cur)li.className='cur';
+      li.innerHTML='<span class="num">'+(i+1)+'</span><span>'+s.dataset.title+'</span>';
+      li.onclick=function(){closePops();go(i);};
+      list.appendChild(li);
+    });
+  }
+  function closePops(){document.querySelectorAll('.pop.open').forEach(function(p){p.classList.remove('open');});}
+  document.getElementById('contentsBtn').onclick=function(e){e.stopPropagation();buildContents();contents.classList.add('open');var c=list.querySelector('li.cur');if(c)c.scrollIntoView({block:'center'});};
+  document.getElementById('closeContents').onclick=closePops;
+  var tnPop=document.getElementById('tnPop'),tnBody=document.getElementById('tnBody');
+  document.getElementById('tnBtn').onclick=function(e){e.stopPropagation();
+    var s=slides[cur],n=TEACHER_NOTES[s.dataset.title]||['No notes for this slide.'];
+    tnBody.innerHTML='<h3>'+(cur+1)+'. '+s.dataset.title+'</h3><ul>'+n.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+    tnPop.classList.add('open');};
+  document.getElementById('tnClose').onclick=closePops;
+  document.querySelectorAll('.pop').forEach(function(p){p.addEventListener('click',function(e){e.stopPropagation();if(e.target===p)closePops();});});
+
+  /* ---- mute ---- */
+  var mb=document.getElementById('muteBtn');mb.classList.toggle('off',SFX.isMuted());
+  mb.onclick=function(e){e.stopPropagation();mb.classList.toggle('off',SFX.toggle());};
+
+  document.getElementById('bar').addEventListener('click',function(e){e.stopPropagation();});
+  go(0,true);
+})();
+</script>
+
+<!-- ===== Work timer (from CONTROL) ===== -->
+<script>
+(function(){
+  var pt=document.getElementById('ptimer'),ptT=pt.querySelector('.tt'),ptGo=pt.querySelector('.go');
+  var ptLeft=600,ptRun=null;
+  pt.addEventListener('click',function(e){e.stopPropagation();});
+  function ptShow(){var m=Math.floor(ptLeft/60),s=ptLeft%60;ptT.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    pt.classList.toggle('low',ptLeft<=60&&ptLeft>0);pt.classList.toggle('done',ptLeft===0);if(ptLeft===0)ptT.textContent="Time's up!";}
+  function ptStop(){clearInterval(ptRun);ptRun=null;pt.classList.remove('run');ptGo.textContent='▶ Start';}
+  function ptStart(){if(ptLeft<=0)return;ptRun=setInterval(function(){ptLeft--;ptShow();if(ptLeft<=0)ptStop();},1000);pt.classList.add('run','act');ptGo.textContent='❚❚ Pause';}
+  ptGo.onclick=function(e){e.stopPropagation();ptRun?ptStop():ptStart();};
+  ptT.style.cursor='pointer';ptT.title='Click to start / pause';ptT.onclick=function(e){e.stopPropagation();ptRun?ptStop():ptStart();};
+  pt.querySelectorAll('[data-min]').forEach(function(b){b.onclick=function(e){e.stopPropagation();ptStop();ptLeft=+b.dataset.min*60;ptShow();};});
+  pt.querySelector('.p1').onclick=function(e){e.stopPropagation();ptLeft=Math.min(ptLeft+60,99*60);ptShow();};
+  pt.querySelector('.rs').onclick=function(e){e.stopPropagation();ptStop();ptLeft=600;ptShow();pt.classList.remove('act');var a=document.querySelector('#stage .slide.active');pt.classList.toggle('on',!!(a&&a.dataset.timer));};
+  ptShow();
+})();
+</script>
+
+<!-- ===== B / W screens and still first screen (from CONTROL) ===== -->
+<script>
+(function(){
+  var stage=document.getElementById('stage');
+  var ac=null;function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+  var bo=document.createElement('div');bo.id='blackout';bo.innerHTML='<div class="boTxt">Eyes on me <span>👀</span></div>';stage.appendChild(bo);
+  var shhMaster=null,shhIv=null,nbuf=null;
+  function shh(c,t){
+    if(!nbuf){nbuf=c.createBuffer(1,c.sampleRate*2,c.sampleRate);var d=nbuf.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;}
+    var s=c.createBufferSource(),bp=c.createBiquadFilter(),hp=c.createBiquadFilter(),g=c.createGain();
+    s.buffer=nbuf;s.loop=true;bp.type='bandpass';bp.frequency.setValueAtTime(3200,t);bp.frequency.linearRampToValueAtTime(3800,t+1.3);bp.Q.value=0.8;hp.type='highpass';hp.frequency.value=1800;
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.5,t+0.28);g.gain.setValueAtTime(0.5,t+1.0);g.gain.exponentialRampToValueAtTime(0.0001,t+1.55);
+    s.connect(bp);bp.connect(hp);hp.connect(g);g.connect(shhMaster);s.start(t);s.stop(t+1.6);
+  }
+  function blackout(on){
+    bo.classList.toggle('on',on);clearInterval(shhIv);shhIv=null;
+    if(shhMaster){try{shhMaster.disconnect();}catch(e){}shhMaster=null;}
+    if(on){var c=audio();if(c){shhMaster=c.createGain();shhMaster.gain.value=0.9;shhMaster.connect(c.destination);shh(c,c.currentTime+0.05);shhIv=setInterval(function(){if(shhMaster)shh(c,c.currentTime+0.05);},2100);}}
+  }
+  bo.addEventListener('click',function(e){e.stopPropagation();});
+  var wo=document.createElement('div');wo.id='whiteout';stage.appendChild(wo);
+  wo.addEventListener('click',function(e){e.stopPropagation();});
+  function whiteout(on){wo.classList.toggle('on',on);}
+  var SCREENS=[{keys:['b','B'],isOn:function(){return bo.classList.contains('on');},set:blackout},{keys:['w','W'],isOn:function(){return wo.classList.contains('on');},set:whiteout}];
+
+  /* first screen: still and dimmed until clicked */
+  var gate=document.createElement('div');gate.id='startGate';stage.appendChild(gate);stage.classList.add('prestart');
+  function startFirst(){if(!gate)return;gate.remove();gate=null;stage.classList.remove('prestart');audio();if(window.titleScene)titleScene.start();}
+  window.addEventListener('click',function(e){if(!gate)return;startFirst();e.preventDefault();e.stopPropagation();},true);
+
+  window.addEventListener('keydown',function(e){
+    var t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
+    var k=e.key,plain=!e.ctrlKey&&!e.metaKey&&!e.altKey;
+    var open=SCREENS.filter(function(s){return s.isOn();})[0];
+    var hit=plain?SCREENS.filter(function(s){return s.keys.indexOf(k)>=0;})[0]:null;
+    if(open){if(k==='Escape'||hit===open)open.set(false);else if(hit){open.set(false);hit.set(true);}e.preventDefault();e.stopPropagation();return;}
+    if(hit){e.preventDefault();e.stopPropagation();hit.set(true);return;}
+    if(gate&&(k===' '||k==='Enter'||k==='ArrowRight'||k==='PageDown')){e.preventDefault();e.stopPropagation();startFirst();}
+  },true);
+  window.lessonExtras={onSlide:function(){if(gate)startFirst();}};
+})();
+</script>
+
+<!-- ===== EXPLAIN light bulb (from CONTROL, teacher version) ===== -->
+<script>
+(function(){
+  var stage=document.getElementById('stage');
+  var DATA=window.EXPLAIN_DATA||{};
+  var slides=[].slice.call(document.querySelectorAll('#stage section.slide[data-xpl]')).filter(function(s){return DATA[s.dataset.xpl];});
+  if(!slides.length)return;
+  function arr(x){return x==null?[]:[].concat(x);}
+  var uid=0;
+  function bulb(){
+    var g='xg'+(++uid);
+    return '<svg viewBox="0 0 80 80" aria-hidden="true"><defs>'+
+      '<radialGradient id="'+g+'a" cx="42%" cy="36%" r="62%"><stop offset="0" stop-color="#fffbe6"/><stop offset=".45" stop-color="#ffe17a"/><stop offset="1" stop-color="#f2a91b"/></radialGradient>'+
+      '<radialGradient id="'+g+'h" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe680" stop-opacity=".95"/><stop offset="1" stop-color="#ffd23f" stop-opacity="0"/></radialGradient>'+
+      '<linearGradient id="'+g+'b" x1="0" x2="1"><stop offset="0" stop-color="#6d6c66"/><stop offset=".45" stop-color="#d3d1c7"/><stop offset=".6" stop-color="#b4b2a9"/><stop offset="1" stop-color="#55544f"/></linearGradient></defs>'+
+      '<circle class="xGlow" cx="40" cy="32" r="34" fill="url(#'+g+'h)"/>'+
+      '<g class="xRays" stroke="#f2a91b" stroke-width="3.4" stroke-linecap="round"><line x1="40" y1="-4" x2="40" y2="2"/><line x1="12" y1="6" x2="16" y2="10.5"/><line x1="68" y1="6" x2="64" y2="10.5"/><line x1="0" y1="30" x2="6" y2="30"/><line x1="80" y1="30" x2="74" y2="30"/></g>'+
+      '<path d="M40 10 C26 10 17 20 17 32 C17 41 22 46 27 51 C29 53 30 56 30 59 L50 59 C50 56 51 53 53 51 C58 46 63 41 63 32 C63 20 54 10 40 10Z" fill="url(#'+g+'a)" stroke="#b97a0e" stroke-width="2.4"/>'+
+      '<path d="M33.5 59 V45 l2.6-4.4 l3.9 4.4 l3.9-4.4 l2.6 4.4 V59" fill="none" stroke="#8a5300" stroke-width="2.2" stroke-linejoin="round"/>'+
+      '<path d="M25 27 q2.5-8.5 10.5-10.5" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" opacity=".9"/><circle cx="24.2" cy="32.4" r="1.9" fill="#fff" opacity=".85"/>'+
+      '<rect x="29" y="59" width="22" height="13" rx="3" fill="url(#'+g+'b)"/><path d="M29.5 63.3 h21 M29.5 67.6 h21" stroke="#4a4945" stroke-width="1.6" opacity=".7"/>'+
+      '<path d="M34 72 h12 l-3 5.2 h-6z" fill="#3e3d39"/></svg>';
+  }
+  var win=document.createElement('div');win.id='xplWin';stage.appendChild(win);
+  var openBtn=null;
+  function close(){if(!win.classList.contains('on'))return;win.classList.remove('on');win.innerHTML='';if(openBtn){openBtn.classList.remove('open');openBtn=null;}}
+  function part(cls,lab,html){return '<div class="xPart '+cls+'"><div class="xLab">'+lab+'</div><div class="xTxt">'+html+'</div></div>';}
+  function open(s,btn){
+    var d=DATA[s.dataset.xpl];if(!d)return;
+    if(window.rosterPicker)try{rosterPicker.close();}catch(e){}
+    var rule=arr(d.rule).map(function(r){return '<p>'+r+'</p>';}).join('');
+    var ex='<ul>'+arr(d.examples).map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+    var w=d.watch||{},watch=w.wrong?'<p><span class="xWrong">✗ <s>'+w.wrong+'</s></span><br><span class="xRight">✓ '+w.right+'</span></p>'+(w.why?'<p style="font-size:.9em">'+w.why+'</p>':''):'';
+    win.innerHTML='<div class="xDim"></div><div class="xCard" role="dialog" aria-label="Explanation">'+
+      '<div class="xHead">'+bulb()+'<div><div class="xT">Explain</div><div class="xS">'+(d.title||s.dataset.title)+'</div></div><button class="xClose" aria-label="Close">×</button></div>'+
+      '<div class="xBody">'+part('pAbout','What this slide is about',d.about||'')+part('pRule','The rule / pattern',rule)+part('pEx','Examples',ex)+(watch?part('pWatch','Watch out!',watch):'')+'</div></div>';
+    var r=btn.getBoundingClientRect(),sr=stage.getBoundingClientRect(),k=sr.width/1920;
+    win.querySelector('.xCard').style.setProperty('--xo',((r.left+r.width/2-sr.left)/k-140)+'px '+((r.top-sr.top)/k-44)+'px');
+    win.classList.add('on');btn.classList.add('open');openBtn=btn;
+    var card=win.querySelector('.xCard'),fs=38;card.style.setProperty('--xf',fs+'px');
+    while(card.scrollHeight>card.clientHeight+1&&fs>24){fs--;card.style.setProperty('--xf',fs+'px');}
+  }
+  win.addEventListener('pointerdown',function(e){e.stopPropagation();});
+  win.addEventListener('click',function(e){e.stopPropagation();if(e.target.closest('.xClose')||!e.target.closest('.xCard'))close();});
+  slides.forEach(function(s){
+    var b=document.createElement('button');b.className='xplBtn';b.type='button';b.title='Explain the rule';b.setAttribute('aria-label','Explain the rule on this slide');b.innerHTML=bulb();
+    b.addEventListener('pointerdown',function(e){e.stopPropagation();});
+    b.addEventListener('click',function(e){e.stopPropagation();if(!s.classList.contains('active'))return;if(openBtn===b)close();else{close();open(s,b);}});
+    s.appendChild(b);
+    new MutationObserver(function(){if(!s.classList.contains('active')&&openBtn===b)close();}).observe(s,{attributes:true,attributeFilter:['class']});
+  });
+  document.addEventListener('keydown',function(e){
+    if(!win.classList.contains('on'))return;
+    if(e.key==='Escape'){close();e.preventDefault();e.stopImmediatePropagation();return;}
+    if([' ','ArrowRight','ArrowLeft','ArrowUp','ArrowDown','PageUp','PageDown','Enter'].indexOf(e.key)>-1||e.code==='Space'){e.preventDefault();e.stopImmediatePropagation();}
+  },true);
+})();
+</script>
+
+<!-- ===== Group picker: 7 jigsaw groups from the chosen class ===== -->
+<script>
+(function(){
+  var btn=document.getElementById('gpBtn'),note=document.getElementById('gpNote'),strip=document.getElementById('jigStrip');
+  if(!btn)return;
+  var frames=[].slice.call(strip.querySelectorAll('.fr .members'));
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function make(k){
+    var names=shuffle(rosterPicker.roster(k));
+    var groups=frames.map(function(){return [];});
+    names.forEach(function(n,i){groups[i%frames.length].push(n);});
+    groups=shuffle(groups);
+    frames.forEach(function(f){f.innerHTML='';});
+    var d=0;
+    groups.forEach(function(g,gi){g.forEach(function(n){
+      setTimeout(function(){var sp=document.createElement('span');sp.textContent=n;frames[gi].appendChild(sp);SFX.play('tick');},d);d+=90;});});
+    btn.textContent='Shuffle again';note.textContent=k+' · '+names.length+' students in 7 groups';
+  }
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var k=rosterPicker.getClass();
+    if(k)make(k);else rosterPicker.askClass(make);
+  });
+})();
+</script>
+
+<!-- ===== Prediction graph: draw with the mouse or a finger ===== -->
+<script>
+(function(){
+  var cv=document.getElementById('predCv');if(!cv)return;
+  var x=cv.getContext('2d'),drawing=false,last=null;
+  x.lineCap='round';x.lineJoin='round';
+  function pt(e){var r=cv.getBoundingClientRect();return [(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height];}
+  cv.addEventListener('pointerdown',function(e){e.stopPropagation();e.preventDefault();drawing=true;last=pt(e);cv.setPointerCapture(e.pointerId);});
+  cv.addEventListener('pointermove',function(e){if(!drawing)return;var p=pt(e);x.strokeStyle='#1b1b20';x.lineWidth=9;x.beginPath();x.moveTo(last[0],last[1]);x.lineTo(p[0],p[1]);x.stroke();last=p;});
+  function end(){drawing=false;}
+  cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  cv.addEventListener('click',function(e){e.stopPropagation();});
+  document.getElementById('predClear').addEventListener('click',function(e){e.stopPropagation();x.clearRect(0,0,cv.width,cv.height);});
+  /* the "Show a possible shape" button reveals the gold line */
+  var btn=document.getElementById('shapeBtn'),shape=document.getElementById('shape');
+  btn.classList.remove('ans');
+  btn.addEventListener('click',function(e){e.stopPropagation();var on=!shape.classList.contains('shown');shape.classList.toggle('shown',on);if(on)SFX.play('reveal');});
+  new MutationObserver(function(){btn.textContent=shape.classList.contains('shown')?'Hide the shape':'Show a possible shape';}).observe(shape,{attributes:true,attributeFilter:['class']});
+})();
+</script>
+
+<!-- ===== Title scene: night street, searchlights, rain, flashbulbs, marquee bulbs ===== -->
+<script>
+(function(){
+  /* marquee bulbs around the sign */
+  var b=document.getElementById('bulbs'),W=1240,H=0;
+  setTimeout(function(){
+    H=b.parentNode.offsetHeight;W=b.parentNode.offsetWidth;var gap=44,html='',i=0;
+    function add(px,py){html+='<i style="left:'+px+'px;top:'+py+'px;animation-delay:'+((i++%2)*0.6)+'s"></i>';}
+    for(var xx=20;xx<=W-20;xx+=gap){add(xx,10);add(xx,H-10);}
+    for(var yy=10+gap;yy<=H-10-gap/2;yy+=gap){add(10,yy);add(W-10,yy);}
+    b.innerHTML=html;
+  },50);
+
+  var cv=document.getElementById('ttlCanvas'),c=cv.getContext('2d'),w=1920,h=1080;
+  /* static city drawn once */
+  var city=document.createElement('canvas');city.width=w;city.height=h;var g=city.getContext('2d');
+  var sky=g.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#050507');sky.addColorStop(.55,'#17171d');sky.addColorStop(1,'#0a0a0c');g.fillStyle=sky;g.fillRect(0,0,w,h);
+  var moon=g.createRadialGradient(1540,170,10,1540,170,180);moon.addColorStop(0,'rgba(240,238,230,.9)');moon.addColorStop(.25,'rgba(240,238,230,.25)');moon.addColorStop(1,'rgba(240,238,230,0)');g.fillStyle=moon;g.fillRect(1300,0,500,400);
+  function skyline(base,col,seed,winA){
+    var rnd=function(){seed=(seed*9301+49297)%233280;return seed/233280;};
+    var x0=0;
+    while(x0<w){
+      var bw=80+rnd()*150,bh=base*(0.35+rnd()*0.65),top=h-170-bh;
+      g.fillStyle=col;g.fillRect(x0,top,bw,bh+170);
+      if(rnd()<.35){g.fillRect(x0+bw*.3,top-40-rnd()*60,bw*.4,60+rnd()*60);}
+      if(rnd()<.2){g.fillRect(x0+bw/2-2,top-140,4,140);}
+      if(winA){for(var wy=top+20;wy<h-190;wy+=26)for(var wx=x0+12;wx<x0+bw-14;wx+=22){if(rnd()<.18){g.fillStyle='rgba(242,210,122,'+(winA*(.4+rnd()*.6))+')';g.fillRect(wx,wy,9,13);}}g.fillStyle=col;}
+      x0+=bw+4;
+    }
+  }
+  skyline(520,'#141418',7,.22);skyline(380,'#0e0e11',31,.5);
+  /* theatre front with canopy */
+  g.fillStyle='#09090b';g.fillRect(0,h-230,w,230);
+  var street=g.createLinearGradient(0,h-170,0,h);street.addColorStop(0,'#1b1b20');street.addColorStop(1,'#060607');g.fillStyle=street;g.fillRect(0,h-170,w,170);
+  for(var i=0;i<14;i++){g.fillStyle='rgba(242,210,122,'+(0.05+Math.random()*.06)+')';g.fillRect(100+i*130+Math.random()*30,h-160+Math.random()*120,8+Math.random()*40,2);}
+  /* street lamps */
+  [[230,'l'],[1690,'r']].forEach(function(p){var x0=p[0];g.fillStyle='#050506';g.fillRect(x0-5,h-560,10,420);g.fillRect(x0-24,h-150,48,14);
+    g.beginPath();g.arc(x0,h-570,22,0,Math.PI*2);var lg=g.createRadialGradient(x0,h-570,4,x0,h-570,180);lg.addColorStop(0,'rgba(255,240,200,.9)');lg.addColorStop(.15,'rgba(255,230,170,.35)');lg.addColorStop(1,'rgba(255,230,170,0)');g.fillStyle=lg;g.fillRect(x0-200,h-770,400,400);
+    var cone=g.createLinearGradient(0,h-570,0,h-140);cone.addColorStop(0,'rgba(255,235,190,.16)');cone.addColorStop(1,'rgba(255,235,190,0)');g.fillStyle=cone;g.beginPath();g.moveTo(x0-12,h-560);g.lineTo(x0+12,h-560);g.lineTo(x0+150,h-140);g.lineTo(x0-150,h-140);g.closePath();g.fill();});
+
+  var rain=[];for(var r=0;r<260;r++)rain.push({x:Math.random()*w,y:Math.random()*h,l:18+Math.random()*30,s:16+Math.random()*12});
+  var flashes=[],t0=performance.now(),running=false,raf=null;
+  function beam(x0,ang,col){c.save();c.translate(x0,h-160);c.rotate(ang);var gr=c.createLinearGradient(0,0,0,-1300);gr.addColorStop(0,'rgba('+col+',.38)');gr.addColorStop(1,'rgba('+col+',0)');c.fillStyle=gr;c.beginPath();c.moveTo(-10,0);c.lineTo(10,0);c.lineTo(150,-1300);c.lineTo(-150,-1300);c.closePath();c.fill();c.restore();}
+  function frame(now){
+    var t=(now-t0)/1000;
+    c.drawImage(city,0,0);
+    c.globalCompositeOperation='lighter';
+    beam(560,Math.sin(t*.35)*.55-.15,'230,228,220');beam(1360,Math.sin(t*.29+2)*.55+.15,'230,228,220');
+    c.globalCompositeOperation='source-over';
+    c.strokeStyle='rgba(210,210,220,.28)';c.lineWidth=1.4;c.beginPath();
+    rain.forEach(function(d){d.y+=d.s;d.x-=d.s*.18;if(d.y>h){d.y=-40;d.x=Math.random()*w+100;}c.moveTo(d.x,d.y);c.lineTo(d.x+d.l*.18,d.y-d.l);});c.stroke();
+    if(Math.random()<.018)flashes.push({x:200+Math.random()*1520,y:h-150-Math.random()*60,a:1});
+    flashes=flashes.filter(function(f){f.a-=.06;if(f.a<=0)return false;var fg=c.createRadialGradient(f.x,f.y,2,f.x,f.y,260);fg.addColorStop(0,'rgba(255,255,255,'+f.a+')');fg.addColorStop(.12,'rgba(235,240,255,'+f.a*.5+')');fg.addColorStop(1,'rgba(235,240,255,0)');c.fillStyle=fg;c.fillRect(f.x-260,f.y-260,520,520);return true;});
+    if(running)raf=requestAnimationFrame(frame);
+  }
+  frame(performance.now());
+  window.titleScene={start:function(){if(running)return;running=true;raf=requestAnimationFrame(frame);},stop:function(){running=false;if(raf)cancelAnimationFrame(raf);}};
+  window.onSlideEnter=function(s){if(s.classList.contains('ttl'))titleScene.start();else titleScene.stop();};
+})();
+</script>
+</body>
+</html>
