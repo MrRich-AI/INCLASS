@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fame Through the Decades – G10 Unit 13 Project Instructions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Palette: Star Rose, Brass Gold, Carpet Red (accent), Warm Ivory (base). Ink = deep shade of Carpet Red. */
+:root{
+  --rose:#E46A8C; --gold:#D9A441; --red:#C21F32; --ivory:#FFF6E8;
+  --ink:#3A1420; --gold-d:#9E7220; --gold-l:#F3D58E; --sand:#F0D9B4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#F0D9B4;font-family:'Lexend',Verdana,sans-serif;color:var(--ink)}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;background:var(--sand)}
+#bg,#fx{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#fx{pointer-events:none}
+#slides{position:absolute;left:0;top:0;width:1920px;height:990px}
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .5s}
+.slide.active{opacity:1;pointer-events:auto}
+.slide.active .rise{animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+.slide.active .rise.d1{animation-delay:.12s}.slide.active .rise.d2{animation-delay:.24s}.slide.active .rise.d3{animation-delay:.36s}
+.slide.active .rise.d4{animation-delay:.48s}.slide.active .rise.d5{animation-delay:.6s}.slide.active .rise.d6{animation-delay:.72s}
+@keyframes rise{from{opacity:0;translate:0 34px}to{opacity:1;translate:0 0}}
+
+/* ---------- text ---------- */
+.abs{position:absolute}
+.card{position:absolute;background:var(--ivory);border:6px solid var(--gold);border-radius:30px;
+  box-shadow:0 18px 40px rgba(58,20,32,.28),inset 0 0 0 3px rgba(255,255,255,.7);padding:40px 52px}
+.title{font-family:'Abril Fatface',Georgia,serif;font-weight:400;font-size:96px;line-height:1.04;color:var(--ink);letter-spacing:.5px}
+.title.huge{font-size:104px}
+.title .amp{color:var(--red)}
+.kicker{font-size:44px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.body{font-size:58px;line-height:1.18;font-weight:400}
+.body b,.cap b,.li b{font-weight:700;color:var(--red)}
+.cap{font-size:44px;line-height:1.2}
+.list{list-style:none;margin-top:14px}
+.li{position:relative;font-size:57px;line-height:1.16;padding-left:78px;margin:0 0 18px}
+.li::before{content:"";position:absolute;left:0;top:8px;width:54px;height:54px;
+  background:radial-gradient(circle at 35% 30%,var(--gold-l),var(--gold) 55%,var(--gold-d));
+  clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.pill{display:inline-block;background:var(--red);color:var(--ivory);font-weight:700;font-size:48px;padding:10px 38px;border-radius:999px;
+  box-shadow:0 6px 0 rgba(58,20,32,.25)}
+.tab{display:inline-block;background:var(--gold);color:var(--ink);font-weight:700;font-size:44px;padding:4px 26px;border-radius:14px;margin-bottom:10px}
+.rule-line{height:8px;width:220px;border-radius:4px;background:linear-gradient(90deg,var(--red),var(--rose));margin:18px 0 22px}
+
+/* chips */
+.chip{position:absolute;background:var(--ivory);border:5px solid var(--gold);border-radius:22px;padding:14px 22px;text-align:center;
+  box-shadow:0 10px 24px rgba(58,20,32,.22)}
+.chip .n{font-size:44px;font-weight:700;line-height:1.12;color:var(--ink)}
+.chip .d{font-size:44px;line-height:1.15;color:var(--red);font-weight:600}
+.stage-chip{position:absolute;display:flex;align-items:center;gap:22px;background:var(--ivory);border:6px solid var(--gold);border-radius:26px;padding:18px 28px;
+  box-shadow:0 12px 28px rgba(58,20,32,.24)}
+.stage-chip .num{flex:none;width:92px;height:92px;border-radius:50%;background:var(--red);color:var(--ivory);font-family:'Abril Fatface',Georgia,serif;font-size:62px;
+  display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -6px 0 rgba(58,20,32,.3)}
+.stage-chip .t{font-size:56px;font-weight:700;line-height:1.05}
+.stage-chip .s{font-size:44px;color:var(--red);font-weight:600;line-height:1.1}
+.arrow{position:absolute;font-size:70px;color:var(--red);font-weight:700;line-height:1}
+.arrow.sm{font-size:46px;width:40px;text-align:center}
+.chip.flow{width:425px;height:130px;display:flex;flex-direction:column;justify-content:center;padding:8px 10px}
+.chip.flow .d{white-space:nowrap}
+
+.yesno{display:flex;align-items:flex-start;gap:24px;margin-top:22px}
+.mark{flex:none;width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:54px;font-weight:700}
+.mark.yes{background:var(--gold);color:var(--ink)}
+.mark.no{background:var(--red);color:var(--ivory)}
+
+.word{display:inline-block;background:var(--gold);color:var(--ink);font-weight:700;font-size:58px;padding:8px 30px;border-radius:18px;margin:12px 14px 0 0;
+  box-shadow:0 6px 0 var(--gold-d)}
+.word.more{background:transparent;box-shadow:none;color:var(--red);padding-left:4px}
+
+/* paragraph tiles */
+.ptile{position:absolute;background:var(--ivory);border:6px solid var(--gold);border-radius:26px;padding:22px 34px;box-shadow:0 12px 28px rgba(58,20,32,.24)}
+.ptile .body{font-size:56px;line-height:1.14}
+
+/* timeline table */
+table.tl{position:absolute;border-collapse:separate;border-spacing:0 9px}
+table.tl th{font-size:44px;font-weight:700;color:var(--ivory);background:var(--red);padding:8px 26px;text-align:left}
+table.tl th:first-child{border-radius:18px 0 0 18px}table.tl th:last-child{border-radius:0 18px 18px 0}
+table.tl td{font-size:44px;line-height:1.12;background:var(--ivory);padding:8px 22px;border-top:5px solid var(--gold);border-bottom:5px solid var(--gold);vertical-align:middle}
+table.tl td:first-child{border-left:5px solid var(--gold);border-radius:18px 0 0 18px;font-weight:700;white-space:nowrap}
+table.tl td:last-child{border-right:5px solid var(--gold);border-radius:0 18px 18px 0;color:var(--red);font-weight:600}
+table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
+
+/* photos (Wikimedia Commons) in a brass frame */
+.photo{position:absolute;padding:18px;border-radius:12px;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold) 30%,var(--gold-d) 55%,var(--gold) 75%,var(--gold-l));
+  box-shadow:0 26px 50px rgba(58,20,32,.35),inset 0 0 0 3px rgba(255,255,255,.45)}
+.photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.2)}
+.photo.gone{display:none}
+
+/* bottom bar */
+#bar{position:absolute;left:0;top:990px;width:1920px;height:90px;display:flex;align-items:center;justify-content:center;gap:26px;
+  background:linear-gradient(180deg,#F7E3BE,#EBCB8C);border-top:6px solid var(--gold-d);box-shadow:0 -6px 20px rgba(58,20,32,.18)}
+#bar button{font:700 32px 'Lexend',Verdana,sans-serif;color:var(--ink);background:var(--ivory);border:4px solid var(--gold-d);border-radius:999px;padding:8px 34px;cursor:pointer}
+#bar button:hover{background:#fff}
+#bar button:disabled{opacity:.35;cursor:default}
+#count{font:700 34px 'Lexend',Verdana,sans-serif;min-width:140px;text-align:center}
+#contentsBtn{position:absolute;left:30px}
+#classTag{position:absolute;right:34px;font:700 30px 'Lexend',Verdana,sans-serif;color:var(--red)}
+
+/* contents window */
+#contents{position:absolute;inset:0;background:rgba(58,20,32,.45);display:none;align-items:center;justify-content:center;z-index:10}
+#contents.open{display:flex}
+#contents .win{width:1180px;max-height:900px;background:var(--ivory);border:8px solid var(--gold);border-radius:32px;padding:40px 52px;display:flex;flex-direction:column;
+  box-shadow:0 30px 70px rgba(58,20,32,.45)}
+#contents h2{font-family:'Abril Fatface',Georgia,serif;font-weight:400;font-size:64px;margin-bottom:16px}
+#contents ol{list-style:none;overflow-y:auto;flex:1;padding-right:10px}
+#contents li{font-size:34px;padding:12px 20px;border-radius:14px;cursor:pointer;display:flex;gap:20px}
+#contents li span{color:var(--red);font-weight:700;min-width:50px}
+#contents li:hover{background:#F7E3BE}
+#contents li.cur{background:var(--gold);}
+#contents .credits{font-size:20px;line-height:1.35;margin-top:16px;color:#5a2a36}
+#contents .credits a{color:var(--red)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="bg" width="1920" height="1080"></canvas>
+  <canvas id="fx" width="1920" height="1080"></canvas>
+  <div id="slides">
+
+    <!-- 1 Title -->
+    <section class="slide" data-title="Fame Through the Decades">
+      <div class="card rise" style="left:80px;top:120px;width:1060px;padding:52px 64px 58px">
+        <div class="kicker">Unit 13 · Success and Fame</div>
+        <h1 class="title huge">Fame Through the&nbsp;Decades</h1>
+        <div class="rule-line"></div>
+        <p class="body">An individual research, writing <span class="amp" style="color:var(--red)">&amp;</span> presentation project</p>
+        <div style="margin-top:34px"><span class="pill">Class 10A1</span></div>
+      </div>
+      <figure class="photo rise d2" data-file="Rin-Tin-Tin_Hollywood_Walk_of_Fame.jpg" style="left:1230px;top:130px;width:600px;height:480px;transform:rotate(3deg)"></figure>
+    </section>
+
+    <!-- 2 Overview -->
+    <section class="slide" data-title="Your project">
+      <div class="card rise" style="left:60px;top:36px;width:1140px;padding:34px 52px">
+        <h2 class="title">Your project</h2>
+        <p class="body" style="margin-top:12px">You get a celebrity <b>at random</b>.<br>You <b>cannot</b> choose or swap.</p>
+      </div>
+      <div class="stage-chip rise d1" style="left:40px;top:400px;width:500px"><div class="num">1</div><div><div class="t">Research</div><div class="s">homework</div></div></div>
+      <div class="arrow rise d1" style="left:552px;top:430px">→</div>
+      <div class="stage-chip rise d2" style="left:610px;top:400px;width:650px"><div class="num">2</div><div><div class="t">Essay</div><div class="s">in class · no devices</div></div></div>
+      <div class="arrow rise d2" style="left:1272px;top:430px">→</div>
+      <div class="stage-chip rise d3" style="left:1340px;top:400px;width:550px"><div class="num">3</div><div><div class="t">Presentation</div><div class="s">homework</div></div></div>
+      <div class="abs rise d3" style="left:0;width:1920px;top:566px;text-align:center"><span class="tab" style="font-size:46px">The five eras of fame</span></div>
+      <div class="chip rise d4" style="left:18px;top:782px;width:350px;padding:10px 12px"><div class="n">Pre-mass-media</div><div class="d">up to ~1920s</div></div>
+      <div class="chip rise d4" style="left:376px;top:782px;width:350px;padding:10px 12px"><div class="n">Golden age of Hollywood</div><div class="d">~1930s–1950s</div></div>
+      <div class="chip rise d5" style="left:734px;top:782px;width:350px;padding:10px 12px"><div class="n">TV and tabloid</div><div class="d">~1960s–1990s</div></div>
+      <div class="chip rise d5" style="left:1092px;top:782px;width:350px;padding:10px 12px"><div class="n">Early internet</div><div class="d">~2000s</div></div>
+      <div class="chip rise d6" style="left:1450px;top:782px;width:420px;padding:10px 12px"><div class="n">Social media / influencer</div><div class="d">~2010s–present</div></div>
+    </section>
+
+    <!-- 3 Step 1 Research -->
+    <section class="slide" data-title="Step 1 — Research (homework)">
+      <div class="card rise" style="left:196px;top:24px;width:1440px;padding:30px 52px">
+        <h2 class="title">Step 1 — Research <span style="font-size:.7em">(homework)</span></h2>
+        <p class="body" style="margin-top:6px">Fill in your note sheet <b>by hand</b>:</p>
+        <ul class="list" style="margin-top:8px">
+          <li class="li rise d1">How did they become famous in this era?</li>
+          <li class="li rise d2">Who controlled their public image?</li>
+          <li class="li rise d3">How did fans find out about / interact with them?</li>
+          <li class="li rise d4">What did fame cost them (privacy, safety, mental health, control)?</li>
+          <li class="li rise d5" style="margin-bottom:0">What did they do with their fame — charity/awareness, stayed neutral, or abused it?</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4 Step 1 Rules -->
+    <section class="slide" data-title="Step 1 — Rules">
+      <figure class="photo rise" data-file="Pen-writing-notes-studying.jpg" style="left:90px;top:190px;width:600px;height:460px;transform:rotate(-3deg)"></figure>
+      <div class="card rise d1" style="left:790px;top:60px;width:1070px;padding:36px 54px">
+        <h2 class="title">Step 1 — Rules</h2>
+        <ul class="list">
+          <li class="li">Write <b>by hand</b>. Keywords and short phrases only — <b>no full sentences</b>.</li>
+          <li class="li"><b>Max 5 words</b> per bullet.</li>
+          <li class="li">Write only <b>inside the boxes</b> — no extra pages, no back of the sheet.</li>
+          <li class="li">Use at least <b>3 good sources</b>: website + article title.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5 Step 1 Sources & AI -->
+    <section class="slide" data-title="Step 1 — Sources & AI">
+      <div class="card rise" style="left:60px;top:30px;width:1150px;padding:26px 50px">
+        <h2 class="title">Step 1 — Sources <span class="amp">&amp;</span> AI</h2>
+      </div>
+      <div class="card rise d1" style="left:60px;top:220px;width:880px;padding:28px 44px">
+        <div class="tab">Before Day 2</div>
+        <p class="body"><b>Sources &amp; AI Links</b> form:</p>
+        <ul class="list">
+          <li class="li">full link to each source</li>
+          <li class="li">share link to <b>every</b> AI chat — or “No AI used”</li>
+        </ul>
+      </div>
+      <div class="card rise d2" style="left:980px;top:220px;width:880px;padding:28px 44px">
+        <div class="tab">AI</div>
+        <div class="yesno"><div class="mark yes">✓</div><p class="body">You <b>may</b> use AI to find sources and understand them.</p></div>
+        <div class="yesno"><div class="mark no">✗</div><p class="body">You may <b>not</b> use AI to write your notes.</p></div>
+      </div>
+      <div class="card rise d3" style="left:60px;top:772px;width:1800px;padding:20px 48px;border-color:var(--red)">
+        <p class="body">Bring your note sheet on Day 2 — <b>you cannot write your essay without it.</b></p>
+      </div>
+    </section>
+
+    <!-- 6 Day 2 consequences -->
+    <section class="slide" data-title="What happens on Day 2 if your notes break the rules">
+      <div class="card rise" style="left:60px;top:30px;width:1800px;padding:26px 50px">
+        <h2 class="title" style="font-size:93px">What happens on Day 2 if your notes break the rules</h2>
+      </div>
+      <div class="card rise d1" style="left:60px;top:370px;width:780px;padding:34px 46px">
+        <div class="tab">A few long lines or sentences</div>
+        <ul class="list">
+          <li class="li">Your teacher crosses them out.</li>
+          <li class="li">You <b>lose note points</b>.</li>
+        </ul>
+      </div>
+      <div class="card rise d2" style="left:880px;top:302px;width:980px;padding:28px 44px">
+        <div class="tab" style="line-height:1.15">Mostly sentences, typed notes, extra pages, or no sheet</div>
+        <ul class="list">
+          <li class="li">Your sheet is <b>taken</b>.</li>
+          <li class="li">Blank sheet + <b>10 minutes</b>: notes from memory.</li>
+          <li class="li">Less time to write your essay.</li>
+          <li class="li"><b>0</b> for note format.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7 Step 2 Essay -->
+    <section class="slide" data-title="Step 2 — Essay (in class, no devices)">
+      <div class="card rise" style="left:60px;top:26px;width:1800px;padding:24px 50px">
+        <h2 class="title" style="font-size:93px">Step 2 — Essay <span style="font-size:.66em">(in class, no devices)</span></h2>
+        <p class="body" style="margin-top:6px;font-size:56px">Use <b>only your note sheet</b>. <b>4 paragraphs</b> · about 350–450 words · on paper.</p>
+      </div>
+      <div class="ptile rise d1" style="left:60px;top:322px;width:890px;height:318px"><div class="tab">Paragraph 1</div><p class="body">Who is the person, what era, and how did they become famous?</p></div>
+      <div class="ptile rise d2" style="left:970px;top:322px;width:890px;height:318px"><div class="tab">Paragraph 2</div><p class="body">Who controlled their image? How did fans find out about them?</p></div>
+      <div class="ptile rise d3" style="left:60px;top:658px;width:890px;height:318px"><div class="tab">Paragraph 3</div><p class="body">What did fame cost them? What did they do with their fame?</p></div>
+      <div class="ptile rise d4" style="left:970px;top:658px;width:890px;height:318px"><div class="tab">Paragraph 4</div><p class="body">Do they deserve their fame? Why or why not?</p></div>
+    </section>
+
+    <!-- 8 Step 2 Essay: contrast + hand in -->
+    <section class="slide" data-title="Step 2 — Essay: contrast words & hand in">
+      <div class="card rise" style="left:60px;top:40px;width:1240px;padding:36px 54px">
+        <h2 class="title">Step 2 — Essay</h2>
+        <p class="body" style="margin-top:10px">Use at least <b>2 contrast words</b>:</p>
+        <div style="margin-top:8px">
+          <span class="word">although</span><span class="word">however</span><span class="word">despite</span><span class="word">nevertheless</span><span class="word more">…</span>
+        </div>
+      </div>
+      <div class="card rise d2" style="left:60px;top:640px;width:1240px;padding:34px 54px;border-color:var(--red)">
+        <p class="body">Hand in your <b>essay</b> and your <b>note sheet</b> at the end of class.</p>
+      </div>
+      <figure class="photo rise d1" data-file="Taking_notes_with_a_pencil_(Unsplash).jpg" style="left:1370px;top:150px;width:490px;height:640px;transform:rotate(2.5deg)"></figure>
+    </section>
+
+    <!-- 9 Step 3 Presentation: build -->
+    <section class="slide" data-title="Step 3 — Presentation (homework, present on Days 3–4)">
+      <div class="card rise" style="left:60px;top:20px;width:1800px;padding:16px 50px 20px">
+        <h2 class="title" style="font-size:93px">Step 3 — Presentation</h2>
+        <p class="body" style="font-size:56px;color:var(--red);font-weight:600">(homework, present on Days 3–4)</p>
+      </div>
+      <div class="chip flow rise d1" style="left:50px;top:282px"><div class="n">title</div><div class="d">name, era, photo</div></div>
+      <div class="arrow sm rise d1" style="left:475px;top:322px">→</div>
+      <div class="chip flow rise d1" style="left:515px;top:282px"><div class="n">how they became famous</div></div>
+      <div class="arrow sm rise d2" style="left:940px;top:322px">→</div>
+      <div class="chip flow rise d2" style="left:980px;top:282px"><div class="n">image &amp; fans</div></div>
+      <div class="arrow sm rise d2" style="left:1405px;top:322px">→</div>
+      <div class="chip flow rise d3" style="left:1445px;top:282px"><div class="n">cost of fame</div></div>
+      <div class="arrow rise d3" style="left:1630px;top:400px;transform:rotate(90deg)">→</div>
+      <div class="chip flow rise d4" style="left:1445px;top:476px"><div class="n">what they did with fame</div></div>
+      <div class="arrow sm rise d4" style="left:1405px;top:516px;transform:scaleX(-1)">→</div>
+      <div class="chip flow rise d5" style="left:980px;top:476px"><div class="n">do they deserve it?</div></div>
+      <div class="arrow sm rise d5" style="left:940px;top:516px;transform:scaleX(-1)">→</div>
+      <div class="chip flow rise d6" style="left:515px;top:476px"><div class="n">sources</div></div>
+      <div class="abs rise d6" style="left:60px;top:508px"><span class="tab" style="font-size:52px;padding:10px 34px">5–7 slides</span></div>
+      <div class="card rise d6" style="left:60px;top:636px;width:1800px;padding:20px 50px">
+        <ul class="list" style="margin-top:0">
+          <li class="li" style="margin-bottom:10px">Keywords and pictures — <b>not paragraphs</b>.</li>
+          <li class="li" style="margin-bottom:10px">Title slide: a <b>real photo</b> of your person. Other slides: AI images OK.</li>
+          <li class="li" style="margin-bottom:0">You <b>may</b> use AI to help design your slides.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 10 Step 3 Present -->
+    <section class="slide" data-title="Step 3 — Present">
+      <div class="card rise" style="left:80px;top:70px;width:1060px;padding:38px 56px">
+        <h2 class="title">Step 3 — Present</h2>
+        <ul class="list">
+          <li class="li">Speak for <b>3–4 minutes</b> using cue cards with keywords.</li>
+          <li class="li"><b>Do not read</b> your slides.</li>
+          <li class="li">Be ready to answer <b>one question</b> about your person.</li>
+          <li class="li" style="margin-bottom:0">Upload your slides to the class folder <b>before Day 3</b>.</li>
+        </ul>
+      </div>
+      <figure class="photo rise d2" data-file="Vintage_Electro-Voice_Model_611_Microphone_With_Atlas_Sound_Stand,_Made_In_USA,_Circa_1950s_(14763782577).jpg" style="left:1300px;top:110px;width:500px;height:660px;transform:rotate(-2deg)"></figure>
+    </section>
+
+    <!-- 11 Timeline -->
+    <section class="slide" data-title="Timeline">
+      <div class="card rise" style="left:300px;top:16px;width:620px;padding:4px 44px">
+        <h2 class="title" style="font-size:93px">Timeline</h2>
+      </div>
+      <table class="tl rise d1" style="left:300px;top:150px;width:1590px">
+        <colgroup><col style="width:270px"><col><col style="width:450px"></colgroup>
+        <tr><th>Day</th><th>Task</th><th>Where</th></tr>
+        <tr><td>Day 1</td><td>Get your celebrity. Learn the rules. Start finding sources.</td><td>In class (devices)</td></tr>
+        <tr><td>Homework</td><td>Note sheet: keywords, 3+ sources. Sources &amp; AI Links form by the night before Day 2.</td><td>Home</td></tr>
+        <tr><td>Day 2</td><td>Sheets checked. Essay from notes only. Hand in essay + note sheet.</td><td>In class (no devices)</td></tr>
+        <tr><td>Homework</td><td>Build slides and cue cards. Upload before Day 3.</td><td>Home</td></tr>
+        <tr><td>Day 3</td><td>Presentations (first half of class)</td><td>In class</td></tr>
+        <tr><td>Day 4</td><td>Presentations (second half of class)</td><td>In class</td></tr>
+      </table>
+    </section>
+
+  </div>
+
+  <div id="bar">
+    <button id="contentsBtn">☰ Contents</button>
+    <button id="back">◀ Back</button>
+    <span id="count">1 / 11</span>
+    <button id="next">Next ▶</button>
+    <span id="classTag">Class 10A1</span>
+  </div>
+
+  <div id="contents"><div class="win">
+    <h2>Contents</h2>
+    <ol id="tocList"></ol>
+    <div class="credits">Photos: Wikimedia Commons —
+      <a href="https://commons.wikimedia.org/wiki/File:Rin-Tin-Tin_Hollywood_Walk_of_Fame.jpg" target="_blank">Walk of Fame star</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:Pen-writing-notes-studying.jpg" target="_blank">writing notes</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:Taking_notes_with_a_pencil_(Unsplash).jpg" target="_blank">notes with a pencil</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:Vintage_Electro-Voice_Model_611_Microphone_With_Atlas_Sound_Stand,_Made_In_USA,_Circa_1950s_(14763782577).jpg" target="_blank">vintage microphone</a>
+      (see each file page for author and licence).</div>
+  </div></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+/* ================= palette & helpers ================= */
+var C={rose:'#E46A8C',gold:'#D9A441',red:'#C21F32',ivory:'#FFF6E8',ink:'#3A1420'};
+function hx(h){h=h.replace('#','');return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function mix(a,b,t){var A=hx(a),B=hx(b);return '#'+A.map(function(v,i){var n=Math.round(v+(B[i]-v)*t);return(n<16?'0':'')+n.toString(16);}).join('');}
+function rgba(h,a){var A=hx(h);return 'rgba('+A[0]+','+A[1]+','+A[2]+','+a+')';}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+var SAND=mix(C.ivory,C.gold,.36), GOLD_D=mix(C.gold,C.ink,.35), GOLD_L=mix(C.gold,C.ivory,.55);
+
+/* ================= terrazzo texture ================= */
+var TERR=null;
+function terrazzo(){
+  if(TERR) return TERR;
+  var S=640,c=document.createElement('canvas');c.width=c.height=S;var g=c.getContext('2d'),r=rng(7);
+  g.fillStyle=SAND;g.fillRect(0,0,S,S);
+  function wrap(fn){for(var ox=-S;ox<=S;ox+=S)for(var oy=-S;oy<=S;oy+=S){g.save();g.translate(ox,oy);fn();g.restore();}}
+  for(var i=0;i<80;i++){(function(){
+    var x=r()*S,y=r()*S,rad=50+r()*140,col=[C.ivory,mix(C.gold,C.ivory,.3),mix(C.rose,C.ivory,.55)][i%3];
+    wrap(function(){var gr=g.createRadialGradient(x,y,0,x,y,rad);gr.addColorStop(0,rgba(col,.32));gr.addColorStop(1,rgba(col,0));g.fillStyle=gr;g.fillRect(x-rad,y-rad,rad*2,rad*2);});
+  })();}
+  var cols=[C.rose,C.gold,mix(C.red,C.ink,.3),C.ivory,GOLD_D,mix(C.rose,C.ivory,.4)];
+  for(var j=0;j<3600;j++){(function(){
+    var x=r()*S,y=r()*S,s=1+Math.pow(r(),2.2)*7,col=cols[(r()*cols.length)|0],a=.55+r()*.45,pts=[];
+    for(var k=0;k<6;k++){var an=k/6*Math.PI*2+r()*.6,rr=s*(.6+r()*.6);pts.push([Math.cos(an)*rr,Math.sin(an)*rr]);}
+    wrap(function(){g.fillStyle=rgba(col,a);g.beginPath();pts.forEach(function(p,ix){ix?g.lineTo(x+p[0],y+p[1]):g.moveTo(x+p[0],y+p[1]);});g.closePath();g.fill();});
+  })();}
+  TERR=c;return c;
+}
+function fillTerr(ctx,x,y,w,h,scale,rot){
+  var p=ctx.createPattern(terrazzo(),'repeat');
+  if(p.setTransform&&(scale||rot)) p.setTransform(new DOMMatrix().scale(scale||1).rotate(rot||0));
+  ctx.fillStyle=p;ctx.fillRect(x,y,w,h);
+}
+
+/* ================= Walk of Fame star tile ================= */
+function starPath(cx,cy,R,r){var p=new Path2D();for(var i=0;i<10;i++){var a=-Math.PI/2+i*Math.PI/5,rr=i%2?r:R;var x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr;i?p.lineTo(x,y):p.moveTo(x,y);}p.closePath();return p;}
+function brass(g,x0,y0,x1,y1){var gr=g.createLinearGradient(x0,y0,x1,y1);gr.addColorStop(0,GOLD_D);gr.addColorStop(.3,C.gold);gr.addColorStop(.5,GOLD_L);gr.addColorStop(.7,C.gold);gr.addColorStop(1,GOLD_D);return gr;}
+function emblem(g,kind){
+  g.save();g.strokeStyle=mix(C.gold,C.ink,.6);g.fillStyle=mix(C.gold,C.ink,.6);g.lineWidth=6;g.lineCap='round';g.lineJoin='round';
+  if(kind==='camera'){g.strokeRect(-30,-6,46,30);g.beginPath();g.arc(-18,-20,12,0,7);g.stroke();g.beginPath();g.arc(6,-20,12,0,7);g.stroke();
+    g.beginPath();g.moveTo(16,4);g.lineTo(32,-6);g.lineTo(32,24);g.lineTo(16,14);g.closePath();g.stroke();}
+  else if(kind==='tv'){g.beginPath();g.roundRect(-32,-16,64,44,8);g.stroke();g.beginPath();g.moveTo(-14,-36);g.lineTo(0,-16);g.lineTo(14,-36);g.stroke();
+    g.beginPath();g.roundRect(-24,-8,40,28,4);g.stroke();g.beginPath();g.arc(24,0,3,0,7);g.fill();}
+  else if(kind==='record'){g.beginPath();g.arc(0,0,40,0,7);g.stroke();g.lineWidth=2;g.beginPath();g.arc(0,0,31,0,7);g.stroke();g.beginPath();g.arc(0,0,24,0,7);g.stroke();
+    g.beginPath();g.arc(0,0,10,0,7);g.fill();}
+  else if(kind==='mic'){g.beginPath();g.roundRect(-12,-40,24,42,12);g.stroke();g.beginPath();g.arc(0,-6,24,0,Math.PI);g.stroke();
+    g.beginPath();g.moveTo(0,18);g.lineTo(0,34);g.moveTo(-16,34);g.lineTo(16,34);g.stroke();}
+  else { /* theatre masks */
+    g.beginPath();g.arc(-14,-6,22,0,7);g.stroke();g.beginPath();g.arc(16,8,22,0,7);g.stroke();
+    g.lineWidth=4;g.beginPath();g.arc(-14,-2,10,.2,Math.PI-.2);g.stroke();g.beginPath();g.arc(16,22,10,Math.PI+.2,-.2);g.stroke();}
+  g.restore();
+}
+var TILES={};
+function starTile(kind){
+  if(TILES[kind]) return TILES[kind];
+  var S=520,c=document.createElement('canvas');c.width=c.height=S;var g=c.getContext('2d'),r=rng(kind.length*31+5);
+  /* surround square */
+  g.fillStyle=mix(C.gold,C.ivory,.3);g.fillRect(0,0,S,S);
+  for(var i=0;i<1400;i++){var s=.8+Math.pow(r(),2)*4;g.fillStyle=rgba([C.ivory,GOLD_D,C.rose,mix(C.red,C.ink,.3)][(r()*4)|0],.55+r()*.4);g.beginPath();g.arc(r()*S,r()*S,s,0,7);g.fill();}
+  g.strokeStyle=rgba(GOLD_D,.8);g.lineWidth=6;g.strokeRect(3,3,S-6,S-6);
+  /* star body */
+  var P=starPath(260,270,236,98);
+  g.save();g.clip(P);
+  var gr=g.createRadialGradient(240,230,20,260,270,250);gr.addColorStop(0,mix(C.rose,C.ivory,.3));gr.addColorStop(.6,C.rose);gr.addColorStop(1,mix(C.rose,C.red,.3));
+  g.fillStyle=gr;g.fillRect(0,0,S,S);
+  for(var j=0;j<1700;j++){var ss=.7+Math.pow(r(),2)*3.6;g.fillStyle=rgba([C.ivory,mix(C.red,C.ink,.2),C.gold,mix(C.rose,C.ivory,.5)][(r()*4)|0],.5+r()*.45);g.beginPath();g.arc(r()*S,r()*S,ss,0,7);g.fill();}
+  g.restore();
+  /* brass rim */
+  g.lineJoin='miter';g.miterLimit=10;g.lineWidth=16;g.strokeStyle=brass(g,30,40,490,500);g.stroke(P);
+  g.lineWidth=2.5;g.strokeStyle=rgba(C.ivory,.7);g.save();g.translate(-2,-2);g.stroke(P);g.restore();
+  /* blank name bar */
+  g.fillStyle=brass(g,150,0,370,0);g.beginPath();g.roundRect(142,212,236,30,6);g.fill();
+  g.strokeStyle=rgba(GOLD_D,.6);g.lineWidth=2;for(var k=0;k<5;k++){g.beginPath();g.moveTo(168+k*42,227);g.lineTo(196+k*42,227);g.stroke();}
+  /* emblem disc */
+  g.save();g.translate(260,318);
+  var dg=g.createRadialGradient(-18,-20,6,0,0,62);dg.addColorStop(0,GOLD_L);dg.addColorStop(.7,C.gold);dg.addColorStop(1,GOLD_D);
+  g.fillStyle=dg;g.beginPath();g.arc(0,0,60,0,7);g.fill();g.lineWidth=4;g.strokeStyle=GOLD_D;g.stroke();
+  emblem(g,kind);g.restore();
+  TILES[kind]=c;return c;
+}
+var EMB=['camera','record','tv','mic','masks'];
+
+/* glints (animated sparkles) registered per scene */
+var GL=[];
+function reg(x,y,s){GL.push({x:x,y:y,s:s||26,ph:Math.random()*6.28,sp:.8+Math.random()*.9});}
+function drawStar(ctx,x,y,size,rot,sy,kind){
+  ctx.save();ctx.translate(x,y);ctx.rotate(rot||0);ctx.scale(1,sy||1);var s=size/520;ctx.scale(s,s);
+  ctx.drawImage(starTile(kind),-260,-260);
+  var m=ctx.getTransform(),dpr=1;
+  [[0,-236+30],[-224,-3],[0,58]].forEach(function(p,i){var q=m.transformPoint(new DOMPoint(p[0],p[1]));if(i!==1||Math.random()<.5)reg(q.x/dpr,q.y/dpr,size*.07);});
+  ctx.restore();
+}
+
+/* ================= props ================= */
+function carpet(ctx,a,b,c,d,seed){
+  var r=rng(seed||3);
+  var path=new Path2D();path.moveTo(a[0],a[1]);path.lineTo(b[0],b[1]);path.lineTo(c[0],c[1]);path.lineTo(d[0],d[1]);path.closePath();
+  ctx.save();ctx.shadowColor=rgba(C.ink,.3);ctx.shadowBlur=34;ctx.shadowOffsetY=12;ctx.fillStyle=C.red;ctx.fill(path);ctx.restore();
+  ctx.save();ctx.clip(path);
+  var gr=ctx.createLinearGradient(a[0],a[1],d[0],d[1]);gr.addColorStop(0,mix(C.red,C.ink,.2));gr.addColorStop(.25,C.red);gr.addColorStop(.5,mix(C.red,C.rose,.18));gr.addColorStop(.75,C.red);gr.addColorStop(1,mix(C.red,C.ink,.2));
+  ctx.fillStyle=gr;ctx.fill(path);
+  var dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy);dx/=L;dy/=L;
+  var xs=[a[0],b[0],c[0],d[0]],ys=[a[1],b[1],c[1],d[1]],x0=Math.min.apply(0,xs),x1=Math.max.apply(0,xs),y0=Math.min.apply(0,ys),y1=Math.max.apply(0,ys);
+  var n=Math.min(9000,((x1-x0)*(y1-y0))/45);
+  ctx.lineCap='round';
+  for(var i=0;i<n;i++){var x=x0+r()*(x1-x0),y=y0+r()*(y1-y0),l=8+r()*26,lt=r();
+    ctx.strokeStyle=lt<.5?rgba(mix(C.red,C.ink,.35),.16):rgba(mix(C.red,C.rose,.45),.14);ctx.lineWidth=1+r()*2.2;
+    ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+dx*l,y+dy*l);ctx.stroke();}
+  ctx.restore();
+  /* gold edges */
+  [[a,b],[c,d]].forEach(function(e){
+    ctx.save();ctx.lineCap='round';ctx.strokeStyle=brass(ctx,e[0][0],e[0][1],e[1][0],e[1][1]);ctx.lineWidth=12;ctx.beginPath();ctx.moveTo(e[0][0],e[0][1]);ctx.lineTo(e[1][0],e[1][1]);ctx.stroke();
+    ctx.strokeStyle=rgba(C.ivory,.55);ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(e[0][0],e[0][1]-3);ctx.lineTo(e[1][0],e[1][1]-3);ctx.stroke();ctx.restore();
+  });
+}
+function post(ctx,x,y,h){
+  ctx.save();
+  ctx.fillStyle=rgba(C.ink,.22);ctx.beginPath();ctx.ellipse(x+h*.06,y+h*.03,h*.26,h*.07,0,0,7);ctx.fill();
+  ctx.fillStyle=brass(ctx,x-h*.2,0,x+h*.2,0);ctx.beginPath();ctx.ellipse(x,y,h*.2,h*.06,0,0,7);ctx.fill();
+  ctx.beginPath();ctx.ellipse(x,y-h*.05,h*.12,h*.05,0,Math.PI,0);ctx.lineTo(x+h*.12,y);ctx.lineTo(x-h*.12,y);ctx.fill();
+  ctx.fillStyle=brass(ctx,x-h*.035,0,x+h*.035,0);ctx.fillRect(x-h*.032,y-h,h*.064,h*.96);
+  ctx.fillStyle=brass(ctx,x-h*.06,0,x+h*.06,0);ctx.beginPath();ctx.arc(x,y-h,h*.07,0,7);ctx.fill();
+  ctx.fillStyle=rgba(C.ivory,.8);ctx.beginPath();ctx.arc(x-h*.022,y-h-h*.024,h*.02,0,7);ctx.fill();
+  ctx.restore();reg(x-h*.02,y-h-h*.02,h*.12);
+}
+function rope(ctx,x1,y1,x2,y2,sag,w){
+  ctx.save();ctx.lineCap='round';var mx=(x1+x2)/2,my=(y1+y2)/2+sag;
+  ctx.strokeStyle=rgba(C.ink,.18);ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x1+6,y1+14);ctx.quadraticCurveTo(mx+6,my+18,x2+6,y2+14);ctx.stroke();
+  ctx.strokeStyle=mix(C.red,C.ink,.25);ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x1,y1);ctx.quadraticCurveTo(mx,my,x2,y2);ctx.stroke();
+  ctx.strokeStyle=C.red;ctx.lineWidth=w*.62;ctx.beginPath();ctx.moveTo(x1,y1-w*.12);ctx.quadraticCurveTo(mx,my-w*.12,x2,y2-w*.12);ctx.stroke();
+  ctx.strokeStyle=rgba(C.rose,.55);ctx.lineWidth=w*.18;ctx.beginPath();ctx.moveTo(x1,y1-w*.25);ctx.quadraticCurveTo(mx,my-w*.25,x2,y2-w*.25);ctx.stroke();
+  ctx.restore();
+}
+function postsAndRopes(ctx,pts,h){
+  for(var i=0;i<pts.length-1;i++) rope(ctx,pts[i][0],pts[i][1]-h*.93,pts[i+1][0],pts[i+1][1]-h*.93,h*.32,h*.075);
+  pts.forEach(function(p){post(ctx,p[0],p[1],h);});
+}
+function palm(ctx,x,y,h,lean,seed){
+  var r=rng(seed),col=mix(C.rose,C.ink,.42),col2=mix(C.rose,C.ink,.25);
+  ctx.save();ctx.lineCap='round';
+  var tx=x+lean*h,ty=y-h;
+  ctx.strokeStyle=col;ctx.lineWidth=h*.045;ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x+lean*h*.2,y-h*.6,tx,ty);ctx.stroke();
+  ctx.strokeStyle=rgba(C.ivory,.2);ctx.lineWidth=h*.008;
+  for(var k=0;k<22;k++){var t=k/22,px=x+(tx-x)*t+lean*h*.1*Math.sin(t*3),py=y+(ty-y)*t;ctx.beginPath();ctx.moveTo(px-h*.02,py);ctx.lineTo(px+h*.02,py-h*.006);ctx.stroke();}
+  for(var f=0;f<11;f++){
+    var an=-Math.PI/2+(f/10-.5)*Math.PI*1.7+(r()-.5)*.2,len=h*(.26+r()*.12),droop=h*.12;
+    var ex=tx+Math.cos(an)*len,ey=ty+Math.sin(an)*len*.55+droop*(Math.abs(Math.cos(an)));
+    var cx=tx+Math.cos(an)*len*.5,cy=ty+Math.sin(an)*len*.5-h*.05;
+    ctx.strokeStyle=f%2?col:col2;ctx.lineWidth=h*.012;ctx.beginPath();ctx.moveTo(tx,ty);ctx.quadraticCurveTo(cx,cy,ex,ey);ctx.stroke();
+    for(var l=1;l<14;l++){var t2=l/14,qx=(1-t2)*(1-t2)*tx+2*(1-t2)*t2*cx+t2*t2*ex,qy=(1-t2)*(1-t2)*ty+2*(1-t2)*t2*cy+t2*t2*ey,ll=h*.07*(1-t2*.6);
+      ctx.lineWidth=h*.006;ctx.beginPath();ctx.moveTo(qx,qy);ctx.lineTo(qx+Math.cos(an+1.3)*ll*.6,qy+ll);ctx.moveTo(qx,qy);ctx.lineTo(qx+Math.cos(an-1.3)*ll*.6,qy+ll);ctx.stroke();}
+  }
+  ctx.restore();
+}
+function sky(ctx,h){
+  var g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,mix(C.rose,C.ivory,.55));g.addColorStop(.55,mix(C.rose,C.ivory,.82));g.addColorStop(1,C.ivory);
+  ctx.fillStyle=g;ctx.fillRect(0,0,1920,h);
+  var s=ctx.createRadialGradient(1500,h*.55,10,1500,h*.55,520);s.addColorStop(0,rgba(GOLD_L,.95));s.addColorStop(.18,rgba(C.gold,.45));s.addColorStop(1,rgba(C.gold,0));
+  ctx.fillStyle=s;ctx.fillRect(0,0,1920,h);
+  /* painterly clouds */
+  var r=rng(99);for(var i=0;i<16;i++){var x=r()*1920,y=40+r()*h*.55,w=120+r()*260;ctx.fillStyle=rgba(C.ivory,.35);ctx.beginPath();ctx.ellipse(x,y,w,w*.18,0,0,7);ctx.fill();}
+}
+function terrFloor(ctx,seed){fillTerr(ctx,0,0,1920,1080,1,seed||0);
+  /* soft warm light pools */
+  var r=rng(seed+11);for(var i=0;i<5;i++){var x=r()*1920,y=r()*1080,rad=380+r()*400,g=ctx.createRadialGradient(x,y,0,x,y,rad);g.addColorStop(0,rgba(C.ivory,.38));g.addColorStop(1,rgba(C.ivory,0));ctx.fillStyle=g;ctx.fillRect(0,0,1920,1080);}
+}
+
+/* painterly brushwork pass */
+function paint(ctx,seed,n){
+  var r=rng(seed),W=1920,H=1080,img=ctx.getImageData(0,0,W,H).data;
+  ctx.save();ctx.lineCap='round';
+  for(var i=0;i<n;i++){
+    var x=(r()*W)|0,y=(r()*H)|0,o=(y*W+x)*4,a=r()*Math.PI;
+    var len=5+r()*16;
+    ctx.strokeStyle='rgba('+Math.min(255,img[o]+((r()-.5)*22|0))+','+Math.min(255,img[o+1]+((r()-.5)*22|0))+','+Math.min(255,img[o+2]+((r()-.5)*22|0))+',0.32)';
+    ctx.lineWidth=2+r()*4.5;ctx.beginPath();ctx.moveTo(x-Math.cos(a)*len/2,y-Math.sin(a)*len/2);ctx.lineTo(x+Math.cos(a)*len/2,y+Math.sin(a)*len/2);ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/* ================= scenes (one per slide, each its own composition) ================= */
+var SCENES=[
+ /* 1 title: big star bottom-left, red carpet rising on the right with stanchions */
+ function(ctx){terrFloor(ctx,1);
+   carpet(ctx,[1180,1100],[1560,-20],[1990,-20],[1640,1100],4);
+   drawStar(ctx,330,935,760,-.18,1,'camera');drawStar(ctx,1050,960,330,.2,1,'masks');
+   postsAndRopes(ctx,[[1150,1020],[1290,700],[1420,400]],230);
+ },
+ /* 2 overview: street view, sky, palms, five stars in a row on the sidewalk */
+ function(ctx){sky(ctx,500);
+   palm(ctx,1460,520,420,.08,3);palm(ctx,1610,520,330,-.05,4);palm(ctx,1780,530,470,.04,5);palm(ctx,1260,515,260,-.1,6);
+   /* buildings band (soft, warm) */
+   ctx.fillStyle=mix(C.gold,C.ivory,.55);ctx.fillRect(0,440,1920,70);
+   for(var i=0;i<24;i++){ctx.fillStyle=i%2?mix(C.rose,C.ivory,.6):mix(C.gold,C.ivory,.45);ctx.fillRect(i*84,400+((i*37)%50),70,110);}
+   ctx.fillStyle=mix(C.red,C.ivory,.35);ctx.fillRect(0,500,1920,26);
+   fillTerr(ctx,0,526,1920,560,.7,0);
+   ctx.strokeStyle=rgba(GOLD_D,.35);ctx.lineWidth=3;
+   for(var k=-14;k<=14;k++){ctx.beginPath();ctx.moveTo(960+k*30,526);ctx.lineTo(960+k*260,1080);ctx.stroke();}
+   [600,680,790,930].forEach(function(y){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(1920,y);ctx.stroke();});
+   [193,551,909,1267,1660].forEach(function(x,s){drawStar(ctx,x,700,330,0,.42,EMB[s]);});
+ },
+ /* 3 research: carpet strip on the left with posts, column of five stars on the right */
+ function(ctx){terrFloor(ctx,3);
+   carpet(ctx,[-20,-20],[-20,1100],[175,1100],[175,-20],7);
+   for(var i=0;i<5;i++) drawStar(ctx,1755,150+i*190,200,(i%2?.12:-.12),1,EMB[i]);
+   postsAndRopes(ctx,[[200,260],[200,620],[200,980]],170);
+ },
+ /* 4 rules: huge cropped star top-left behind the photo, carpet along the bottom */
+ function(ctx){terrFloor(ctx,4);
+   drawStar(ctx,250,170,900,.35,1,'record');
+   carpet(ctx,[-20,860],[1940,800],[1940,1100],[-20,1100],9);
+   postsAndRopes(ctx,[[120,870],[480,860],[840,850]],150);
+   drawStar(ctx,1820,920,260,-.3,1,'mic');
+ },
+ /* 5 sources & AI: stars across the top, carpet + stanchions bottom */
+ function(ctx){terrFloor(ctx,5);
+   [[1450,110,240,.25,'tv'],[1700,70,200,-.2,'camera'],[1880,180,180,.1,'record']].forEach(function(s){drawStar(ctx,s[0],s[1],s[2],s[3],1,s[4]);});
+   carpet(ctx,[-20,930],[1940,900],[1940,1100],[-20,1100],12);
+   postsAndRopes(ctx,[[60,940],[440,930],[820,925],[1200,918],[1580,910],[1880,905]],140);
+ },
+ /* 6 day 2: diagonal carpet between the two cards */
+ function(ctx){terrFloor(ctx,6);
+   carpet(ctx,[700,1100],[1180,-20],[1420,-20],[930,1100],15);
+   drawStar(ctx,330,900,320,.15,1,'masks');drawStar(ctx,1700,250,260,-.2,1,'mic');
+ },
+ /* 7 essay: stars peeking along top and bottom edges */
+ function(ctx){terrFloor(ctx,7);
+   for(var i=0;i<6;i++) drawStar(ctx,160+i*320,1040,300,i%2?.2:-.15,1,EMB[i%5]);
+   carpet(ctx,[-20,290],[1940,270],[1940,320],[-20,340],18);
+ },
+ /* 8 essay check: diagonal walk of stars bottom-left to top-right */
+ function(ctx){terrFloor(ctx,8);
+   for(var i=0;i<5;i++) drawStar(ctx,150+i*420,960-i*210,260+i*20,i*.15-.3,1,EMB[(i+2)%5]);
+   postsAndRopes(ctx,[[1330,940],[1600,960],[1880,980]],150);
+ },
+ /* 9 presentation: a curved walk behind the chips */
+ function(ctx){terrFloor(ctx,9);
+   ctx.save();ctx.lineCap='butt';ctx.lineJoin='round';
+   var p=new Path2D();p.moveTo(-40,347);p.lineTo(1660,347);p.bezierCurveTo(1960,347,1960,541,1660,541);p.lineTo(560,541);
+   ctx.strokeStyle=rgba(C.ink,.16);ctx.lineWidth=176;ctx.save();ctx.translate(0,12);ctx.stroke(p);ctx.restore();
+   ctx.strokeStyle=brass(ctx,0,300,0,600);ctx.lineWidth=176;ctx.stroke(p);
+   ctx.strokeStyle=mix(C.rose,C.ivory,.5);ctx.lineWidth=156;ctx.stroke(p);
+   ctx.restore();
+   drawStar(ctx,1790,880,260,-.2,1,'tv');
+ },
+ /* 10 present: carpet climbing to the photo, posts on both sides */
+ function(ctx){terrFloor(ctx,10);
+   carpet(ctx,[1200,1100],[1340,600],[1760,600],[1900,1100],21);
+   postsAndRopes(ctx,[[1180,1010],[1250,800],[1300,640]],160);
+   postsAndRopes(ctx,[[1910,1010],[1840,800],[1790,640]],160);
+   drawStar(ctx,170,930,360,.25,1,'mic');
+ },
+ /* 11 timeline: six stars down the left margin, one per row */
+ function(ctx){terrFloor(ctx,11);
+   carpet(ctx,[-20,-20],[-20,1100],[48,1100],[48,-20],24);
+   var ys=T_YS;
+   ys.forEach(function(y,i){drawStar(ctx,175,y,150,(i%2?.15:-.15),1,EMB[i%5]);});
+ }
+];
+
+var T_YS=[290,410,530,650,760,860];
+/* ================= rendering & cache ================= */
+var bg=document.getElementById('bg'),bctx=bg.getContext('2d'),fx=document.getElementById('fx'),fctx=fx.getContext('2d');
+var CACHE={},ORDER=[];
+function sceneFor(i){
+  if(CACHE[i]) return CACHE[i];
+  var c=document.createElement('canvas');c.width=1920;c.height=1080;var g=c.getContext('2d');
+  GL=[];SCENES[i](g);paint(g,i*17+3,15000);
+  CACHE[i]={canvas:c,glints:GL.slice()};ORDER.push(i);
+  if(ORDER.length>4){var old=ORDER.shift();delete CACHE[old];}
+  return CACHE[i];
+}
+var curGlints=[];
+function showScene(i){var s=sceneFor(i);bctx.drawImage(s.canvas,0,0);curGlints=s.glints;}
+
+var last=0;
+function anim(t){
+  requestAnimationFrame(anim);
+  if(t-last<33) return;last=t;
+  fctx.clearRect(0,0,1920,1080);
+  var tt=t/1000;
+  curGlints.forEach(function(g){
+    var a=Math.pow(Math.max(0,Math.sin(tt*g.sp+g.ph)),8);if(a<.02)return;
+    var s=g.s*(.6+a*.6);
+    fctx.save();fctx.translate(g.x,g.y);fctx.rotate(.3);fctx.globalAlpha=a;
+    var gr=fctx.createRadialGradient(0,0,0,0,0,s*.5);gr.addColorStop(0,'rgba(255,255,250,1)');gr.addColorStop(1,'rgba(255,240,200,0)');
+    fctx.fillStyle=gr;fctx.beginPath();fctx.arc(0,0,s*.5,0,7);fctx.fill();
+    fctx.fillStyle='rgba(255,252,240,.95)';
+    fctx.beginPath();fctx.moveTo(0,-s);fctx.lineTo(s*.12,0);fctx.lineTo(0,s);fctx.lineTo(-s*.12,0);fctx.closePath();fctx.fill();
+    fctx.beginPath();fctx.moveTo(-s,0);fctx.lineTo(0,s*.12);fctx.lineTo(s,0);fctx.lineTo(0,-s*.12);fctx.closePath();fctx.fill();
+    fctx.restore();
+  });
+}
+
+/* ================= photos (Wikipedia / Wikimedia Commons) ================= */
+document.querySelectorAll('figure.photo').forEach(function(f){
+  var img=new Image();img.alt='';img.loading='eager';img.referrerPolicy='no-referrer';
+  img.onerror=function(){f.classList.add('gone');};
+  img.src='https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(f.dataset.file)+'?width=1000';
+  f.appendChild(img);
+});
+
+/* ================= navigation ================= */
+var slides=[].slice.call(document.querySelectorAll('.slide')),cur=0,N=slides.length;
+var countEl=document.getElementById('count'),backBtn=document.getElementById('back'),nextBtn=document.getElementById('next');
+var toc=document.getElementById('tocList'),cw=document.getElementById('contents');
+slides.forEach(function(s,i){var li=document.createElement('li');li.innerHTML='<span>'+(i+1)+'</span>';li.appendChild(document.createTextNode(s.dataset.title));
+  li.onclick=function(e){e.stopPropagation();go(i);closeToc();};toc.appendChild(li);});
+function go(i){
+  if(i<0||i>=N) return;
+  slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active');
+  countEl.textContent=(cur+1)+' / '+N;backBtn.disabled=cur===0;nextBtn.disabled=cur===N-1;
+  showScene(cur);
+  [].forEach.call(toc.children,function(li,k){li.classList.toggle('cur',k===cur);});
+  setTimeout(function(){sceneFor(Math.min(N-1,cur+1));},400);
+}
+function openToc(){cw.classList.add('open');var c=toc.children[cur];if(c)c.scrollIntoView({block:'center'});}
+function closeToc(){cw.classList.remove('open');}
+document.getElementById('contentsBtn').onclick=function(e){e.stopPropagation();cw.classList.contains('open')?closeToc():openToc();};
+cw.onclick=function(e){if(e.target===cw)closeToc();};
+backBtn.onclick=function(e){e.stopPropagation();go(cur-1);};
+nextBtn.onclick=function(e){e.stopPropagation();go(cur+1);};
+document.getElementById('slides').addEventListener('click',function(){
+  var sel=window.getSelection&&String(window.getSelection());if(sel) return;
+  go(cur+1);
+});
+document.addEventListener('keydown',function(e){
+  if(cw.classList.contains('open')){if(e.key==='Escape')closeToc();return;}
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'||e.key==='PageDown'){e.preventDefault();go(cur+1);}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'||e.key==='Backspace'){e.preventDefault();go(cur-1);}
+  else if(e.key==='Home'){go(0);}else if(e.key==='End'){go(N-1);}
+});
+
+/* ================= scale to fit ================= */
+var stage=document.getElementById('stage');
+function fit(){var s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='translate('+((innerWidth-1920*s)/2)+'px,'+((innerHeight-1080*s)/2)+'px) scale('+s+')';}
+addEventListener('resize',fit);fit();
+
+var start=parseInt((location.hash||'').replace('#',''),10);
+go(isNaN(start)?0:Math.max(0,Math.min(N-1,start-1)));
+requestAnimationFrame(anim);
+})();
+</script>
+</body>
+</html>
