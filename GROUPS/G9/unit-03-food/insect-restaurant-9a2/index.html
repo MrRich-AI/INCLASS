@@ -62,6 +62,18 @@
     font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:34px;letter-spacing:.06em;padding:2px 22px;opacity:0;transition:opacity .35s,transform .35s;white-space:nowrap;box-shadow:0 5px 12px rgba(0,0,0,.4)}
   .tag.show{opacity:1;transform:translate(-50%,0)}
 
+  /* Title screen: names floating in the air */
+  #cards .card{transition:opacity .55s ease}
+  #cards.prestart .card{opacity:0}
+  #cards.namesHidden .names li{visibility:hidden}
+  #chips{position:absolute;inset:0;pointer-events:none;z-index:40}
+  .chip{position:absolute;left:0;top:0;will-change:transform}
+  .chip span{display:inline-block;font-weight:700;color:var(--ink);white-space:nowrap;line-height:1.12;background:var(--cream);border:3px solid #C49A3A;border-radius:999px;padding:8px 24px;
+    box-shadow:0 8px 16px rgba(0,0,0,.35);animation:bob 3.2s ease-in-out infinite;transition:background .35s,border-color .35s,box-shadow .35s}
+  .chip.moving span{animation:none}
+  .chip.landed span{background:transparent;border-color:transparent;box-shadow:none}
+  @keyframes bob{0%,100%{transform:translateY(-9px) rotate(-1.5deg)}50%{transform:translateY(9px) rotate(1.5deg)}}
+
   /* Controls */
   #btn{position:absolute;left:50%;top:880px;transform:translateX(-50%);font-family:'Atkinson Hyperlegible',Verdana,sans-serif;font-weight:700;font-size:38px;
     color:#FFF7E2;background:linear-gradient(180deg,#3E7A34,var(--forest) 60%,#234720);border:5px solid var(--gold);border-radius:999px;padding:18px 54px;cursor:pointer;
@@ -83,8 +95,9 @@
     <div id="kicker">◆ Class Groups ◆</div>
     <div id="titleRow"><div id="title">Insect Restaurant</div><div id="pill">Class 9A2</div></div>
   </div>
-  <div id="cards"></div>
-  <button id="btn" type="button">Shuffle Presentation Order</button>
+  <div id="cards" class="prestart namesHidden"></div>
+  <div id="chips"></div>
+  <button id="btn" type="button">Make Teams</button>
   <div id="hint"></div>
 </div>
 <script>
@@ -109,11 +122,13 @@ var ROW_W = N*CARD_W + (N-1)*GAP, LEFT0 = (STAGE_W - ROW_W)/2;
 function slotX(i){ return LEFT0 + i*(CARD_W + GAP); }
 
 /* ---------- Fit the 1920x1080 stage to any screen ---------- */
+var SCALE = 1;
 function fit(){
   var w = window.innerWidth || document.documentElement.clientWidth || 0;
   var h = window.innerHeight || document.documentElement.clientHeight || 0;
   var s = Math.min(w/1920, h/1080);
   if (!(s > 0)) s = 0.01;
+  SCALE = s;
   stage.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
 }
 window.addEventListener('resize', fit); fit();
@@ -167,9 +182,82 @@ function fitNames(){
 fitNames();
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNames);
 
+/* ---------- Title screen: every name floating in the air ----------
+   The teams are fixed above; "Make Teams" always lands each name in its approved group. */
+var chipLayer = document.getElementById('chips'), chips = [];
+function placeChip(ch, x, y){ ch.x = x; ch.y = y; ch.el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)'; }
+function buildChips(){
+  chipLayer.innerHTML = ''; chips = [];
+  var lis = document.querySelectorAll('.names li'), k = 0;
+  GROUPS.forEach(function(g, gi){
+    g.members.forEach(function(m){
+      var li = lis[k++];
+      var el = document.createElement('div'); el.className = 'chip';
+      var sp = document.createElement('span'); sp.textContent = m;
+      sp.style.fontSize = getComputedStyle(li).fontSize;
+      sp.style.animationDelay = (-rand()*3.2).toFixed(2) + 's';
+      sp.style.animationDuration = (2.6 + rand()*1.4).toFixed(2) + 's';
+      el.appendChild(sp); chipLayer.appendChild(el);
+      chips.push({ el: el, li: li, group: gi, w: 0, h: 0, x: 0, y: 0 });
+    });
+  });
+  chips.forEach(function(ch){ ch.w = ch.el.offsetWidth; ch.h = ch.el.offsetHeight; });
+  // scatter in the air without overlaps, in a random order
+  var placed = [];
+  shuffled(chips).forEach(function(ch){
+    var best = null;
+    for (var t = 0; t < 500; t++){
+      var x = 70 + rand()*(1780 - ch.w), y = 265 + rand()*(570 - ch.h), ok = true;
+      for (var i = 0; i < placed.length; i++){
+        var o = placed[i];
+        if (x < o.x + o.w + 18 && x + ch.w + 18 > o.x && y < o.y + o.h + 14 && y + ch.h + 14 > o.y){ ok = false; break; }
+      }
+      best = [x, y]; if (ok) break;
+    }
+    placeChip(ch, best[0], best[1]); placed.push(ch);
+  });
+}
+function stagePoint(r){
+  var sr0 = stage.getBoundingClientRect();
+  return { x: (r.left - sr0.left)/SCALE, y: (r.top - sr0.top)/SCALE, w: r.width/SCALE, h: r.height/SCALE };
+}
+async function makeTeams(){
+  if (state !== 'title') return;
+  state = 'busy'; btn.classList.add('hide'); btn.blur();
+  // 1) names dart around the screen at random
+  chips.forEach(function(ch){ ch.el.classList.add('moving'); });
+  var hops = [360, 300, 260, 230];
+  for (var h = 0; h < hops.length; h++){
+    chips.forEach(function(ch){
+      ch.el.style.transition = 'transform ' + hops[h] + 'ms cubic-bezier(.45,.05,.4,1)';
+      placeChip(ch, 30 + rand()*(1860 - ch.w), 230 + rand()*(800 - ch.h));
+    });
+    await wait(hops[h] + 20);
+  }
+  // 2) the group cards appear and every name flies to its approved group
+  document.getElementById('cards').classList.remove('prestart');
+  chips.forEach(function(ch){
+    var r = stagePoint(ch.li.getBoundingClientRect());
+    ch.el.style.transition = 'transform 900ms cubic-bezier(.2,.85,.25,1) ' + (ch.group*70) + 'ms';
+    placeChip(ch, r.x + r.w/2 - ch.w/2, r.y + r.h/2 - ch.h/2);
+  });
+  await wait(900 + N*70 + 80);
+  chips.forEach(function(ch){ ch.el.classList.add('landed'); });
+  await wait(380);
+  document.getElementById('cards').classList.remove('namesHidden');
+  chipLayer.innerHTML = ''; chips = [];
+  state = 'idle';
+  btn.textContent = 'Shuffle Presentation Order';
+  btn.classList.remove('hide');
+}
+var chipsReady = false;
+function readyChips(){ if (chipsReady || state !== 'title') return; chipsReady = true; fitNames(); buildChips(); }
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(readyChips);
+setTimeout(readyChips, 1200);
+
 /* ---------- Flow ---------- */
 var btn = document.getElementById('btn'), hint = document.getElementById('hint');
-var state = 'idle', revealIdx = 0, locked = false;
+var state = 'title', revealIdx = 0, locked = false;
 function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
 function ordinal(n){ var s = ['TH','ST','ND','RD'], v = n % 100; return n + (s[(v-20)%10] || s[v] || s[0]); }
 function ordWord(n){ var s = ['th','st','nd','rd'], v = n % 100; return n + (s[(v-20)%10] || s[v] || s[0]); }
@@ -210,7 +298,7 @@ function setNext(){
 }
 
 async function shuffle(){
-  if (state === 'busy') return;
+  if (state !== 'idle' && state !== 'done') return;
   state = 'busy';
   btn.classList.add('hide'); btn.blur();
   hint.classList.remove('show');
@@ -281,7 +369,7 @@ async function revealNext(){
   locked = false;
 }
 
-btn.addEventListener('click', function(e){ e.stopPropagation(); shuffle(); });
+btn.addEventListener('click', function(e){ e.stopPropagation(); if (state === 'title') makeTeams(); else shuffle(); });
 window.addEventListener('click', function(e){ if (e.target === btn) return; revealNext(); });
 window.addEventListener('keydown', function(e){
   if (e.key === ' ' || e.key === 'Spacebar' || e.key === 'Enter' || e.key === 'ArrowRight'){
