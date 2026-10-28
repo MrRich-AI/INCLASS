@@ -204,6 +204,7 @@
     <div id="savebox">
       <div id="saveState">Not saved yet</div>
       <button class="btn ghost small" id="dlBtn" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16" fill="none" stroke="#fff6e3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Download List</button>
+      <button class="btn ghost small" id="resetBtn" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5" fill="none" stroke="#fff6e3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Reset</button>
     </div>
     <div id="students"></div>
     <section id="archive">
@@ -526,6 +527,26 @@ function downloadList(){
   a.href = URL.createObjectURL(blob); a.download = 'Fame-Through-the-Decades-' + CLASS_NAME + '.txt';
   document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
 }
+/* ===== Reset: back to the start, before any celebrities were assigned ===== */
+var resetBtn = document.getElementById('resetBtn'), resetTimer = null;
+function resetResetBtn(){ clearTimeout(resetTimer); resetBtn.classList.remove('warn'); resetBtn.lastChild.textContent = 'Reset'; }
+function resetAll(){
+  if (busy) return;
+  if (!resetBtn.classList.contains('warn')){
+    resetBtn.classList.add('warn'); resetBtn.lastChild.textContent = 'Click again to reset';
+    resetTimer = setTimeout(resetResetBtn, 3000); return;
+  }
+  resetResetBtn();
+  deselect(true);
+  phase = 'pick'; order = null; revealed = 0; drawn = false; savedAt = null;
+  assign = new Array(N).fill(null); owner.fill(-1);
+  try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
+  dayview.classList.remove('ordered');
+  pcs.forEach(function(pc){ pc.classList.remove('down', 'shown', 'next'); });
+  for (var i = 0; i < N; i++) setFrame(i);
+  renderArchive(); showSave(null); updateBar(); fitAll();
+}
+resetBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); resetAll(); });
 dlBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); downloadList(); });
 
 /* ===== Bottom bar ===== */
@@ -557,6 +578,7 @@ function updateBar(){
   else { hint.innerHTML = '<b></b> selected · click a student or a bright name to swap · Esc cancels'; hint.querySelector('b').textContent = STUDENTS[sel]; }
   fit(hint, 22, 15);
   dlBtn.hidden = !drawn;
+  if (typeof resetBtn !== 'undefined'){ resetBtn.hidden = !drawn; resetBtn.disabled = busy; }
 }
 
 /* ===== Selection ===== */
