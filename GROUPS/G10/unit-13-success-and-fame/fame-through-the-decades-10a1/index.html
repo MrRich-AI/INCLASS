@@ -173,6 +173,24 @@
   .pc{position:absolute;left:0;top:0;perspective:1400px}
   .pcin{position:absolute;left:0;top:0;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
   .pc.down .pcin{transform:rotateY(180deg)}
+  .pcw{position:absolute;left:0;top:0;width:100%;height:100%;transform-style:preserve-3d}
+  #pick.revealing .pc.down{cursor:pointer}
+  #pick.revealing .pc.down:hover .back{border-color:#fff6e3}
+  .notyet{position:absolute;left:0;top:0;width:100%;height:100%;border-radius:14px;background:#1d1512;display:none;align-items:center;justify-content:center;
+    font:400 56px var(--display);color:var(--gold);letter-spacing:.04em}
+  .pc.nyet .notyet{display:flex}
+  .peek{position:absolute;right:0;bottom:0;width:150px;height:110px;transform-origin:100% 100%;transform:scale(0);pointer-events:none;
+    clip-path:polygon(100% 0,100% 100%,0 100%);background:linear-gradient(135deg,#fff3c9,#f2c14e);display:flex;align-items:flex-end;justify-content:flex-end;padding:0 10px 10px 0}
+  .peek span{font:700 18px var(--cond);color:#1a1205;letter-spacing:.06em}
+  /* magical effect on the next card: orbiting golden stardust */
+  #stardust{position:absolute;left:0;top:0;width:0;height:0;z-index:18;pointer-events:none}
+  .sd{position:absolute;left:0;top:0;width:24px;height:24px;margin:-12px 0 0 -12px;background:#ffe9a8;
+    clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);filter:drop-shadow(0 0 6px #f2c14e)}
+  .sd.dot{width:12px;height:12px;margin:-6px 0 0 -6px;clip-path:circle(45%);background:#fff6e3}
+  .beam{position:absolute;pointer-events:none;clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);
+    background:linear-gradient(180deg,rgba(255,243,210,.55),rgba(255,243,210,.12));z-index:15}
+  .boom{position:absolute;width:12px;height:12px;pointer-events:none;z-index:30;background:#ffe9a8;
+    clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
   .face{position:absolute;left:0;top:0;width:100%;height:100%;border-radius:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 8px 20px rgba(0,0,0,.55)}
   .front{background:var(--card);border:2px solid #3f2f23;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;gap:5px}
   .back{transform:rotateY(180deg);background:#0d0907;border:3px solid #6b5137;display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -487,7 +505,8 @@ function save(){
   savedAt = Date.now();
   try {
     localStorage.setItem(SAVE_KEY, JSON.stringify({students:STUDENTS, celebs:assign.map(function(id){ return CELEBS[id].name; }), t:savedAt,
-      final:phase !== 'pick', order:order ? order.map(function(i){ return STUDENTS[i]; }) : null, revealed:revealed}));
+      final:phase !== 'pick', order:order ? order.map(function(i){ return STUDENTS[i]; }) : null, revealed:revealed,
+      revealedSlots:shownSlot.map(function(v, k){ return v ? k : -1; }).filter(function(k){ return k >= 0; })}));
     showSave(true);
   } catch (e) { showSave(false); }
 }
@@ -504,7 +523,10 @@ function load(){
       phase = 'locked';
       if (d.order && d.order.length === N){
         var o = d.order.map(function(s){ return STUDENTS.indexOf(s); });
-        if (o.indexOf(-1) < 0 && new Set(o).size === N){ order = o; revealed = Math.max(0, Math.min(N, d.revealed | 0)); phase = revealed >= N ? 'done' : 'reveal'; }
+        if (o.indexOf(-1) < 0 && new Set(o).size === N){ order = o; shownSlot = new Array(N).fill(false);
+          if (Array.isArray(d.revealedSlots)) d.revealedSlots.forEach(function(k){ if (k >= 0 && k < N) shownSlot[k] = true; });
+          else for (var q = 0; q < Math.min(N, d.revealed | 0); q++) shownSlot[q] = true;
+          revealed = shownSlot.filter(Boolean).length; phase = revealed >= N ? 'done' : 'reveal'; }
       }
     }
   } catch (e) {}
@@ -538,7 +560,7 @@ function resetAll(){
   }
   resetResetBtn();
   deselect(true);
-  phase = 'pick'; order = null; revealed = 0; drawn = false; savedAt = null;
+  phase = 'pick'; order = null; revealed = 0; shownSlot = []; drawn = false; savedAt = null;
   assign = new Array(N).fill(null); owner.fill(-1);
   try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
   dayview.classList.remove('ordered');
@@ -569,7 +591,7 @@ function updateBar(){
   prevBtn.disabled = busy || cur === 0;
   if (phase === 'locked') hint.innerHTML = 'Pairs are locked. Shuffle to set the Day 1 and Day 2 order.';
   else if (phase === 'shuffling') hint.innerHTML = 'Shuffling the presentation order…';
-  else if (phase === 'reveal') hint.innerHTML = busy ? 'Revealing…' : 'Click anywhere or press Space to reveal the next presenter.';
+  else if (phase === 'reveal') hint.innerHTML = busy ? 'Revealing…' : 'Click any card to reveal it · click empty space or press Space for the next one';
   else if (phase === 'done') hint.innerHTML = 'Every presenter is revealed.';
   else if (!drawn && busy) hint.innerHTML = 'Drawing stars from the archive…';
   else if (!drawn) hint.innerHTML = 'Every student gets a star from one of five eras of fame.';
@@ -730,7 +752,7 @@ document.addEventListener('keydown', function(e){
    ===================================================================== */
 var DAY_SIZES = [9, 8];   /* Day 1 gets the first 9 places, Day 2 the last 8 */
 var MSGS = ['Posters due the night before Day 2', 'Slideshow & poster due at the end of Day 1'];
-var phase = 'pick', order = null, revealed = 0;   /* phase: pick | locked | shuffling | reveal | done */
+var phase = 'pick', order = null, revealed = 0, shownSlot = [];   /* phase: pick | locked | shuffling | reveal | done */
 var finalBtn = document.getElementById('finalBtn'), shuffleBtn = document.getElementById('shuffleBtn'),
     againBtn = document.getElementById('againBtn'), unlockBtn = document.getElementById('unlockBtn');
 var dayview = document.getElementById('dayview'), dms = [document.getElementById('dm0'), document.getElementById('dm1')];
@@ -758,7 +780,15 @@ var lockPos = (function(){
 function ordinal(n){ var s = ['TH','ST','ND','RD'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
 var pcs = STUDENTS.map(function(name){
-  var pc = el('div', 'pc', '<div class="pcin"><div class="face front"><div class="pn"></div><div class="pf"><span class="t"></span></div><div class="pe"></div><div class="ord"></div></div><div class="face back"><div class="bnum">?</div></div></div>');
+  var pc = el('div', 'pc', '<div class="pcw"><div class="pcin"><div class="face front"><div class="pn"></div><div class="pf"><span class="t"></span></div><div class="pe"></div><div class="ord"></div><div class="notyet">NOT YET!</div></div>' +
+    '<div class="face back"><div class="bnum">?</div><div class="peek"><span>NOT YET!</span></div></div></div></div>');
+  pc.addEventListener('click', function(e){
+    if (phase !== 'reveal') return;
+    e.stopPropagation();
+    if (busy) return;
+    var slot = order.indexOf(pcs.indexOf(pc));
+    if (!shownSlot[slot]) revealSlot(slot);
+  });
   pc.style.width = CW + 'px'; pc.style.height = CH + 'px';
   pc.querySelector('.pn').textContent = name;
   dayview.appendChild(pc); return pc;
@@ -794,11 +824,11 @@ function renderFinal(){
     showMsgs(false); fitPcs(); return;
   }
   order.forEach(function(i, slot){
-    var pc = pcs[i], p = slotPos[slot], up = slot < revealed;
+    var pc = pcs[i], p = slotPos[slot], up = !!shownSlot[slot];
     placePc(i, slot);
     pc.classList.toggle('down', !up);
     pc.classList.toggle('shown', !!order && up);
-    pc.classList.toggle('next', !!order && phase === 'reveal' && slot === revealed);
+    pc.classList.toggle('next', !!order && phase === 'reveal' && slot === nextSlot());
     pc.querySelector('.ord').textContent = ordinal(p.num);
     pc.querySelector('.bnum').textContent = order ? p.num : '?';
   });
@@ -808,7 +838,7 @@ function renderFinal(){
 
 function finalize(){
   if (busy || !drawn || phase !== 'pick') return;
-  deselect(true); phase = 'locked'; order = null; revealed = 0;
+  deselect(true); phase = 'locked'; order = null; revealed = 0; shownSlot = [];
   updateBar(); renderFinal(); save();
 }
 var unlockTimer = null;
@@ -819,7 +849,7 @@ function unlock(){
     unlockBtn.classList.add('warn'); unlockBtn.textContent = 'Click again to unlock';
     unlockTimer = setTimeout(resetUnlock, 3000); return;
   }
-  resetUnlock(); phase = 'pick'; order = null; revealed = 0;
+  resetUnlock(); phase = 'pick'; order = null; revealed = 0; shownSlot = [];
   for (var i = 0; i < N; i++) setFrame(i);
   renderArchive(); updateBar(); fitAll(); save();
 }
@@ -846,7 +876,7 @@ function shuffleOrder(){
   resetUnlock();
   var from = STUDENTS.map(function(_, i){ return posOf(i); });
   var vis = range(N).sort(function(a, b){ return (from[a].y - from[b].y) || (from[a].x - from[b].x); });   /* left to right, top to bottom */
-  busy = true; phase = 'shuffling'; order = null; revealed = 0;
+  busy = true; phase = 'shuffling'; order = null; revealed = 0; shownSlot = [];
   showMsgs(false); updateBar();
   /* 1. flip face-down one by one, left to right */
   vis.forEach(function(i, k){
@@ -875,26 +905,169 @@ function finishShuffle(){
     setTimeout(function(){ pc.querySelector('.bnum').textContent = slotPos[slot].num; pc.classList.remove('bump'); void pc.offsetWidth; pc.classList.add('bump'); }, slot * 60);
   });
   setTimeout(function(){
-    busy = false; phase = 'reveal'; revealed = 0;
-    pcs[order[0]].classList.add('next');
+    busy = false; phase = 'reveal'; revealed = 0; shownSlot = new Array(N).fill(false);
+    markNext();
     showMsgs(true); save(); updateBar();
   }, N * 60 + 300);
 }
-function revealNext(){
-  if (phase !== 'reveal' || busy) return;
-  var pc = pcs[order[revealed]];
-  pc.classList.remove('next', 'down'); pc.classList.add('shown');
-  revealed++;
-  if (revealed >= N) phase = 'done'; else pcs[order[revealed]].classList.add('next');
-  save(); updateBar();
+function nextSlot(){ for (var k = 0; k < N; k++) if (!shownSlot[k]) return k; return -1; }
+function markNext(){
+  pcs.forEach(function(pc){ pc.classList.remove('next'); });
+  var k = nextSlot(); if (phase === 'reveal' && !busy && k >= 0) pcs[order[k]].classList.add('next');
+}
+/* Magical effect on the next card: golden stardust swirling around it */
+var stardust = el('div'); stardust.id = 'stardust'; dayview.appendChild(stardust);
+var dust = [];
+for (var k = 0; k < 18; k++){
+  var dd = el('div', 'sd' + (k % 3 === 2 ? ' dot' : '')); stardust.appendChild(dd);
+  dust.push({n:dd, a:k / 18 * Math.PI * 2, sp:(0.55 + (k % 5) * 0.12) * (k % 2 ? 1 : 1.25), r:1 + (k % 3) * 0.035, tw:k * 0.9});
+}
+(function swirl(t){
+  requestAnimationFrame(swirl);
+  var nx = pcs.filter(function(pc){ return pc.classList.contains('next'); })[0];
+  stardust.style.display = nx && cur === PICK ? 'block' : 'none';
+  if (!nx || cur !== PICK) return;
+  var k = order.indexOf(pcs.indexOf(nx)), q = slotPos[k], cx = q.x + CW / 2, cy = q.y + CH / 2, s = t / 1000;
+  dust.forEach(function(d){
+    var ang = d.a + s * d.sp, rx = (CW / 2 + 10) * d.r, ry = (CH / 2 + 12) * d.r;
+    var x = cx + Math.cos(ang) * rx, y = cy + Math.sin(ang) * ry, sc = 0.55 + 0.45 * Math.abs(Math.sin(s * 2.2 + d.tw));
+    d.n.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + sc.toFixed(2) + ') rotate(' + (s * 90 + d.tw * 40).toFixed(0) + 'deg)';
+    d.n.style.opacity = (0.35 + 0.65 * sc).toFixed(2);
+  });
+})(0);
+function revealNext(){ if (phase === 'reveal' && !busy){ var k = nextSlot(); if (k >= 0) revealSlot(k); } }
+
+/* ----- Tease animations (one per click; the second-to-last card flipped gets a chain of 2–3) ----- */
+function A(node, kf, o){ return node.animate(kf, typeof o === 'number' ? {duration:o} : o).finished; }
+function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+var TEASES = {
+  fakeout: function(c){ return A(c.pcin, [{transform:'rotateY(180deg)'},{transform:'rotateY(98deg)', offset:.4},{transform:'rotateY(98deg)', offset:.6},{transform:'rotateY(180deg)'}], {duration:1200, easing:'ease-in-out'}); },
+  drumroll: function(c){
+    var kf = []; for (var k = 0; k <= 26; k++){ var m = (k / 26) * 10; kf.push({transform:'translate(' + ((k % 2 ? 1 : -1) * m) + 'px,' + (((k % 3) - 1) * m * .4) + 'px) rotate(' + ((k % 2 ? -1 : 1) * m * .3) + 'deg)'}); }
+    kf.push({transform:'none'}); return A(c.pcw, kf, 1600);
+  },
+  zoom: function(c){ return A(c.pcw, [{transform:'scale(1)'},{transform:'scale(.2)', offset:.45},{transform:'scale(.2)', offset:.6},{transform:'scale(1)'}], {duration:1400, easing:'ease-in-out'}); },
+  twirl: function(c){ return A(c.pcw, [{transform:'rotate(0deg)'},{transform:'rotate(1440deg)'}], {duration:1700, easing:'cubic-bezier(.6,0,.95,.6)'}); },
+  quickflip: function(c){
+    c.pc.classList.add('nyet');
+    return A(c.pcin, [{transform:'rotateY(180deg)'},{transform:'rotateY(0deg)', offset:.3},{transform:'rotateY(0deg)', offset:.6},{transform:'rotateY(180deg)'}], {duration:1100, easing:'ease-in-out'})
+      .then(function(){ c.pc.classList.remove('nyet'); });
+  },
+  coin: function(c){
+    c.pc.classList.add('nyet');
+    return A(c.pcw, [{transform:'translateY(0) rotateX(0deg)'},{transform:'translateY(-300px) rotateX(540deg)', offset:.5},{transform:'translateY(0) rotateX(1080deg)'}], {duration:1500, easing:'ease-in-out'})
+      .then(function(){ c.pc.classList.remove('nyet'); });
+  },
+  spotlight: function(c){
+    var dx = (920 - CW / 2) - c.pos.x, dy = (397 - CH / 2) - c.pos.y, beam = el('div', 'beam');
+    beam.style.left = (920 - 340) + 'px'; beam.style.top = '-60px'; beam.style.width = '680px'; beam.style.height = (397 + CH * .8 + 60) + 'px';
+    dayview.appendChild(beam);
+    var go = c.pcw.animate([{transform:'none'},{transform:'translate(' + dx + 'px,' + dy + 'px) scale(1.55)'}], {duration:900, easing:'ease-in-out', fill:'forwards'});
+    A(beam, [{opacity:0},{opacity:1}], 600);
+    return go.finished.then(function(){ return wait(500); }).then(function(){
+      return function post(){
+        return wait(900).then(function(){
+          A(beam, [{opacity:1},{opacity:0}], 500).then(function(){ beam.remove(); });
+          return c.pcw.animate([{transform:'translate(' + dx + 'px,' + dy + 'px) scale(1.55)'},{transform:'none'}], {duration:800, easing:'ease-in-out'}).finished
+            .then(function(){ go.cancel(); });
+        });
+      };
+    });
+  },
+  peek: function(c){ return A(c.peek, [{transform:'scale(0)'},{transform:'scale(1)', offset:.3},{transform:'scale(1)', offset:.7},{transform:'scale(0)'}], {duration:1500, easing:'ease-in-out'}); },
+  countdown: function(c){
+    var keep = c.bnum.textContent, k = 3;
+    return new Promise(function(done){
+      (function tick(){
+        if (k === 0){ c.bnum.textContent = keep; done(); return; }
+        c.bnum.textContent = k--; A(c.bnum, [{transform:'scale(1.7)', color:'#fff6e3'},{transform:'scale(1)'}], 450);
+        setTimeout(tick, 520);
+      })();
+    });
+  },
+  heartbeat: function(c){
+    var d = [560, 460, 380, 310, 250, 200, 160], p = Promise.resolve();
+    d.forEach(function(ms){ p = p.then(function(){ return A(c.pcw, [{transform:'scale(1)'},{transform:'scale(1.12)'},{transform:'scale(1)'}], ms); }); });
+    return p;
+  },
+  decode: function(c){
+    var keep = c.bnum.textContent, chars = '0123456789★?◆', t0 = performance.now();
+    A(c.back, [{filter:'none', opacity:1},{filter:'blur(3px)', opacity:.55},{filter:'none', opacity:1},{filter:'blur(2px)', opacity:.7},{filter:'none', opacity:1}], 1300);
+    return new Promise(function(done){
+      (function tick(){
+        if (performance.now() - t0 > 1300){ c.bnum.textContent = keep; A(c.bnum, [{transform:'scale(1.4)'},{transform:'scale(1)'}], 300).then(done); return; }
+        c.bnum.textContent = chars[Math.floor(Math.random() * chars.length)] + (keep.length > 1 ? chars[Math.floor(Math.random() * 10)] : '');
+        setTimeout(tick, 70);
+      })();
+    });
+  },
+  burst: function(c){
+    var glow = c.pcw.animate([{filter:'brightness(1)'},{filter:'brightness(2.3) drop-shadow(0 0 30px #f2c14e)'}], {duration:1000, easing:'ease-in', fill:'forwards'});
+    return glow.finished.then(function(){
+      var cx = c.pos.x + CW / 2, cy = c.pos.y + CH / 2;
+      for (var k = 0; k < 36; k++){
+        var b = el('div', 'boom'), ang = Math.random() * Math.PI * 2, dist = 120 + Math.random() * 260;
+        b.style.left = (cx - 6) + 'px'; b.style.top = (cy - 6) + 'px'; dayview.appendChild(b);
+        (function(b){ A(b, [{transform:'translate(0,0) scale(1.4)', opacity:1},{transform:'translate(' + Math.cos(ang) * dist + 'px,' + Math.sin(ang) * dist * .7 + 'px) scale(.3)', opacity:0}], {duration:900, easing:'ease-out'}).then(function(){ b.remove(); }); })(b);
+      }
+      c.pcin.style.transition = 'none'; c.pc.classList.remove('down'); void c.pcin.offsetWidth; c.flipped = true;
+      setTimeout(function(){ c.pcin.style.transition = ''; }, 50);
+      return function post(){ return c.pcw.animate([{filter:'brightness(2.3) drop-shadow(0 0 30px #f2c14e)'},{filter:'brightness(1)'}], 700).finished.then(function(){ glow.cancel(); }); };
+    });
+  },
+  bluffhop: function(c){
+    var me = c.pos, best = -1, bd = 1e9;
+    slotPos.forEach(function(q, k){ if (k !== c.slot && q.y === me.y){ var dd = Math.abs(q.x - me.x); if (dd < bd){ bd = dd; best = k; } } });
+    if (best < 0) best = (c.slot + 1) % N;
+    var q = slotPos[best], dx = q.x - me.x, dy = q.y - me.y, other = pcs[order[best]].querySelector('.pcw');
+    pcs[order[best]].style.zIndex = 5;
+    var mine = A(c.pcw, [{transform:'none'},{transform:'translate(' + dx / 2 + 'px,' + (dy / 2 - 130) + 'px)', offset:.22},{transform:'translate(' + dx + 'px,' + dy + 'px)', offset:.45},
+      {transform:'translate(' + dx + 'px,' + dy + 'px)', offset:.58},{transform:'translate(' + dx / 2 + 'px,' + (dy / 2 - 90) + 'px)', offset:.8},{transform:'none'}], {duration:1700, easing:'ease-in-out'});
+    var theirs = A(other, [{transform:'none'},{transform:'translate(' + -dx + 'px,' + -dy + 'px)', offset:.45},{transform:'translate(' + -dx + 'px,' + -dy + 'px)', offset:.58},{transform:'none'}], {duration:1700, easing:'ease-in-out'});
+    return Promise.all([mine, theirs]).then(function(){ pcs[order[best]].style.zIndex = ''; });
+  }
+};
+var TEASE_NAMES = Object.keys(TEASES);
+function pickTeases(n){
+  var pool = shuffle(TEASE_NAMES.slice()), out = [], plain = pool.filter(function(t){ return t !== 'spotlight' && t !== 'burst'; });
+  for (var k = 0; k < n - 1; k++) out.push(plain[k]);
+  var last = pool.filter(function(t){ return out.indexOf(t) < 0; });
+  out.push(last[0]);
+  return out;
+}
+function revealSlot(slot){
+  if (phase !== 'reveal' || busy || shownSlot[slot]) return;
+  busy = true; markNext(); updateBar();
+  var i = order[slot], pc = pcs[i];
+  var c = {pc:pc, pcw:pc.querySelector('.pcw'), pcin:pc.querySelector('.pcin'), back:pc.querySelector('.back'), bnum:pc.querySelector('.bnum'),
+           peek:pc.querySelector('.peek'), slot:slot, pos:slotPos[slot], flipped:false};
+  var left = shownSlot.filter(function(v){ return !v; }).length;
+  var list = pickTeases(left === 2 ? 2 + rnd(2) : 1);   /* second-to-last card flipped gets a chain of 2 or 3 */
+  pc.style.zIndex = 20;
+  var posts = [], p = Promise.resolve();
+  list.forEach(function(name, k){
+    p = p.then(function(){ return k ? wait(250) : null; }).then(function(){ return TEASES[name](c); }).then(function(post){ if (typeof post === 'function') posts.push(post); });
+  });
+  p.then(function(){
+    if (!c.flipped){ pc.classList.remove('down'); return wait(650); }
+  }).then(function(){
+    pc.classList.add('shown');
+    var q = Promise.resolve(); posts.forEach(function(fn){ q = q.then(fn); }); return q;
+  }).then(function(){
+    pc.style.zIndex = '';
+    shownSlot[slot] = true; revealed = shownSlot.filter(Boolean).length;
+    if (revealed >= N) phase = 'done';
+    busy = false; markNext(); save(); updateBar();
+  });
 }
 var revealAllBtn = document.getElementById('revealAllBtn');
 function revealAll(){
   if (phase !== 'reveal' || busy) return;
-  busy = true; updateBar();
+  busy = true; markNext(); updateBar();
   (function step(){
-    if (revealed >= N){ busy = false; phase = 'done'; save(); updateBar(); return; }
-    var pc = pcs[order[revealed]]; pc.classList.remove('next', 'down'); pc.classList.add('shown'); revealed++;
+    var k = nextSlot();
+    if (k < 0){ busy = false; phase = 'done'; revealed = N; save(); updateBar(); return; }
+    var pc = pcs[order[k]]; pc.classList.remove('next', 'down'); pc.classList.add('shown'); shownSlot[k] = true; revealed++;
     setTimeout(step, 150);
   })();
 }
