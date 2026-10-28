@@ -14,37 +14,72 @@
     font-family:var(--body);color:var(--cream);user-select:none;-webkit-user-select:none}
   #bg{position:absolute;left:0;top:0;width:1920px;height:1080px}
 
+  /* Slides */
+  .slide{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0;visibility:hidden;transition:opacity .45s,visibility 0s .45s}
+  .slide.on{opacity:1;visibility:visible;transition:opacity .45s}
+
   /* Header */
   .plate{position:absolute;left:40px;top:24px;padding:12px 34px 16px;background:var(--panel);border:2px solid #5d4428;border-radius:18px;
     box-shadow:0 10px 28px rgba(0,0,0,.6)}
   .kicker{font:700 20px var(--body);letter-spacing:.34em;color:var(--gold)}
-  h1{font:400 58px/1.05 var(--display);color:var(--cream);margin-top:4px;letter-spacing:.01em}
-  .pill{position:absolute;right:40px;top:50px;padding:10px 30px;border-radius:999px;background:var(--gold);color:#1a1205;
+  h1{font:400 58px/1.05 var(--display);color:var(--cream);margin-top:4px;letter-spacing:.01em;white-space:nowrap}
+  .pill{position:absolute;right:40px;top:50px;padding:10px 30px;border-radius:999px;background:var(--gold);color:#1a1205;z-index:5;
     font:700 30px var(--cond);letter-spacing:.04em;border:3px solid #fff1c7;box-shadow:0 8px 22px rgba(0,0,0,.55)}
 
-  /* Student cards */
+  /* Slide 1: five eras */
+  .question{position:absolute;left:40px;right:40px;top:168px;height:66px;background:var(--panel);border:2px solid #5d4428;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;font:700 32px var(--body);color:var(--cream);box-shadow:0 8px 22px rgba(0,0,0,.55)}
+  .question em{font-style:normal;color:var(--gold)}
+  .eras5{position:absolute;left:40px;right:40px;top:256px;height:700px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
+  .ecol{background:var(--card);border:2px solid #3f2f23;border-top:8px solid;border-radius:14px;padding:16px;display:flex;flex-direction:column;
+    box-shadow:0 10px 26px rgba(0,0,0,.55);cursor:pointer;transition:transform .2s}
+  .ecol:hover{transform:translateY(-4px)}
+  .ecol img{width:100%;aspect-ratio:230/140;border-radius:6px;border:3px solid #050302;display:block}
+  .ecol .en{font:700 30px var(--cond);letter-spacing:.08em;margin-top:16px}
+  .ecol .nm{font:600 34px/1.12 var(--cond);color:#fff;margin-top:4px;min-height:76px}
+  .ecol .yr{font:700 27px var(--body);margin-top:6px}
+  .ecol .ds{font:400 29px/1.38 var(--body);color:#f1e7d6;margin-top:14px}
+
+  /* Era slides */
+  .edesc{position:absolute;left:40px;right:40px;top:168px;min-height:66px;background:var(--panel);border:2px solid #5d4428;border-left:10px solid;border-radius:14px;
+    display:flex;align-items:center;padding:8px 28px;font:400 30px/1.3 var(--body);color:var(--cream);box-shadow:0 8px 22px rgba(0,0,0,.55)}
+  .egrid{position:absolute;left:40px;right:40px;top:256px;height:702px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:24px}
+  .ccard{min-width:0;background:var(--card);border:2px solid #3f2f23;border-left:10px solid;border-radius:16px;padding:22px 26px;display:flex;flex-direction:column;
+    box-shadow:0 10px 26px rgba(0,0,0,.55)}
+  .slide.on .ccard{animation:rise .6s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(40px)}}
+  .crow{display:flex;align-items:center;gap:22px}
+  .medal{flex:0 0 132px;height:132px;border-radius:50%;border:5px solid;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 6px rgba(0,0,0,.35)}
+  .medal svg{width:92px;height:92px;fill:none;stroke:#fff6e3;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+  .cside{flex:1;min-width:0}
+  .cname{font:600 50px/1.1 var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.01em}
+  .cdates{font:700 24px var(--body);margin-top:4px}
+  .known{font:400 30px/1.36 var(--body);color:#f1e7d6;margin-top:20px;flex:1}
+  .wiki{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font:700 22px var(--body);color:var(--cream);text-decoration:none;
+    padding:6px 18px;border-radius:999px;border:2px solid;background:#120d0b}
+  .wiki:hover{background:#2a1f18}
+
+  /* Selection slide: student cards */
   #students{position:absolute;left:40px;top:166px;width:1230px;height:794px;display:grid;
     grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(6,minmax(0,1fr));gap:14px 16px}
-  .card{position:relative;min-width:0;background:var(--card);border:2px solid #3f2f23;border-radius:16px;display:flex;align-items:center;gap:14px;
-    padding:0 16px 0 14px;box-shadow:0 6px 18px rgba(0,0,0,.5);transition:transform .2s,box-shadow .2s,border-color .2s}
+  .card{position:relative;min-width:0;background:var(--card);border:2px solid #3f2f23;border-radius:16px;display:flex;align-items:center;
+    padding:0 16px;box-shadow:0 6px 18px rgba(0,0,0,.5);transition:transform .2s,box-shadow .2s,border-color .2s}
   .ready .card{cursor:pointer}
-  .badge{flex:0 0 62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a8,#f2c14e 55%,#b5832a);
-    color:#1a1205;font:700 32px var(--cond);display:flex;align-items:center;justify-content:center;border:3px solid #fff1c7}
-  .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+  .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
   .top{display:flex;align-items:baseline;gap:10px;height:36px}
-  .sname{flex:1;min-width:0;font:600 32px/36px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.02em}
-  .era{flex:0 0 auto;font:700 15px var(--body);letter-spacing:.06em;white-space:nowrap}
-  .frame{position:relative;height:56px;border-radius:6px;background:#070505;padding:7px 0;overflow:hidden}
+  .sname{flex:1;min-width:0;font:600 34px/36px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.02em}
+  .era{flex:0 0 auto;font:700 18px var(--body);letter-spacing:.04em;white-space:nowrap}
+  .frame{position:relative;height:68px;border-radius:6px;background:#070505;padding:7px 0;overflow:hidden}
   .frame::before,.frame::after{content:'';position:absolute;left:0;right:0;height:4px;
     background:repeating-linear-gradient(90deg,rgba(255,238,205,.6) 0 8px,transparent 8px 16px)}
   .frame::before{top:1.5px}.frame::after{bottom:1.5px}
   .frame.spinning::before,.frame.spinning::after{animation:sprocket .25s linear infinite}
   @keyframes sprocket{to{background-position:16px 0}}
-  .win{position:relative;height:42px;overflow:hidden;border-radius:3px}
+  .win{position:relative;height:54px;overflow:hidden;border-radius:3px}
   .win.hide>*{visibility:hidden}
   .reel{position:absolute;left:0;right:0;top:0;will-change:transform}
-  .ri{display:block;height:42px;line-height:42px;padding:0 12px;border-left:6px solid;font:600 29px var(--cond);color:#fff;
-    white-space:nowrap;overflow:hidden;letter-spacing:.02em}
+  .ri{display:block;height:54px;line-height:54px;padding:0 12px;border-left:7px solid;font:600 42px var(--cond);color:#fff;
+    white-space:nowrap;overflow:hidden;letter-spacing:.01em}
   .ri.ph{background:#2a201a;border-color:#6d5a47;color:#c9bba6;letter-spacing:.4em}
   .card.sel{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 0 0 4px rgba(242,193,78,.55),0 0 36px rgba(242,193,78,.65)}
   .picking .card:not(.sel):hover{border-color:#fff6e3}
@@ -67,10 +102,10 @@
   .chips{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:6px;margin-top:6px}
   .chip{min-width:0;min-height:0;border-radius:7px;border:2px solid;display:flex;flex-direction:column;justify-content:center;padding:0 9px;overflow:hidden;
     transition:background .3s,border-color .3s}
-  .chip .n{font:600 20px/22px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.02em}
-  .chip .o{font:700 13px/15px var(--body);white-space:nowrap;overflow:hidden;display:none}
+  .chip .n{font:600 23px/25px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.01em}
+  .chip .o{font:700 14px/15px var(--body);white-space:nowrap;overflow:hidden;display:none}
   .chip.taken{background:#110c0a!important;border-color:#3b2e25!important}
-  .chip.taken .n{color:#ab9d8a}
+  .chip.taken .n{color:#ab9d8a;font-size:20px;line-height:22px}
   .chip.taken .o{display:block}
   .chip.hide .n,.chip.hide .o{visibility:hidden}
   .ready .chip{cursor:pointer}
@@ -79,10 +114,18 @@
   .chip.pulse{animation:chipPulse .8s ease-out!important}
   @keyframes chipPulse{0%{transform:scale(1.12);box-shadow:0 0 26px var(--ec)}100%{transform:scale(1)}}
 
+  /* Save box */
+  #savebox{position:absolute;right:300px;top:52px;display:flex;align-items:center;gap:12px}
+  #saveState{background:var(--panel);border:2px solid #5d4428;border-radius:999px;padding:9px 20px;font:700 20px var(--body);color:#e9dcc6;white-space:nowrap}
+  #saveState.ok{color:#9be3a4;border-color:#3f7a49}
+  #saveState.bad{color:#ffb3a8;border-color:#8a3b31}
+  .btn.small{font-size:22px;padding:8px 20px;gap:8px;box-shadow:0 4px 0 #0a0706,0 8px 18px rgba(0,0,0,.5)}
+  .btn.small svg{width:24px;height:24px}
+
   /* Bottom bar */
-  #bar{position:absolute;left:40px;right:40px;top:978px;height:80px;display:flex;align-items:center;justify-content:center;gap:22px}
+  #bar{position:absolute;left:290px;right:40px;top:978px;height:80px;display:flex;align-items:center;justify-content:center;gap:22px}
   #hint{background:var(--panel);border:2px solid #5d4428;border-radius:999px;padding:12px 28px;font:400 22px var(--body);color:var(--cream);
-    max-width:1180px;white-space:nowrap;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.55)}
+    max-width:900px;white-space:nowrap;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.55)}
   #hint b{color:var(--gold)}
   .btn{display:inline-flex;align-items:center;gap:12px;font:600 30px var(--cond);letter-spacing:.06em;padding:10px 34px;border-radius:999px;border:3px solid #fff1c7;
     background:linear-gradient(#ffd977,#e6a42a);color:#1a1205;cursor:pointer;box-shadow:0 6px 0 #8a5a12,0 12px 26px rgba(0,0,0,.55);transition:transform .12s,opacity .2s}
@@ -94,26 +137,49 @@
   .btn[hidden]{display:none}
   .btn svg{width:30px;height:30px}
 
+  /* Slide navigation */
+  #nav{position:absolute;left:40px;top:984px;height:68px;display:flex;align-items:center;gap:10px;background:var(--panel);border:2px solid #5d4428;
+    border-radius:999px;padding:0 8px;z-index:20;box-shadow:0 8px 22px rgba(0,0,0,.55)}
+  #nav button{width:52px;height:52px;border-radius:50%;border:2px solid #7a5c3c;background:#2a1f18;color:var(--cream);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  #nav button:hover:not(:disabled){background:#3a2b20;border-color:var(--gold)}
+  #nav button:disabled{opacity:.35;cursor:default}
+  #nav svg{width:22px;height:22px;fill:var(--cream)}
+  #count{font:600 26px var(--cond);min-width:76px;text-align:center;color:var(--cream)}
+
   #fly{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:50}
-  .flyer{position:absolute;left:0;top:0;display:flex;align-items:center;padding:0 12px;border:2px solid;border-left-width:6px;border-radius:6px;
-    font:600 26px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.02em;transform-origin:center}
+  .flyer{position:absolute;left:0;top:0;display:flex;align-items:center;padding:0 12px;border:2px solid;border-left-width:7px;border-radius:6px;
+    font:600 32px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.01em;transform-origin:center}
 </style>
 </head>
 <body>
 <div id="stage">
   <canvas id="bg" width="1920" height="1080"></canvas>
-  <div class="plate"><div class="kicker">◆ Celebrity Draw ◆</div><h1>Fame Through the Decades</h1></div>
   <div class="pill" id="pill"></div>
-  <div id="students"></div>
-  <section id="archive">
-    <div class="ahead"><span class="t">The Archive</span><span class="h">BRIGHT = STILL AVAILABLE</span></div>
-    <div id="eras"></div>
+  <div id="slides"></div>
+
+  <section class="slide" id="pick">
+    <div class="plate"><div class="kicker">◆ Celebrity Draw ◆</div><h1>Fame Through the Decades</h1></div>
+    <div id="savebox">
+      <div id="saveState">Not saved yet</div>
+      <button class="btn ghost small" id="dlBtn" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16" fill="none" stroke="#fff6e3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Download List</button>
+    </div>
+    <div id="students"></div>
+    <section id="archive">
+      <div class="ahead"><span class="t">The Archive</span><span class="h">BRIGHT = STILL AVAILABLE</span></div>
+      <div id="eras"></div>
+    </section>
+    <div id="bar">
+      <div id="hint"></div>
+      <button class="btn" id="drawBtn">Draw Celebrities</button>
+      <button class="btn" id="randBtn" hidden><svg viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="3" width="24" height="24" rx="6" fill="#fff6e3" stroke="#1a1205" stroke-width="2.5"/><circle cx="10" cy="10" r="2.6" fill="#1a1205"/><circle cx="20" cy="20" r="2.6" fill="#1a1205"/><circle cx="15" cy="15" r="2.6" fill="#1a1205"/><circle cx="20" cy="10" r="2.6" fill="#1a1205"/><circle cx="10" cy="20" r="2.6" fill="#1a1205"/></svg>Random Swap</button>
+      <button class="btn ghost" id="redrawBtn" hidden>Draw Again</button>
+    </div>
   </section>
-  <div id="bar">
-    <div id="hint"></div>
-    <button class="btn" id="drawBtn">Draw Celebrities</button>
-    <button class="btn" id="randBtn" hidden><svg viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="3" width="24" height="24" rx="6" fill="#fff6e3" stroke="#1a1205" stroke-width="2.5"/><circle cx="10" cy="10" r="2.6" fill="#1a1205"/><circle cx="20" cy="20" r="2.6" fill="#1a1205"/><circle cx="15" cy="15" r="2.6" fill="#1a1205"/><circle cx="20" cy="10" r="2.6" fill="#1a1205"/><circle cx="10" cy="20" r="2.6" fill="#1a1205"/></svg>Random Swap</button>
-    <button class="btn ghost" id="redrawBtn" hidden>Draw Again</button>
+
+  <div id="nav">
+    <button id="prevBtn" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M16 3L6 12l10 9z"/></svg></button>
+    <div id="count"></div>
+    <button id="nextBtn" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M8 3l10 9-10 9z"/></svg></button>
   </div>
   <div id="fly"></div>
 </div>
@@ -123,22 +189,84 @@
 var CLASS_NAME = '10A1';
 var STUDENTS = ['Aavni','Andy','Ashley','Bob','Camry','Felicia','Henry','Izza','Jena','Jeremy','Katie','Kevin','Lam','Melissa','Nicky','Sam','Tony'];
 
-/* ===== Celebrity list by era ===== */
+/* ===== Celebrity list by era (name, life dates, what they're known for, icon, Wikipedia article) ===== */
 var ERAS = [
   {n:1, name:'Pre-mass-media', years:'up to 1920s', short:'to 1920s', c:'#e0b673', b:'#3c2a15',
-   celebs:['Florence Nightingale','Harry Houdini','Marie Curie','Mary Pickford','Charlie Chaplin','Mark Twain']},
+   desc:'Fame spread through newspapers, books, live shows and the first silent films.',
+   people:[
+    ['Florence Nightingale','1820–1910','Nurse who changed hospitals forever – known as “The Lady with the Lamp”.','lamp','Florence_Nightingale'],
+    ['Harry Houdini','1874–1926','Magician famous for escaping from locks, chains and water tanks.','lock','Harry_Houdini'],
+    ['Marie Curie','1867–1934','Scientist who studied radioactivity – the first person to win two Nobel Prizes.','flask','Marie_Curie'],
+    ['Mary Pickford','1892–1979','One of the first big stars of silent movies.','clap','Mary_Pickford'],
+    ['Charlie Chaplin','1889–1977','Silent-film comedian, famous for his character “The Tramp”.','hat','Charlie_Chaplin'],
+    ['Mark Twain','1835–1910','American writer of The Adventures of Tom Sawyer.','quill','Mark_Twain']]},
   {n:2, name:'Golden age of Hollywood', years:'1930s–1950s', short:'1930s–50s', c:'#d7dde7', b:'#2c3038',
-   celebs:['Shirley Temple','Judy Garland','Jesse Owens','Frank Sinatra','Audrey Hepburn','Amelia Earhart']},
+   desc:'Hollywood studios, cinemas and radio turned stars into household names.',
+   people:[
+    ['Shirley Temple','1928–2014','Child film star who sang and danced in 1930s movies.','clap','Shirley_Temple'],
+    ['Judy Garland','1922–1969','Singer and actress who played Dorothy in The Wizard of Oz.','mic','Judy_Garland'],
+    ['Jesse Owens','1913–1980','Athlete who won four gold medals at the 1936 Olympics.','medal','Jesse_Owens'],
+    ['Frank Sinatra','1915–1998','Singer and actor with millions of radio and record fans.','mic','Frank_Sinatra'],
+    ['Audrey Hepburn','1929–1993','Film star of Roman Holiday and Breakfast at Tiffany’s.','clap','Audrey_Hepburn'],
+    ['Amelia Earhart','1897–1937','Pilot – the first woman to fly alone across the Atlantic.','plane','Amelia_Earhart']]},
   {n:3, name:'TV and tabloid', years:'1960s–1990s', short:'1960s–90s', c:'#ff8f45', b:'#401f0c',
-   celebs:['Muhammad Ali','Princess Diana','Bruce Lee','Oprah Winfrey','John Lennon','Pelé']},
+   desc:'Television reached every home, and tabloid magazines followed stars’ private lives.',
+   people:[
+    ['Muhammad Ali','1942–2016','World heavyweight boxing champion, famous for his confidence.','glove','Muhammad_Ali'],
+    ['Princess Diana','1961–1997','Princess of Wales, followed everywhere by photographers.','tiara','Diana,_Princess_of_Wales'],
+    ['Bruce Lee','1940–1973','Martial artist who made kung fu films popular worldwide.','nunchaku','Bruce_Lee'],
+    ['Oprah Winfrey','born 1954','TV talk-show host who built a media empire.','tv','Oprah_Winfrey'],
+    ['John Lennon','1940–1980','Singer-songwriter in The Beatles.','guitar','John_Lennon'],
+    ['Pelé','1940–2022','Brazilian footballer who won three World Cups.','ball','Pel%C3%A9']]},
   {n:4, name:'Early internet', years:'2000s', short:'2000s', c:'#62b8ff', b:'#0f2a46',
-   celebs:['Britney Spears','David Beckham','Paris Hilton','Usain Bolt','Emma Watson','Justin Bieber']},
+   desc:'The internet, reality TV and early YouTube spread fame faster and around the world.',
+   people:[
+    ['Britney Spears','born 1981','Pop star whose life was followed closely by tabloids and websites.','mic','Britney_Spears'],
+    ['David Beckham','born 1975','England football captain and fashion icon.','ball','David_Beckham'],
+    ['Paris Hilton','born 1981','Hotel heiress who became famous through reality TV.','flash','Paris_Hilton'],
+    ['Usain Bolt','born 1986','Sprinter with world records in the 100 m and 200 m.','bolt','Usain_Bolt'],
+    ['Emma Watson','born 1990','Actress who played Hermione in the Harry Potter films.','wand','Emma_Watson'],
+    ['Justin Bieber','born 1994','Singer discovered through his YouTube videos.','play','Justin_Bieber']]},
   {n:5, name:'Social media', years:'2010s–now', short:'2010s–now', c:'#ff62c4', b:'#3b0f2d',
-   celebs:['MrBeast','Taylor Swift','Greta Thunberg','Khaby Lame','Lisa (BLACKPINK)','Cristiano Ronaldo']}
+   desc:'Anyone can build an audience on YouTube, TikTok and Instagram – fans follow stars directly.',
+   people:[
+    ['MrBeast','born 1998','YouTuber famous for huge challenges and giveaways.','play','MrBeast'],
+    ['Taylor Swift','born 1989','Singer-songwriter whose Eras Tour broke records.','guitar','Taylor_Swift'],
+    ['Greta Thunberg','born 2003','Climate activist who started school strikes for the climate.','leaf','Greta_Thunberg'],
+    ['Khaby Lame','born 2000','TikTok star famous for silent comedy videos.','phone','Khaby_Lame'],
+    ['Lisa (BLACKPINK)','born 1997','Rapper and dancer in the K-pop group BLACKPINK.','notes','Lisa_(rapper)'],
+    ['Cristiano Ronaldo','born 1985','Portuguese footballer – one of the most-followed people on Instagram.','ball','Cristiano_Ronaldo']]}
 ];
+ERAS.forEach(function(E){ E.celebs = E.people.map(function(p){ return p[0]; }); });
+
+/* Code-drawn icons (100×100); class "a" = filled with the era colour */
+var ICONS = {
+  lamp:'<path class="a" d="M16 62 Q50 38 84 62 Q68 76 50 76 Q32 76 16 62Z"/><path d="M84 62 L95 52"/><path d="M50 42 V32"/><path class="a" d="M50 12 Q60 24 50 31 Q40 24 50 12Z"/><path d="M38 76 L34 88 H66 L62 76"/>',
+  lock:'<rect class="a" x="24" y="46" width="52" height="42" rx="7"/><path d="M35 46 V33 A15 15 0 0 1 65 33 V46"/><circle cx="50" cy="62" r="5"/><path d="M50 67 V77"/>',
+  flask:'<path d="M38 12 H62 M44 12 V40 L22 80 Q19 88 27 88 H73 Q81 88 78 80 L56 40 V12"/><path class="a" d="M30 66 H70 L77 80 Q79 86 72 86 H28 Q21 86 23 80Z"/><circle cx="45" cy="56" r="3"/><circle cx="55" cy="47" r="2.5"/>',
+  clap:'<rect x="14" y="42" width="72" height="44" rx="5"/><path class="a" d="M14 42 L18 24 L84 14 L86 32Z"/><path d="M33 21 L29 38 M51 18 L47 35 M69 16 L65 33"/>',
+  hat:'<path class="a" d="M28 54 Q28 24 50 24 Q72 24 72 54Z"/><path class="a" d="M12 58 Q50 46 88 58 Q50 66 12 58Z"/><path d="M72 66 V92 M72 66 Q72 58 82 60"/>',
+  quill:'<path d="M12 72 Q31 64 50 72 Q69 64 88 72 V88 Q69 80 50 88 Q31 80 12 88Z"/><path d="M50 72 V88"/><path class="a" d="M40 62 Q56 20 86 10 Q74 40 46 58Z"/><path d="M40 62 L33 71"/>',
+  mic:'<rect class="a" x="35" y="10" width="30" height="46" rx="15"/><path d="M24 44 Q24 70 50 70 Q76 70 76 44"/><path d="M50 70 V86 M34 88 H66"/>',
+  medal:'<path d="M32 10 L46 46 M68 10 L54 46"/><circle class="a" cx="50" cy="67" r="21"/><path d="M50 55 L54 63 L62 63 L56 69 L58 77 L50 72 L42 77 L44 69 L38 63 L46 63Z"/>',
+  plane:'<path class="a" d="M10 56 Q50 42 90 52 Q50 66 10 56Z"/><path d="M44 50 L36 20 H50 L60 49 M44 59 L36 86 H50 L58 59"/><path d="M14 55 L8 40"/>',
+  glove:'<path class="a" d="M30 70 V40 Q30 16 53 16 Q78 16 78 42 Q78 64 62 70Z"/><path d="M30 44 Q18 46 20 58 Q22 67 31 64"/><rect x="28" y="70" width="36" height="16" rx="3"/>',
+  tiara:'<path class="a" d="M12 74 L20 36 L36 58 L50 24 L64 58 L80 36 L88 74Z"/><path d="M12 84 H88"/><circle cx="50" cy="16" r="4"/>',
+  nunchaku:'<rect class="a" x="16" y="18" width="13" height="46" rx="6" transform="rotate(-20 22 41)"/><rect class="a" x="62" y="40" width="13" height="46" rx="6" transform="rotate(25 68 63)"/><path d="M28 20 Q48 4 62 40" stroke-dasharray="5 5"/>',
+  tv:'<rect x="12" y="32" width="76" height="52" rx="9"/><rect class="a" x="20" y="40" width="48" height="36" rx="6"/><path d="M38 32 L27 12 M50 32 L63 12"/><circle cx="78" cy="49" r="3"/><circle cx="78" cy="63" r="3"/>',
+  guitar:'<path d="M58 42 L84 16 M80 12 L90 22"/><circle class="a" cx="38" cy="66" r="19"/><circle class="a" cx="53" cy="49" r="13"/><circle cx="40" cy="64" r="5"/><path d="M28 74 L36 66"/>',
+  ball:'<circle class="a" cx="50" cy="50" r="36"/><path d="M50 35 L64 45 L59 61 H41 L36 45Z"/><path d="M50 35 V15 M64 45 L83 39 M59 61 L70 79 M41 61 L30 79 M36 45 L17 39"/>',
+  flash:'<rect x="12" y="34" width="76" height="50" rx="9"/><circle class="a" cx="50" cy="59" r="16"/><rect x="24" y="24" width="20" height="10" rx="2"/><path d="M78 6 L72 20 M90 16 L78 26 M64 4 L66 18"/>',
+  bolt:'<path class="a" d="M60 6 L22 54 H48 L38 94 L80 40 H54Z"/>',
+  wand:'<path d="M16 86 L62 40"/><path class="a" d="M58 36 L70 24 L78 32 L66 44Z"/><path d="M74 8 V20 M86 22 H96 M58 14 L63 21 M88 42 L80 37"/>',
+  play:'<rect class="a" x="10" y="20" width="80" height="58" rx="15"/><path d="M42 36 L64 49 L42 62Z" fill="#fff6e3"/>',
+  phone:'<rect x="28" y="8" width="44" height="84" rx="9"/><circle class="a" cx="50" cy="45" r="14"/><path d="M43 49 Q50 56 57 49"/><path d="M44 41 V42 M56 41 V42"/><path d="M44 82 H56"/>',
+  leaf:'<path class="a" d="M18 82 Q18 24 82 16 Q82 78 18 82Z"/><path d="M18 82 Q48 54 68 32"/>',
+  notes:'<path d="M36 72 V24 L78 14 V62"/><path d="M36 37 L78 27"/><ellipse class="a" cx="27" cy="73" rx="10" ry="8"/><ellipse class="a" cx="69" cy="64" rx="10" ry="8"/>'
+};
 
 var CELEBS = [];
-ERAS.forEach(function(E, e){ E.celebs.forEach(function(nm){ CELEBS.push({id:CELEBS.length, name:nm, era:e, c:E.c, b:E.b}); }); });
+ERAS.forEach(function(E, e){ E.people.forEach(function(p){ CELEBS.push({id:CELEBS.length, name:p[0], era:e, c:E.c, b:E.b}); }); });
 var N = STUDENTS.length;
 
 /* ===== True randomness ===== */
@@ -161,39 +289,99 @@ function balancedPick(){
   return shuffle(pool);
 }
 
-/* ===== State ===== */
-var assign = new Array(N).fill(null), owner = new Array(CELEBS.length).fill(-1);
-var drawn = false, busy = false, sel = -1, S = 1;
 var stage = document.getElementById('stage');
 document.getElementById('pill').textContent = 'Class ' + CLASS_NAME;
+function el(tag, cls, html){ var d = document.createElement(tag); if (cls) d.className = cls; if (html != null) d.innerHTML = html; return d; }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(ch){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]; }); }
 
-/* ===== Build cards ===== */
+/* =====================================================================
+   Intro slides: 1 = the five eras, 2–6 = one era each
+   ===================================================================== */
+var slidesEl = document.getElementById('slides'), SLIDES = [], eraImgs = [];
+(function(){
+  var s = el('section', 'slide');
+  s.appendChild(el('div', 'plate', '<div class="kicker">◆ Five Eras of Fame ◆</div><h1>Fame Through the Decades</h1>'));
+  s.appendChild(el('div', 'question', 'How do people become famous – and how has that <em>&nbsp;changed in 100 years</em>?'));
+  var grid = el('div', 'eras5');
+  ERAS.forEach(function(E, e){
+    var col = el('div', 'ecol'); col.style.borderTopColor = E.c;
+    var img = document.createElement('img'); img.alt = ''; eraImgs.push(img); col.appendChild(img);
+    var en = el('div', 'en', 'ERA ' + E.n); en.style.color = E.c; col.appendChild(en);
+    col.appendChild(el('div', 'nm', esc(E.name)));
+    var yr = el('div', 'yr', esc(E.years)); yr.style.color = E.c; col.appendChild(yr);
+    col.appendChild(el('div', 'ds', esc(E.desc)));
+    col.addEventListener('click', function(){ go(e + 1); });
+    grid.appendChild(col);
+  });
+  s.appendChild(grid); slidesEl.appendChild(s); SLIDES.push(s);
+
+  ERAS.forEach(function(E){
+    var s = el('section', 'slide');
+    s.appendChild(el('div', 'plate', '<div class="kicker">◆ ERA ' + E.n + ' · ' + esc(E.years) + ' ◆</div><h1>' + esc(E.name) + '</h1>'));
+    var d = el('div', 'edesc', esc(E.desc)); d.style.borderLeftColor = E.c; s.appendChild(d);
+    var grid = el('div', 'egrid');
+    E.people.forEach(function(p, k){
+      var c = el('div', 'ccard'); c.style.borderLeftColor = E.c; c.style.animationDelay = (0.08 * k) + 's';
+      var row = el('div', 'crow');
+      var m = el('div', 'medal', '<svg viewBox="0 0 100 100" aria-hidden="true">' + ICONS[p[3]].replace(/class="a"/g, 'fill="' + E.c + '"') + '</svg>');
+      m.style.borderColor = E.c; m.style.background = E.b; row.appendChild(m);
+      var side = el('div', 'cside');
+      side.appendChild(el('div', 'cname', esc(p[0])));
+      var dt = el('div', 'cdates', esc(p[1])); dt.style.color = E.c; side.appendChild(dt);
+      row.appendChild(side); c.appendChild(row);
+      c.appendChild(el('div', 'known', esc(p[2])));
+      var a = el('a', 'wiki', 'Wikipedia <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" fill="none" stroke="#fff6e3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+      a.href = 'https://en.wikipedia.org/wiki/' + p[4]; a.target = '_blank'; a.rel = 'noopener'; a.style.borderColor = E.c;
+      a.addEventListener('click', function(ev){ ev.stopPropagation(); });
+      c.appendChild(a);
+      grid.appendChild(c);
+    });
+    s.appendChild(grid); slidesEl.appendChild(s); SLIDES.push(s);
+  });
+  SLIDES.push(document.getElementById('pick'));
+})();
+
+var cur = 0, PICK = SLIDES.length - 1;
+var prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'), countEl = document.getElementById('count');
+function go(n){
+  if (busy) return;
+  n = Math.max(0, Math.min(PICK, n));
+  if (cur === PICK && n !== PICK) deselect(true);
+  SLIDES[cur].classList.remove('on'); cur = n; SLIDES[cur].classList.add('on');
+  countEl.textContent = (cur + 1) + ' / ' + SLIDES.length;
+  prevBtn.disabled = cur === 0; nextBtn.disabled = cur === PICK;
+  if (cur === PICK) updateBar();
+}
+prevBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); go(cur - 1); });
+nextBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); go(cur + 1); });
+
+/* =====================================================================
+   Selection slide
+   ===================================================================== */
+var assign = new Array(N).fill(null), owner = new Array(CELEBS.length).fill(-1);
+var drawn = false, busy = false, sel = -1, S = 1;
+var pickEl = document.getElementById('pick');
+
 var cards = [], studentsEl = document.getElementById('students');
 STUDENTS.forEach(function(name, i){
-  var card = document.createElement('div'); card.className = 'card';
-  card.innerHTML = '<div class="badge"></div><div class="info"><div class="top"><div class="sname"></div><div class="era"></div></div><div class="frame"><div class="win"></div></div></div>';
-  card.querySelector('.badge').textContent = name.charAt(0).toUpperCase();
+  var card = el('div', 'card', '<div class="info"><div class="top"><div class="sname"></div><div class="era"></div></div><div class="frame"><div class="win"></div></div></div>');
   card.querySelector('.sname').textContent = name;
   card.addEventListener('click', function(e){ e.stopPropagation(); cardClick(i); });
   studentsEl.appendChild(card);
   cards.push({card:card, sname:card.querySelector('.sname'), era:card.querySelector('.era'), frame:card.querySelector('.frame'), win:card.querySelector('.win')});
 });
 
-/* ===== Build archive ===== */
 var chips = [], ecounts = [], erasEl = document.getElementById('eras');
 ERAS.forEach(function(E, e){
-  var blk = document.createElement('div'); blk.className = 'eblock'; blk.style.borderLeftColor = E.c;
-  var head = document.createElement('div'); head.className = 'ehead';
-  var et = document.createElement('span'); et.className = 'et';
-  var b = document.createElement('b'); b.style.color = E.c; b.textContent = 'ERA ' + E.n;
-  et.appendChild(b); et.appendChild(document.createTextNode(' · ' + E.name + ' · ' + E.years));
-  var cnt = document.createElement('span'); cnt.className = 'ecount';
+  var blk = el('div', 'eblock'); blk.style.borderLeftColor = E.c;
+  var head = el('div', 'ehead'), et = el('span', 'et'), b = el('b', null, 'ERA ' + E.n);
+  b.style.color = E.c; et.appendChild(b); et.appendChild(document.createTextNode(' · ' + E.name + ' · ' + E.years));
+  var cnt = el('span', 'ecount');
   head.appendChild(et); head.appendChild(cnt); blk.appendChild(head); ecounts.push(cnt);
-  var grid = document.createElement('div'); grid.className = 'chips';
+  var grid = el('div', 'chips');
   CELEBS.filter(function(c){ return c.era === e; }).forEach(function(c){
-    var ch = document.createElement('div'); ch.className = 'chip';
+    var ch = el('div', 'chip', '<div class="n"></div><div class="o"></div>');
     ch.style.background = c.b; ch.style.borderColor = c.c; ch.style.setProperty('--ec', c.c);
-    ch.innerHTML = '<div class="n"></div><div class="o"></div>';
     ch.querySelector('.n').textContent = c.name; ch.querySelector('.o').style.color = c.c;
     ch.addEventListener('click', function(ev){ ev.stopPropagation(); chipClick(c.id); });
     grid.appendChild(ch); chips[c.id] = ch;
@@ -201,56 +389,93 @@ ERAS.forEach(function(E, e){
   blk.appendChild(grid); erasEl.appendChild(blk);
 });
 
-/* ===== Rendering ===== */
-function fit(el, max, min){
-  var s = max; el.style.fontSize = s + 'px';
-  while (el.scrollWidth > el.clientWidth + 1 && s > min){ s--; el.style.fontSize = s + 'px'; }
+function fit(node, max, min){
+  var s = max; node.style.fontSize = s + 'px';
+  while (node.scrollWidth > node.clientWidth + 1 && s > min){ s--; node.style.fontSize = s + 'px'; }
 }
-function mkItem(c){
-  var d = document.createElement('div'); d.className = 'ri';
-  d.style.background = c.b; d.style.borderLeftColor = c.c; d.textContent = c.name;
-  return d;
-}
+function mkItem(c){ var d = el('div', 'ri'); d.style.background = c.b; d.style.borderLeftColor = c.c; d.textContent = c.name; return d; }
 function setFrame(i){
   var C = cards[i], id = assign[i];
   C.win.innerHTML = '';
-  if (id === null){
-    var p = document.createElement('div'); p.className = 'ri ph'; p.textContent = '? ? ?'; C.win.appendChild(p);
-    C.era.textContent = '';
-  } else {
-    var c = CELEBS[id], it = mkItem(c); C.win.appendChild(it); fit(it, 29, 18);
+  if (id === null){ C.win.appendChild(el('div', 'ri ph', '? ? ?')); C.era.textContent = ''; }
+  else {
+    var c = CELEBS[id], it = mkItem(c); C.win.appendChild(it); fit(it, 42, 24);
     C.era.textContent = 'ERA ' + ERAS[c.era].n + ' · ' + ERAS[c.era].short; C.era.style.color = c.c;
   }
 }
 function renderArchive(){
   var used = [0,0,0,0,0];
   CELEBS.forEach(function(c){
-    var ch = chips[c.id], o = owner[c.id];
+    var ch = chips[c.id], o = owner[c.id], n = ch.querySelector('.n');
     ch.classList.toggle('taken', o >= 0);
     ch.querySelector('.o').textContent = o >= 0 ? '→ ' + STUDENTS[o] : '';
     if (o >= 0) used[c.era]++;
+    fit(n, o >= 0 ? 20 : 23, 13);
   });
-  ecounts.forEach(function(el, e){ el.textContent = used[e] + '/' + ERAS[e].celebs.length + ' drawn'; });
+  ecounts.forEach(function(node, e){ node.textContent = used[e] + '/' + ERAS[e].celebs.length + ' drawn'; });
 }
 function pulseChip(id){ var ch = chips[id]; ch.classList.remove('pulse'); void ch.offsetWidth; ch.classList.add('pulse'); setTimeout(function(){ ch.classList.remove('pulse'); }, 850); }
 function popCard(i){ var c = cards[i].card; c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); setTimeout(function(){ c.classList.remove('pop'); }, 750); }
+
+/* ===== Saving on this device ===== */
+var SAVE_KEY = 'fame-through-the-decades-' + CLASS_NAME;
+var saveState = document.getElementById('saveState'), dlBtn = document.getElementById('dlBtn'), savedAt = null;
+function stamp(t){ var d = new Date(t); return d.toLocaleDateString(undefined, {day:'numeric', month:'short'}) + ', ' + d.toLocaleTimeString(undefined, {hour:'2-digit', minute:'2-digit'}); }
+function showSave(ok){
+  saveState.classList.toggle('ok', ok === true); saveState.classList.toggle('bad', ok === false);
+  saveState.textContent = ok === true ? '✓ Saved on this device · ' + stamp(savedAt) : ok === false ? 'Couldn’t save in this browser – use Download List' : 'Not saved yet';
+  dlBtn.hidden = !drawn;
+}
+function save(){
+  savedAt = Date.now();
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({students:STUDENTS, celebs:assign.map(function(id){ return CELEBS[id].name; }), t:savedAt}));
+    showSave(true);
+  } catch (e) { showSave(false); }
+}
+function load(){
+  try {
+    var d = JSON.parse(localStorage.getItem(SAVE_KEY)); if (!d || !d.students || !d.celebs) return;
+    var byName = {}, a = new Array(N).fill(null);
+    CELEBS.forEach(function(c){ byName[c.name] = c.id; });
+    d.students.forEach(function(s, k){ var i = STUDENTS.indexOf(s), id = byName[d.celebs[k]]; if (i >= 0 && id !== undefined) a[i] = id; });
+    if (a.some(function(x){ return x === null; }) || new Set(a).size !== N) return;
+    assign = a; owner.fill(-1); a.forEach(function(id, i){ owner[id] = i; });
+    drawn = true; savedAt = d.t;
+  } catch (e) {}
+}
+function downloadList(){
+  var lines = ['Fame Through the Decades – Celebrity Draw', 'Class ' + CLASS_NAME + ' · saved ' + stamp(savedAt || Date.now()), ''];
+  STUDENTS.forEach(function(s, i){ var c = CELEBS[assign[i]], E = ERAS[c.era]; lines.push(s + ' – ' + c.name + ' (Era ' + E.n + ': ' + E.name + ', ' + E.years + ')'); });
+  lines.push('', 'By era:');
+  ERAS.forEach(function(E, e){
+    var who = STUDENTS.map(function(s, i){ return CELEBS[assign[i]].era === e ? s + ' – ' + CELEBS[assign[i]].name : null; }).filter(Boolean);
+    lines.push('Era ' + E.n + ' (' + E.name + '): ' + (who.length ? who.join('; ') : '–'));
+  });
+  var blob = new Blob([lines.join('\r\n')], {type:'text/plain;charset=utf-8'}), a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'Fame-Through-the-Decades-' + CLASS_NAME + '.txt';
+  document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+dlBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); downloadList(); });
 
 /* ===== Bottom bar ===== */
 var hint = document.getElementById('hint'), drawBtn = document.getElementById('drawBtn'),
     randBtn = document.getElementById('randBtn'), redrawBtn = document.getElementById('redrawBtn');
 function updateBar(){
-  stage.classList.toggle('ready', drawn && !busy);
-  stage.classList.toggle('picking', sel >= 0);
+  pickEl.classList.toggle('ready', drawn && !busy);
+  pickEl.classList.toggle('picking', sel >= 0);
   drawBtn.hidden = drawn || busy;
-  randBtn.hidden = redrawBtn.hidden = !drawn && !busy ? true : !drawn;
+  randBtn.hidden = redrawBtn.hidden = !drawn;
   randBtn.disabled = sel < 0 || busy;
   redrawBtn.disabled = busy;
-  if (!drawn && busy){ hint.innerHTML = 'Drawing stars from the archive…'; randBtn.hidden = redrawBtn.hidden = true; }
+  prevBtn.disabled = busy || cur === 0;
+  if (!drawn && busy) hint.innerHTML = 'Drawing stars from the archive…';
   else if (!drawn) hint.innerHTML = 'Every student gets a star from one of five eras of fame.';
   else if (busy) hint.innerHTML = 'Swapping…';
   else if (sel < 0) hint.innerHTML = 'Click a student to swap their celebrity.';
-  else hint.innerHTML = '<b></b> selected · click a student to trade · click a bright name to swap in · or Random Swap · Esc cancels';
-  if (drawn && !busy && sel >= 0) hint.querySelector('b').textContent = STUDENTS[sel];
+  else { hint.innerHTML = '<b></b> selected · click a student to trade · click a bright name · Random Swap · Esc cancels'; hint.querySelector('b').textContent = STUDENTS[sel]; }
+  fit(hint, 22, 15);
+  dlBtn.hidden = !drawn;
 }
 
 /* ===== Selection ===== */
@@ -258,9 +483,7 @@ function select(i){ deselect(true); sel = i; cards[i].card.classList.add('sel');
 function deselect(quiet){ if (sel >= 0) cards[sel].card.classList.remove('sel'); sel = -1; if (!quiet) updateBar(); }
 function cardClick(i){
   if (busy || !drawn) return;
-  if (sel < 0) select(i);
-  else if (sel === i) deselect();
-  else swapStudents(sel, i);
+  if (sel < 0) select(i); else if (sel === i) deselect(); else swapStudents(sel, i);
 }
 function chipClick(id){
   if (busy || !drawn) return;
@@ -269,15 +492,15 @@ function chipClick(id){
   if (o === sel){ deselect(); return; }
   if (o >= 0) swapStudents(sel, o); else swapUnused(sel, id);
 }
-stage.addEventListener('click', function(e){ if (!e.target.closest('.btn')) { if (sel >= 0 && !busy) deselect(); } });
+pickEl.addEventListener('click', function(e){ if (!e.target.closest('.btn') && sel >= 0 && !busy) deselect(); });
 
 /* ===== Reel spin (draw + random swap) ===== */
-var ITEM_H = 42;
+var ITEM_H = 54;
 function spin(jobs, done){
   jobs.forEach(function(j){
-    var L = Math.max(14, Math.round(2100 * j.d / 3 / ITEM_H)), seq = [j.target], prev = j.target;
+    var L = Math.max(14, Math.round(2400 * j.d / 3 / ITEM_H)), seq = [j.target], prev = j.target;
     for (var k = 1; k < L; k++){ var id; do { id = Math.floor(Math.random() * CELEBS.length); } while (id === prev); seq.push(id); prev = id; }
-    var reel = document.createElement('div'); reel.className = 'reel';
+    var reel = el('div', 'reel');
     seq.forEach(function(id){ reel.appendChild(mkItem(CELEBS[id])); });
     var C = cards[j.i]; C.win.innerHTML = ''; C.win.appendChild(reel);
     C.frame.classList.add('spinning'); C.era.textContent = '· · ·'; C.era.style.color = '#c9bba6';
@@ -289,7 +512,7 @@ function spin(jobs, done){
     var t = (now - t0) / 1000, all = true;
     jobs.forEach(function(j){
       if (j.done) return;
-      var p = Math.min(1, t / j.d), e = 1 - Math.pow(1 - p, 3), b = 2.4 * Math.pow(1 - p, 2);
+      var p = Math.min(1, t / j.d), e = 1 - Math.pow(1 - p, 3), b = 2.6 * Math.pow(1 - p, 2);
       j.reel.style.transform = 'translateY(' + (-(j.L - 1) * ITEM_H * (1 - e)).toFixed(1) + 'px)';
       j.reel.style.filter = b > 0.15 ? 'blur(' + b.toFixed(2) + 'px)' : 'none';
       if (p >= 1){ j.done = true; land(j); } else all = false;
@@ -308,21 +531,21 @@ function land(j){
 function draw(){
   if (busy) return;
   deselect(true); busy = true; drawn = false;
-  owner.fill(-1); assign = balancedPick(); renderArchive(); updateBar();
+  owner.fill(-1); assign = balancedPick(); renderArchive(); updateBar(); showSave(null); dlBtn.hidden = true;
   var order = shuffle(range(N));
   var jobs = order.map(function(i, k){ return {i:i, target:assign[i], d:4.2 + 2.8 * k / Math.max(1, N - 1)}; });
-  spin(jobs, function(){ busy = false; drawn = true; updateBar(); });
+  spin(jobs, function(){ busy = false; drawn = true; save(); updateBar(); });
 }
 
 /* ===== Swaps ===== */
-function rectOf(el){
-  var s = stage.getBoundingClientRect(), r = el.getBoundingClientRect();
+function rectOf(node){
+  var s = stage.getBoundingClientRect(), r = node.getBoundingClientRect();
   return {x:(r.left - s.left) / S, y:(r.top - s.top) / S, w:r.width / S, h:r.height / S};
 }
 function fly(c, from, to, bend, done){
-  var el = document.createElement('div'); el.className = 'flyer';
-  el.style.background = c.b; el.style.borderColor = c.c; el.style.boxShadow = '0 14px 30px rgba(0,0,0,.65),0 0 22px ' + c.c;
-  el.textContent = c.name; document.getElementById('fly').appendChild(el);
+  var f = el('div', 'flyer');
+  f.style.background = c.b; f.style.borderColor = c.c; f.style.boxShadow = '0 14px 30px rgba(0,0,0,.65),0 0 22px ' + c.c;
+  f.textContent = c.name; document.getElementById('fly').appendChild(f);
   var sx = from.x + from.w / 2, sy = from.y + from.h / 2, ex = to.x + to.w / 2, ey = to.y + to.h / 2;
   var dist = Math.hypot(ex - sx, ey - sy), cx = (sx + ex) / 2, cy = (sy + ey) / 2 - bend * (90 + dist * 0.28);
   var t0 = performance.now(), D = 820;
@@ -330,13 +553,14 @@ function fly(c, from, to, bend, done){
     var p = Math.min(1, (now - t0) / D), e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2, u = 1 - e;
     var x = u * u * sx + 2 * u * e * cx + e * e * ex, y = u * u * sy + 2 * u * e * cy + e * e * ey;
     var w = from.w + (to.w - from.w) * e, h = from.h + (to.h - from.h) * e, sc = 1 + 0.18 * Math.sin(Math.PI * p);
-    el.style.width = w + 'px'; el.style.height = h + 'px';
-    el.style.transform = 'translate(' + (x - w / 2) + 'px,' + (y - h / 2) + 'px) scale(' + sc + ')';
-    if (p < 1) requestAnimationFrame(step); else { el.remove(); if (done) done(); }
+    f.style.width = w + 'px'; f.style.height = h + 'px';
+    f.style.transform = 'translate(' + (x - w / 2) + 'px,' + (y - h / 2) + 'px) scale(' + sc + ')';
+    if (p < 1) requestAnimationFrame(step); else { f.remove(); if (done) done(); }
   }
   requestAnimationFrame(step);
 }
-function finishSwap(n){ var left = n; return function(){ if (--left === 0){ busy = false; updateBar(); } }; }
+function finishSwap(n){ var left = n; return function(){ if (--left === 0){ busy = false; save(); updateBar(); } }; }
+function arrive(i){ cards[i].win.classList.remove('hide'); cards[i].card.classList.remove('incoming'); popCard(i); }
 
 function swapStudents(a, b){
   var ra = rectOf(cards[a].win), rb = rectOf(cards[b].win), ca = assign[a], cb = assign[b];
@@ -348,8 +572,6 @@ function swapStudents(a, b){
   fly(CELEBS[ca], ra, rb, 1, function(){ arrive(b); fin(); });
   fly(CELEBS[cb], rb, ra, -1, function(){ arrive(a); fin(); });
 }
-function arrive(i){ cards[i].win.classList.remove('hide'); cards[i].card.classList.remove('incoming'); popCard(i); }
-
 function swapUnused(a, id){
   var old = assign[a], ra = rectOf(cards[a].win), rNew = rectOf(chips[id]), rOld = rectOf(chips[old]);
   deselect(true); busy = true;
@@ -360,7 +582,6 @@ function swapUnused(a, id){
   fly(CELEBS[id], rNew, ra, 1, function(){ arrive(a); pulseChip(id); fin(); });
   fly(CELEBS[old], ra, rOld, -1, function(){ chips[old].classList.remove('hide'); pulseChip(old); fin(); });
 }
-
 function randomSwap(){
   if (busy || sel < 0) return;
   var i = sel, old = assign[i], era = CELEBS[old].era;
@@ -369,15 +590,15 @@ function randomSwap(){
   var nw = cand[rnd(cand.length)];
   deselect(true); busy = true; assign[i] = nw; updateBar();
   spin([{i:i, target:nw, d:1.8, onLand:function(){ owner[old] = -1; owner[nw] = i; renderArchive(); pulseChip(old); pulseChip(nw); }}],
-       function(){ busy = false; updateBar(); });
+       function(){ busy = false; save(); updateBar(); });
 }
 
 /* ===== Buttons and keys ===== */
 var confirmTimer = null;
-drawBtn.addEventListener('click', function(e){ e.stopPropagation(); draw(); });
-randBtn.addEventListener('click', function(e){ e.stopPropagation(); randomSwap(); });
+drawBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); draw(); });
+randBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); randomSwap(); });
 redrawBtn.addEventListener('click', function(e){
-  e.stopPropagation(); if (busy) return;
+  e.stopPropagation(); this.blur(); if (busy) return;
   if (!redrawBtn.classList.contains('warn')){
     redrawBtn.classList.add('warn'); redrawBtn.textContent = 'Click again to redraw all';
     confirmTimer = setTimeout(resetRedraw, 3000); return;
@@ -386,9 +607,15 @@ redrawBtn.addEventListener('click', function(e){
 });
 function resetRedraw(){ clearTimeout(confirmTimer); redrawBtn.classList.remove('warn'); redrawBtn.textContent = 'Draw Again'; }
 document.addEventListener('keydown', function(e){
-  if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); if (!drawn && !busy) draw(); }
-  else if (e.key === 'Escape'){ if (!busy) deselect(); }
-  else if (e.key === 'r' || e.key === 'R'){ randomSwap(); }
+  var k = e.key;
+  if (k === 'ArrowRight'){ e.preventDefault(); go(cur + 1); }
+  else if (k === 'ArrowLeft'){ e.preventDefault(); go(cur - 1); }
+  else if (k === ' ' || k === 'Enter'){
+    e.preventDefault();
+    if (cur < PICK) go(cur + 1); else if (!drawn && !busy) draw();
+  }
+  else if (k === 'Escape'){ if (!busy) deselect(); }
+  else if ((k === 'r' || k === 'R') && cur === PICK){ randomSwap(); }
 });
 
 /* ===== Scale stage to fit ===== */
@@ -399,12 +626,17 @@ function fitStage(){
 addEventListener('resize', fitStage); fitStage();
 
 function fitAll(){
-  cards.forEach(function(C, i){ fit(C.sname, 32, 22); if (assign[i] !== null) { var it = C.win.querySelector('.ri'); if (it) fit(it, 29, 18); } });
-  chips.forEach(function(ch){ fit(ch.querySelector('.n'), 20, 13); });
-  document.querySelectorAll('.et').forEach(function(el){ fit(el, 16, 12); });
+  cards.forEach(function(C, i){ fit(C.sname, 34, 24); if (assign[i] !== null){ var it = C.win.querySelector('.ri'); if (it) fit(it, 42, 24); } });
+  renderArchive();
+  document.querySelectorAll('.et').forEach(function(n){ fit(n, 16, 12); });
+  document.querySelectorAll('.cname').forEach(function(n){ fit(n, 50, 32); });
+  document.querySelectorAll('.slide h1').forEach(function(n){ fit(n, 58, 40); });
+  fit(hint, 22, 15);
 }
+
+load();
 for (var i = 0; i < N; i++) setFrame(i);
-renderArchive(); updateBar(); fitAll();
+renderArchive(); showSave(drawn ? true : null); go(0); updateBar(); fitAll();
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
 
 /* ===================================================================
@@ -522,6 +754,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
     return r[0];
   }
   var frames = [era1(), era2(), era3(), era4(), era5()];
+  window.ERA_FRAMES = frames;
 
   /* Film strip tile: five era frames + sprocket holes */
   var TW = 1240, TH = 210, tr = mk(TW, TH), tile = tr[0], t = tr[1];
@@ -578,6 +811,8 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
   }
   requestAnimationFrame(frame);
 })();
+
+eraImgs.forEach(function(img, e){ img.src = window.ERA_FRAMES[e].toDataURL('image/png'); });
 </script>
 </body>
 </html>
