@@ -89,7 +89,7 @@ table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
 .photo{position:absolute;padding:18px;border-radius:12px;
   background:linear-gradient(135deg,var(--gold-l),var(--gold) 30%,var(--gold-d) 55%,var(--gold) 75%,var(--gold-l));
   box-shadow:0 26px 50px rgba(58,20,32,.35),inset 0 0 0 3px rgba(255,255,255,.45)}
-.photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.2)}
+.photo img{display:block;width:100%;height:100%;object-fit:contain;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.2)}
 .photo.gone{display:none}
 
 /* bottom bar */
@@ -638,6 +638,15 @@ function anim(t){
 document.querySelectorAll('figure.photo').forEach(function(f){
   var img=new Image();img.alt='';img.loading='eager';img.referrerPolicy='no-referrer';
   img.onerror=function(){f.classList.add('gone');};
+  /* fit the frame to the photo's own shape inside its original box, so nothing is cropped */
+  var box={l:parseFloat(f.style.left),t:parseFloat(f.style.top),w:parseFloat(f.style.width),h:parseFloat(f.style.height)};
+  img.onload=function(){
+    var pad=36,bw=box.w-pad,bh=box.h-pad,r=img.naturalWidth/img.naturalHeight;
+    if(!r||!isFinite(r)) return;
+    var w=bw,h=bw/r; if(h>bh){h=bh;w=bh*r;}
+    f.style.width=(w+pad)+'px';f.style.height=(h+pad)+'px';
+    f.style.left=(box.l+(box.w-w-pad)/2)+'px';f.style.top=(box.t+(box.h-h-pad)/2)+'px';
+  };
   img.src='https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(f.dataset.file)+'?width=1000';
   f.appendChild(img);
 });
