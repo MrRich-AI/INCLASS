@@ -81,6 +81,11 @@
   .ri{display:block;height:54px;line-height:54px;padding:0 12px;border-left:7px solid;font:600 42px var(--cond);color:#fff;
     white-space:nowrap;overflow:hidden;letter-spacing:.01em}
   .ri.ph{background:#2a201a;border-color:#6d5a47;color:#c9bba6;letter-spacing:.4em}
+  .ri.fin{display:flex;align-items:center;gap:10px;padding-right:8px}
+  .ri.fin .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden}
+  .wl{flex:0 0 34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);border:2px solid;opacity:.8;transition:opacity .15s,transform .15s}
+  .wl:hover{opacity:1;transform:scale(1.12)}
+  .wl svg{width:16px;height:16px}
   .card.sel{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 0 0 4px rgba(242,193,78,.55),0 0 36px rgba(242,193,78,.65)}
   .picking .card:not(.sel):hover{border-color:#fff6e3}
   .card.pop .win{animation:landFlash .7s ease-out}
@@ -266,7 +271,7 @@ var ICONS = {
 };
 
 var CELEBS = [];
-ERAS.forEach(function(E, e){ E.people.forEach(function(p){ CELEBS.push({id:CELEBS.length, name:p[0], era:e, c:E.c, b:E.b}); }); });
+ERAS.forEach(function(E, e){ E.people.forEach(function(p){ CELEBS.push({id:CELEBS.length, name:p[0], era:e, c:E.c, b:E.b, wiki:'https://en.wikipedia.org/wiki/' + p[4]}); }); });
 var N = STUDENTS.length;
 
 /* ===== True randomness ===== */
@@ -399,7 +404,12 @@ function setFrame(i){
   C.win.innerHTML = '';
   if (id === null){ C.win.appendChild(el('div', 'ri ph', '? ? ?')); C.era.textContent = ''; }
   else {
-    var c = CELEBS[id], it = mkItem(c); C.win.appendChild(it); fit(it, 42, 24);
+    var c = CELEBS[id], it = el('div', 'ri fin'), t = el('span', 't');
+    it.style.background = c.b; it.style.borderLeftColor = c.c; t.textContent = c.name; it.appendChild(t);
+    var a = el('a', 'wl', '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" fill="none" stroke="#fff6e3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    a.href = c.wiki; a.target = '_blank'; a.rel = 'noopener'; a.title = c.name + ' on Wikipedia'; a.style.borderColor = c.c;
+    a.addEventListener('click', function(ev){ ev.stopPropagation(); });
+    it.appendChild(a); C.win.appendChild(it); fit(t, 42, 24);
     C.era.textContent = 'ERA ' + ERAS[c.era].n + ' · ' + ERAS[c.era].short; C.era.style.color = c.c;
   }
 }
@@ -626,7 +636,7 @@ function fitStage(){
 addEventListener('resize', fitStage); fitStage();
 
 function fitAll(){
-  cards.forEach(function(C, i){ fit(C.sname, 34, 24); if (assign[i] !== null){ var it = C.win.querySelector('.ri'); if (it) fit(it, 42, 24); } });
+  cards.forEach(function(C, i){ fit(C.sname, 34, 24); if (assign[i] !== null){ var it = C.win.querySelector('.ri.fin .t'); if (it) fit(it, 42, 24); } });
   renderArchive();
   document.querySelectorAll('.et').forEach(function(n){ fit(n, 16, 12); });
   document.querySelectorAll('.cname').forEach(function(n){ fit(n, 50, 32); });
