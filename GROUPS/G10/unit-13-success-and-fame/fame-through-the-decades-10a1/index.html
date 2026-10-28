@@ -154,6 +154,42 @@
   #fly{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:50}
   .flyer{position:absolute;left:0;top:0;display:flex;align-items:center;padding:0 12px;border:2px solid;border-left-width:7px;border-radius:6px;
     font:600 32px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.01em;transform-origin:center}
+
+  /* Finalized: Day 1 / Day 2 presentation order */
+  .btn.mid{font-size:26px;padding:10px 26px;gap:10px}
+  .btn.mid svg{width:26px;height:26px}
+  #pick.final #students,#pick.final #archive{display:none}
+  #dayview{position:absolute;left:40px;top:166px;width:1840px;height:794px;display:none}
+  #pick.final #dayview{display:block}
+  #pick.revealing{cursor:pointer}
+  .dayhead{position:absolute;left:0;right:0;height:54px;display:flex;align-items:center;gap:16px}
+  .daylab{font:400 32px/1.2 var(--display);color:#1a1205;background:var(--gold);border:3px solid #fff1c7;border-radius:999px;padding:2px 28px;box-shadow:0 6px 16px rgba(0,0,0,.5);white-space:nowrap}
+  .daymsg{flex:1;min-width:0;background:var(--panel);border:2px solid #5d4428;border-radius:999px;padding:8px 26px;font:700 26px var(--body);color:#c9bba6;
+    white-space:nowrap;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.5);transition:border-color .4s,color .4s}
+  .daymsg.on{border-color:var(--gold);color:#fff;animation:msgIn .6s ease-out}
+  @keyframes msgIn{from{transform:translateX(-20px);opacity:0}}
+  .daymsg.on b{color:var(--gold)}
+  .pc{position:absolute;left:0;top:0;perspective:1400px}
+  .pcin{position:absolute;left:0;top:0;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
+  .pc.down .pcin{transform:rotateY(180deg)}
+  .face{position:absolute;left:0;top:0;width:100%;height:100%;border-radius:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 8px 20px rgba(0,0,0,.55)}
+  .front{background:var(--card);border:2px solid #3f2f23;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;gap:5px}
+  .back{transform:rotateY(180deg);background:#0d0907;border:3px solid #6b5137;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .back::before,.back::after{content:'';position:absolute;left:0;right:0;height:12px;background:repeating-linear-gradient(90deg,rgba(255,238,205,.5) 0 14px,transparent 14px 28px)}
+  .back::before{top:9px}.back::after{bottom:9px}
+  .bnum{font:400 92px/1 var(--display);color:var(--gold)}
+  .pc .pn{font:600 34px/38px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.02em}
+  .pc.shown .pn{padding-right:76px}
+  .pc .pf{display:flex;align-items:center;gap:10px;height:58px;border-left:7px solid;border-radius:4px;padding:0 8px 0 12px}
+  .pc .pf .t{flex:1;min-width:0;font:600 40px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.01em}
+  .pc .pe{font:700 18px var(--body);letter-spacing:.04em}
+  .ord{position:absolute;top:10px;right:12px;font:700 22px var(--cond);letter-spacing:.08em;color:#1a1205;background:var(--gold);border-radius:999px;padding:1px 14px;display:none}
+  .pc.shown .ord{display:block}
+  .pc.shown .front{border-color:#6b5137}
+  .pc.next .back{border-color:var(--gold);animation:nextGlow 1.3s ease-in-out infinite}
+  @keyframes nextGlow{50%{box-shadow:0 0 0 4px rgba(242,193,78,.6),0 0 44px rgba(242,193,78,.8)}}
+  .pc.bump .back{animation:bump .5s ease-out}
+  @keyframes bump{0%{transform:rotateY(180deg) scale(1.08);filter:brightness(1.6)}100%{transform:rotateY(180deg) scale(1)}}
 </style>
 </head>
 <body>
@@ -173,11 +209,19 @@
       <div class="ahead"><span class="t">The Archive</span><span class="h">BRIGHT = STILL AVAILABLE</span></div>
       <div id="eras"></div>
     </section>
+    <div id="dayview">
+      <div class="dayhead" style="top:0"><span class="daylab">Day 1</span><span class="daymsg" id="dm0"></span></div>
+      <div class="dayhead" style="top:405px"><span class="daylab">Day 2</span><span class="daymsg" id="dm1"></span></div>
+    </div>
     <div id="bar">
       <div id="hint"></div>
       <button class="btn" id="drawBtn">Draw Celebrities</button>
-      <button class="btn" id="randBtn" hidden><svg viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="3" width="24" height="24" rx="6" fill="#fff6e3" stroke="#1a1205" stroke-width="2.5"/><circle cx="10" cy="10" r="2.6" fill="#1a1205"/><circle cx="20" cy="20" r="2.6" fill="#1a1205"/><circle cx="15" cy="15" r="2.6" fill="#1a1205"/><circle cx="20" cy="10" r="2.6" fill="#1a1205"/><circle cx="10" cy="20" r="2.6" fill="#1a1205"/></svg>Random Swap</button>
-      <button class="btn ghost" id="redrawBtn" hidden>Draw Again</button>
+      <button class="btn mid" id="randBtn" hidden><svg viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="3" width="24" height="24" rx="6" fill="#fff6e3" stroke="#1a1205" stroke-width="2.5"/><circle cx="10" cy="10" r="2.6" fill="#1a1205"/><circle cx="20" cy="20" r="2.6" fill="#1a1205"/><circle cx="15" cy="15" r="2.6" fill="#1a1205"/><circle cx="20" cy="10" r="2.6" fill="#1a1205"/><circle cx="10" cy="20" r="2.6" fill="#1a1205"/></svg>Random Swap</button>
+      <button class="btn ghost mid" id="redrawBtn" hidden>Draw Again</button>
+      <button class="btn mid" id="finalBtn" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" fill="#1a1205"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#1a1205" stroke-width="2.6"/></svg>Celebrities Finalized</button>
+      <button class="btn" id="shuffleBtn" hidden>Shuffle Presentation Order</button>
+      <button class="btn" id="againBtn" hidden>Shuffle Again</button>
+      <button class="btn ghost mid" id="unlockBtn" hidden>Unlock</button>
     </div>
   </section>
 
@@ -439,7 +483,8 @@ function showSave(ok){
 function save(){
   savedAt = Date.now();
   try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify({students:STUDENTS, celebs:assign.map(function(id){ return CELEBS[id].name; }), t:savedAt}));
+    localStorage.setItem(SAVE_KEY, JSON.stringify({students:STUDENTS, celebs:assign.map(function(id){ return CELEBS[id].name; }), t:savedAt,
+      final:phase !== 'pick', order:order ? order.map(function(i){ return STUDENTS[i]; }) : null, revealed:revealed}));
     showSave(true);
   } catch (e) { showSave(false); }
 }
@@ -452,6 +497,13 @@ function load(){
     if (a.some(function(x){ return x === null; }) || new Set(a).size !== N) return;
     assign = a; owner.fill(-1); a.forEach(function(id, i){ owner[id] = i; });
     drawn = true; savedAt = d.t;
+    if (d.final){
+      phase = 'locked';
+      if (d.order && d.order.length === N){
+        var o = d.order.map(function(s){ return STUDENTS.indexOf(s); });
+        if (o.indexOf(-1) < 0 && new Set(o).size === N){ order = o; revealed = Math.max(0, Math.min(N, d.revealed | 0)); phase = revealed >= N ? 'done' : 'reveal'; }
+      }
+    }
   } catch (e) {}
 }
 function downloadList(){
@@ -461,6 +513,12 @@ function downloadList(){
   ERAS.forEach(function(E, e){
     var who = STUDENTS.map(function(s, i){ return CELEBS[assign[i]].era === e ? s + ' – ' + CELEBS[assign[i]].name : null; }).filter(Boolean);
     lines.push('Era ' + E.n + ' (' + E.name + '): ' + (who.length ? who.join('; ') : '–'));
+  });
+  lines.push('', 'Presentation order:');
+  if (!order) lines.push(phase === 'pick' ? 'Not finalized yet' : 'Not shuffled yet');
+  else slotPos.forEach(function(p, slot){
+    if (p.num === 1) lines.push('', 'Day ' + (p.day + 1) + ' – ' + MSGS[p.day]);
+    var i = order[slot]; lines.push('  ' + p.num + '. ' + STUDENTS[i] + ' – ' + CELEBS[assign[i]].name);
   });
   var blob = new Blob([lines.join('\r\n')], {type:'text/plain;charset=utf-8'}), a = document.createElement('a');
   a.href = URL.createObjectURL(blob); a.download = 'Fame-Through-the-Decades-' + CLASS_NAME + '.txt';
@@ -472,18 +530,28 @@ dlBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); d
 var hint = document.getElementById('hint'), drawBtn = document.getElementById('drawBtn'),
     randBtn = document.getElementById('randBtn'), redrawBtn = document.getElementById('redrawBtn');
 function updateBar(){
-  pickEl.classList.toggle('ready', drawn && !busy);
+  var fin = phase !== 'pick';
+  pickEl.classList.toggle('ready', drawn && !busy && !fin);
   pickEl.classList.toggle('picking', sel >= 0);
+  pickEl.classList.toggle('final', fin);
+  pickEl.classList.toggle('revealing', phase === 'reveal' && !busy);
   drawBtn.hidden = drawn || busy;
-  randBtn.hidden = redrawBtn.hidden = !drawn;
+  randBtn.hidden = redrawBtn.hidden = finalBtn.hidden = !drawn || fin;
   randBtn.disabled = sel < 0 || busy;
-  redrawBtn.disabled = busy;
+  redrawBtn.disabled = finalBtn.disabled = busy;
+  shuffleBtn.hidden = phase !== 'locked';
+  againBtn.hidden = phase !== 'done';
+  unlockBtn.hidden = !fin || phase === 'shuffling';
   prevBtn.disabled = busy || cur === 0;
-  if (!drawn && busy) hint.innerHTML = 'Drawing stars from the archive…';
+  if (phase === 'locked') hint.innerHTML = 'Pairs are locked. Shuffle to set the presentation order.';
+  else if (phase === 'shuffling') hint.innerHTML = 'Shuffling the presentation order…';
+  else if (phase === 'reveal') hint.innerHTML = 'Click anywhere or press Space to reveal the next presenter.';
+  else if (phase === 'done') hint.innerHTML = 'Every presenter is revealed.';
+  else if (!drawn && busy) hint.innerHTML = 'Drawing stars from the archive…';
   else if (!drawn) hint.innerHTML = 'Every student gets a star from one of five eras of fame.';
   else if (busy) hint.innerHTML = 'Swapping…';
   else if (sel < 0) hint.innerHTML = 'Click a student to swap their celebrity.';
-  else { hint.innerHTML = '<b></b> selected · click a student to trade · click a bright name · Random Swap · Esc cancels'; hint.querySelector('b').textContent = STUDENTS[sel]; }
+  else { hint.innerHTML = '<b></b> selected · click a student or a bright name to swap · Esc cancels'; hint.querySelector('b').textContent = STUDENTS[sel]; }
   fit(hint, 22, 15);
   dlBtn.hidden = !drawn;
 }
@@ -502,7 +570,11 @@ function chipClick(id){
   if (o === sel){ deselect(); return; }
   if (o >= 0) swapStudents(sel, o); else swapUnused(sel, id);
 }
-pickEl.addEventListener('click', function(e){ if (!e.target.closest('.btn') && sel >= 0 && !busy) deselect(); });
+pickEl.addEventListener('click', function(e){
+  if (e.target.closest('.btn') || e.target.closest('a')) return;
+  if (phase === 'reveal'){ revealNext(); return; }
+  if (sel >= 0 && !busy) deselect();
+});
 
 /* ===== Reel spin (draw + random swap) ===== */
 var ITEM_H = 54;
@@ -618,15 +690,165 @@ redrawBtn.addEventListener('click', function(e){
 function resetRedraw(){ clearTimeout(confirmTimer); redrawBtn.classList.remove('warn'); redrawBtn.textContent = 'Draw Again'; }
 document.addEventListener('keydown', function(e){
   var k = e.key;
-  if (k === 'ArrowRight'){ e.preventDefault(); go(cur + 1); }
+  if (k === 'ArrowRight'){ e.preventDefault(); if (cur === PICK && phase === 'reveal') revealNext(); else go(cur + 1); }
   else if (k === 'ArrowLeft'){ e.preventDefault(); go(cur - 1); }
   else if (k === ' ' || k === 'Enter'){
     e.preventDefault();
-    if (cur < PICK) go(cur + 1); else if (!drawn && !busy) draw();
+    if (cur < PICK) go(cur + 1); else if (phase === 'reveal') revealNext(); else if (!drawn && !busy) draw();
   }
   else if (k === 'Escape'){ if (!busy) deselect(); }
-  else if ((k === 'r' || k === 'R') && cur === PICK){ randomSwap(); }
+  else if ((k === 'r' || k === 'R') && cur === PICK && phase === 'pick'){ randomSwap(); }
 });
+
+/* =====================================================================
+   Celebrities Finalized → random presentation order, Day 1 and Day 2
+   ===================================================================== */
+var DAY_SIZES = [9, 8];   /* Day 1 gets the first 9 places, Day 2 the last 8 */
+var MSGS = ['Posters due the night before Day 2', 'Slideshow & poster due at the end of Day 1'];
+var phase = 'pick', order = null, revealed = 0;   /* phase: pick | locked | shuffling | reveal | done */
+var finalBtn = document.getElementById('finalBtn'), shuffleBtn = document.getElementById('shuffleBtn'),
+    againBtn = document.getElementById('againBtn'), unlockBtn = document.getElementById('unlockBtn');
+var dayview = document.getElementById('dayview'), dms = [document.getElementById('dm0'), document.getElementById('dm1')];
+var CW = (1840 - 4 * 16) / 5, CH = 156, slotPos = [];
+(function(){
+  var dayTop = [0, 405];
+  DAY_SIZES.forEach(function(n, d){
+    var num = 1;
+    [Math.ceil(n / 2), Math.floor(n / 2)].forEach(function(k, r){
+      var total = k * CW + (k - 1) * 16, x0 = (1840 - total) / 2;
+      for (var c = 0; c < k; c++) slotPos.push({x:x0 + c * (CW + 16), y:dayTop[d] + 64 + r * (CH + 12), day:d, num:num++});
+    });
+  });
+})();
+function ordinal(n){ var s = ['TH','ST','ND','RD'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+
+var pcs = STUDENTS.map(function(name){
+  var pc = el('div', 'pc', '<div class="pcin"><div class="face front"><div class="pn"></div><div class="pf"><span class="t"></span></div><div class="pe"></div><div class="ord"></div></div><div class="face back"><div class="bnum">?</div></div></div>');
+  pc.style.width = CW + 'px'; pc.style.height = CH + 'px';
+  pc.querySelector('.pn').textContent = name;
+  dayview.appendChild(pc); return pc;
+});
+function fillPc(i){
+  var pc = pcs[i], c = CELEBS[assign[i]], f = pc.querySelector('.pf'), t = f.querySelector('.t'), old = f.querySelector('.wl');
+  f.style.background = c.b; f.style.borderLeftColor = c.c; t.textContent = c.name;
+  if (old) old.remove();
+  var a = el('a', 'wl', '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" fill="none" stroke="#fff6e3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  a.href = c.wiki; a.target = '_blank'; a.rel = 'noopener'; a.title = c.name + ' on Wikipedia'; a.style.borderColor = c.c;
+  a.addEventListener('click', function(ev){ ev.stopPropagation(); });
+  f.appendChild(a);
+  var pe = pc.querySelector('.pe'); pe.textContent = 'ERA ' + ERAS[c.era].n + ' · ' + ERAS[c.era].name; pe.style.color = c.c;
+}
+function placePc(i, slot){ var p = slotPos[slot]; pcs[i].style.transform = 'translate(' + p.x + 'px,' + p.y + 'px)'; }
+function fitPcs(){ pcs.forEach(function(pc){ fit(pc.querySelector('.pn'), 34, 22); fit(pc.querySelector('.pf .t'), 40, 22); }); }
+function showMsgs(on){
+  dms.forEach(function(m, d){
+    m.classList.toggle('on', on);
+    if (on){ m.innerHTML = '<b></b>'; m.querySelector('b').textContent = MSGS[d]; }
+    else m.textContent = phase === 'shuffling' ? 'Shuffling…' : 'Presentation order not set yet';
+    fit(m, 26, 16);
+  });
+}
+function renderFinal(){
+  STUDENTS.forEach(function(_, i){ fillPc(i); });
+  var arr = order || range(N);
+  arr.forEach(function(i, slot){
+    var pc = pcs[i], p = slotPos[slot], up = !order || slot < revealed;
+    placePc(i, slot);
+    pc.classList.toggle('down', !up);
+    pc.classList.toggle('shown', !!order && up);
+    pc.classList.toggle('next', !!order && phase === 'reveal' && slot === revealed);
+    pc.querySelector('.ord').textContent = ordinal(p.num);
+    pc.querySelector('.bnum').textContent = order ? p.num : '?';
+  });
+  showMsgs(!!order);
+  fitPcs();
+}
+
+function finalize(){
+  if (busy || !drawn || phase !== 'pick') return;
+  deselect(true); phase = 'locked'; order = null; revealed = 0;
+  updateBar(); renderFinal(); save();
+}
+var unlockTimer = null;
+function resetUnlock(){ clearTimeout(unlockTimer); unlockBtn.classList.remove('warn'); unlockBtn.textContent = 'Unlock'; }
+function unlock(){
+  if (busy) return;
+  if (!unlockBtn.classList.contains('warn')){
+    unlockBtn.classList.add('warn'); unlockBtn.textContent = 'Click again to unlock';
+    unlockTimer = setTimeout(resetUnlock, 3000); return;
+  }
+  resetUnlock(); phase = 'pick'; order = null; revealed = 0;
+  for (var i = 0; i < N; i++) setFrame(i);
+  renderArchive(); updateBar(); fitAll(); save();
+}
+
+/* Smoothly carry a card along an arc between two slots */
+function arcMove(pc, from, to, bend, dur, done){
+  var t0 = performance.now(), dist = Math.hypot(to.x - from.x, to.y - from.y), lift = bend * (50 + dist * 0.22);
+  pc.style.zIndex = 10;
+  function step(now){
+    var p = Math.min(1, (now - t0) / dur), e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+    var x = from.x + (to.x - from.x) * e, y = from.y + (to.y - from.y) * e - lift * Math.sin(Math.PI * e), sc = 1 + 0.07 * Math.sin(Math.PI * e);
+    pc.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + sc + ')';
+    if (p < 1) requestAnimationFrame(step); else { pc.style.zIndex = ''; pc.style.transform = 'translate(' + to.x + 'px,' + to.y + 'px)'; if (done) done(); }
+  }
+  requestAnimationFrame(step);
+}
+
+function shuffleOrder(){
+  if (busy || (phase !== 'locked' && phase !== 'done')) return;
+  resetUnlock();
+  var arr = (order || range(N)).slice();
+  busy = true; phase = 'shuffling'; order = null; revealed = 0;
+  showMsgs(false); updateBar();
+  /* 1. flip face-down one by one, left to right */
+  arr.forEach(function(i, slot){
+    var pc = pcs[i]; pc.classList.remove('shown', 'next');
+    setTimeout(function(){ pc.querySelector('.bnum').textContent = '?'; pc.classList.add('down'); }, slot * 110);
+  });
+  setTimeout(function(){ runSwaps(arr); }, N * 110 + 650);
+}
+function runSwaps(arr){
+  /* The final order is chosen truly at random first; the swaps are planned so the cards end up in exactly that order */
+  var target = shuffle(range(N)), seq = [], sim = arr.slice(), k, a, b, t;
+  for (k = 0; k < 6; k++){ a = rnd(N); do { b = rnd(N); } while (b === a); seq.push([a, b]); t = sim[a]; sim[a] = sim[b]; sim[b] = t; }
+  for (var s0 = 0; s0 < N; s0++){
+    if (sim[s0] !== target[s0]){ var j = sim.indexOf(target[s0]); seq.push([s0, j]); t = sim[s0]; sim[s0] = sim[j]; sim[j] = t; }
+  }
+  var idx = 0;
+  function next(){
+    if (idx >= seq.length){ order = target; finishShuffle(); return; }
+    var p = seq[idx], dur = 540 * Math.pow(0.85, idx) + 110; idx++;   /* slow at first, then faster and faster */
+    var A = arr[p[0]], B = arr[p[1]]; arr[p[0]] = B; arr[p[1]] = A;
+    arcMove(pcs[A], slotPos[p[0]], slotPos[p[1]], 1, dur);
+    arcMove(pcs[B], slotPos[p[1]], slotPos[p[0]], -1, dur, function(){ setTimeout(next, 30); });
+  }
+  next();
+}
+function finishShuffle(){
+  order.forEach(function(i, slot){
+    var pc = pcs[i];
+    pc.querySelector('.ord').textContent = ordinal(slotPos[slot].num);
+    setTimeout(function(){ pc.querySelector('.bnum').textContent = slotPos[slot].num; pc.classList.remove('bump'); void pc.offsetWidth; pc.classList.add('bump'); }, slot * 60);
+  });
+  setTimeout(function(){
+    busy = false; phase = 'reveal'; revealed = 0;
+    pcs[order[0]].classList.add('next');
+    showMsgs(true); save(); updateBar();
+  }, N * 60 + 300);
+}
+function revealNext(){
+  if (phase !== 'reveal' || busy) return;
+  var pc = pcs[order[revealed]];
+  pc.classList.remove('next', 'down'); pc.classList.add('shown');
+  revealed++;
+  if (revealed >= N) phase = 'done'; else pcs[order[revealed]].classList.add('next');
+  save(); updateBar();
+}
+finalBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); finalize(); });
+shuffleBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); shuffleOrder(); });
+againBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); shuffleOrder(); });
+unlockBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); unlock(); });
 
 /* ===== Scale stage to fit ===== */
 function fitStage(){
@@ -642,6 +864,7 @@ function fitAll(){
   document.querySelectorAll('.cname').forEach(function(n){ fit(n, 50, 32); });
   document.querySelectorAll('.slide h1').forEach(function(n){ fit(n, 58, 40); });
   fit(hint, 22, 15);
+  if (phase !== 'pick') renderFinal();
 }
 
 load();
