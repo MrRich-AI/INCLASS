@@ -223,7 +223,7 @@ var ERAS = [
    people:[
     ['Britney Spears','born 1981','Pop star whose life was followed closely by tabloids and websites.','mic','Britney_Spears'],
     ['David Beckham','born 1975','England football captain and fashion icon.','ball','David_Beckham'],
-    ['Paris Hilton','born 1981','Hotel heiress who became famous through reality TV.','flash','Paris_Hilton'],
+    ['Susan Boyle','born 1961','Singer who became a world star when her 2009 TV audition went viral.','mic','Susan_Boyle'],
     ['Usain Bolt','born 1986','Sprinter with world records in the 100 m and 200 m.','bolt','Usain_Bolt'],
     ['Emma Watson','born 1990','Actress who played Hermione in the Harry Potter films.','wand','Emma_Watson'],
     ['Justin Bieber','born 1994','Singer discovered through his YouTube videos.','play','Justin_Bieber']]},
@@ -437,7 +437,7 @@ function load(){
   try {
     var d = JSON.parse(localStorage.getItem(SAVE_KEY)); if (!d || !d.students || !d.celebs) return;
     var byName = {}, a = new Array(N).fill(null);
-    CELEBS.forEach(function(c){ byName[c.name] = c.id; });
+    CELEBS.forEach(function(c){ byName[c.name] = c.id; }); byName['Paris Hilton'] = byName['Susan Boyle'];
     d.students.forEach(function(s, k){ var i = STUDENTS.indexOf(s), id = byName[d.celebs[k]]; if (i >= 0 && id !== undefined) a[i] = id; });
     if (a.some(function(x){ return x === null; }) || new Set(a).size !== N) return;
     assign = a; owner.fill(-1); a.forEach(function(id, i){ owner[id] = i; });
