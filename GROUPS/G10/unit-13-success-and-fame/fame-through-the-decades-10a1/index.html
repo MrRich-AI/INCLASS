@@ -162,7 +162,8 @@
   #dayview{position:absolute;left:40px;top:166px;width:1840px;height:794px;display:none}
   #pick.final #dayview{display:block}
   #pick.revealing{cursor:pointer}
-  .dayhead{position:absolute;left:0;right:0;height:54px;display:flex;align-items:center;gap:16px}
+  .dayhead{position:absolute;left:0;right:0;height:54px;display:flex;align-items:center;gap:16px;opacity:0;transition:opacity .6s}
+  #dayview.ordered .dayhead{opacity:1}
   .daylab{font:400 32px/1.2 var(--display);color:#1a1205;background:var(--gold);border:3px solid #fff1c7;border-radius:999px;padding:2px 28px;box-shadow:0 6px 16px rgba(0,0,0,.5);white-space:nowrap}
   .daymsg{flex:1;min-width:0;background:var(--panel);border:2px solid #5d4428;border-radius:999px;padding:8px 26px;font:700 26px var(--body);color:#c9bba6;
     white-space:nowrap;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.5);transition:border-color .4s,color .4s}
@@ -220,6 +221,7 @@
       <button class="btn ghost mid" id="redrawBtn" hidden>Draw Again</button>
       <button class="btn mid" id="finalBtn" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" fill="#1a1205"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#1a1205" stroke-width="2.6"/></svg>Celebrities Finalized</button>
       <button class="btn" id="shuffleBtn" hidden>Shuffle Presentation Order</button>
+      <button class="btn mid" id="revealAllBtn" hidden>Reveal All</button>
       <button class="btn" id="againBtn" hidden>Shuffle Again</button>
       <button class="btn ghost mid" id="unlockBtn" hidden>Unlock</button>
     </div>
@@ -541,11 +543,12 @@ function updateBar(){
   redrawBtn.disabled = finalBtn.disabled = busy;
   shuffleBtn.hidden = phase !== 'locked';
   againBtn.hidden = phase !== 'done';
+  if (typeof revealAllBtn !== 'undefined') revealAllBtn.hidden = phase !== 'reveal';
   unlockBtn.hidden = !fin || phase === 'shuffling';
   prevBtn.disabled = busy || cur === 0;
-  if (phase === 'locked') hint.innerHTML = 'Pairs are locked. Shuffle to set the presentation order.';
+  if (phase === 'locked') hint.innerHTML = 'Pairs are locked. Shuffle to set the Day 1 and Day 2 order.';
   else if (phase === 'shuffling') hint.innerHTML = 'Shuffling the presentation order…';
-  else if (phase === 'reveal') hint.innerHTML = 'Click anywhere or press Space to reveal the next presenter.';
+  else if (phase === 'reveal') hint.innerHTML = busy ? 'Revealing…' : 'Click anywhere or press Space to reveal the next presenter.';
   else if (phase === 'done') hint.innerHTML = 'Every presenter is revealed.';
   else if (!drawn && busy) hint.innerHTML = 'Drawing stars from the archive…';
   else if (!drawn) hint.innerHTML = 'Every student gets a star from one of five eras of fame.';
@@ -720,6 +723,16 @@ var CW = (1840 - 4 * 16) / 5, CH = 156, slotPos = [];
     });
   });
 })();
+var lockPos = (function(){
+  var nr = Math.ceil(N / 5), base = Math.floor(N / nr), extra = N % nr, rows = [], out = [];
+  for (var r0 = 0; r0 < nr; r0++) rows.push(base + (r0 < extra ? 1 : 0));   /* 17 → 5,4,4,4 */
+  var top = (794 - (rows.length * CH + (rows.length - 1) * 18)) / 2;
+  rows.forEach(function(k, r){
+    var total = k * CW + (k - 1) * 16, x0 = (1840 - total) / 2;
+    for (var c = 0; c < k; c++) out.push({x:x0 + c * (CW + 16), y:top + r * (CH + 18)});
+  });
+  return out;
+})();
 function ordinal(n){ var s = ['TH','ST','ND','RD'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
 var pcs = STUDENTS.map(function(name){
@@ -750,9 +763,16 @@ function showMsgs(on){
 }
 function renderFinal(){
   STUDENTS.forEach(function(_, i){ fillPc(i); });
-  var arr = order || range(N);
-  arr.forEach(function(i, slot){
-    var pc = pcs[i], p = slotPos[slot], up = !order || slot < revealed;
+  dayview.classList.toggle('ordered', !!order);
+  if (!order){
+    pcs.forEach(function(pc, i){
+      var q = lockPos[i]; pc.style.transform = 'translate(' + q.x + 'px,' + q.y + 'px)';
+      pc.classList.remove('down', 'shown', 'next'); pc.querySelector('.bnum').textContent = '?';
+    });
+    showMsgs(false); fitPcs(); return;
+  }
+  order.forEach(function(i, slot){
+    var pc = pcs[i], p = slotPos[slot], up = slot < revealed;
     placePc(i, slot);
     pc.classList.toggle('down', !up);
     pc.classList.toggle('shown', !!order && up);
@@ -795,35 +815,36 @@ function arcMove(pc, from, to, bend, dur, done){
   requestAnimationFrame(step);
 }
 
+function posOf(i){
+  if (order){ var p = slotPos[order.indexOf(i)]; return {x:p.x, y:p.y}; }
+  return lockPos[i];
+}
 function shuffleOrder(){
   if (busy || (phase !== 'locked' && phase !== 'done')) return;
   resetUnlock();
-  var arr = (order || range(N)).slice();
+  var from = STUDENTS.map(function(_, i){ return posOf(i); });
+  var vis = range(N).sort(function(a, b){ return (from[a].y - from[b].y) || (from[a].x - from[b].x); });   /* left to right, top to bottom */
   busy = true; phase = 'shuffling'; order = null; revealed = 0;
   showMsgs(false); updateBar();
   /* 1. flip face-down one by one, left to right */
-  arr.forEach(function(i, slot){
+  vis.forEach(function(i, k){
     var pc = pcs[i]; pc.classList.remove('shown', 'next');
-    setTimeout(function(){ pc.querySelector('.bnum').textContent = '?'; pc.classList.add('down'); }, slot * 110);
+    setTimeout(function(){ pc.querySelector('.bnum').textContent = '?'; pc.classList.add('down'); }, k * 100);
   });
-  setTimeout(function(){ runSwaps(arr); }, N * 110 + 650);
-}
-function runSwaps(arr){
-  /* The final order is chosen truly at random first; the swaps are planned so the cards end up in exactly that order */
-  var target = shuffle(range(N)), seq = [], sim = arr.slice(), k, a, b, t;
-  for (k = 0; k < 6; k++){ a = rnd(N); do { b = rnd(N); } while (b === a); seq.push([a, b]); t = sim[a]; sim[a] = sim[b]; sim[b] = t; }
-  for (var s0 = 0; s0 < N; s0++){
-    if (sim[s0] !== target[s0]){ var j = sim.indexOf(target[s0]); seq.push([s0, j]); t = sim[s0]; sim[s0] = sim[j]; sim[j] = t; }
-  }
-  var idx = 0;
-  function next(){
-    if (idx >= seq.length){ order = target; finishShuffle(); return; }
-    var p = seq[idx], dur = 540 * Math.pow(0.85, idx) + 110; idx++;   /* slow at first, then faster and faster */
-    var A = arr[p[0]], B = arr[p[1]]; arr[p[0]] = B; arr[p[1]] = A;
-    arcMove(pcs[A], slotPos[p[0]], slotPos[p[1]], 1, dur);
-    arcMove(pcs[B], slotPos[p[1]], slotPos[p[0]], -1, dur, function(){ setTimeout(next, 30); });
-  }
-  next();
+  /* 2. the order is chosen truly at random, then each card arcs into its Day 1 / Day 2 place */
+  setTimeout(function(){
+    var target = shuffle(range(N)), slotOf = [];
+    target.forEach(function(i, slot){ slotOf[i] = slot; });
+    dayview.classList.add('ordered');
+    var flyOrder = shuffle(range(N)), t = 0, gap = 380, landed = 0;
+    flyOrder.forEach(function(i, k){
+      var dur = Math.max(420, 900 - k * 30);
+      setTimeout(function(){
+        arcMove(pcs[i], from[i], slotPos[slotOf[i]], (k % 2) ? -1 : 1, dur, function(){ if (++landed === N){ order = target; finishShuffle(); } });
+      }, t);
+      t += gap; gap = Math.max(70, gap * 0.82);   /* slow at first, then faster and faster */
+    });
+  }, N * 100 + 600);
 }
 function finishShuffle(){
   order.forEach(function(i, slot){
@@ -845,6 +866,17 @@ function revealNext(){
   if (revealed >= N) phase = 'done'; else pcs[order[revealed]].classList.add('next');
   save(); updateBar();
 }
+var revealAllBtn = document.getElementById('revealAllBtn');
+function revealAll(){
+  if (phase !== 'reveal' || busy) return;
+  busy = true; updateBar();
+  (function step(){
+    if (revealed >= N){ busy = false; phase = 'done'; save(); updateBar(); return; }
+    var pc = pcs[order[revealed]]; pc.classList.remove('next', 'down'); pc.classList.add('shown'); revealed++;
+    setTimeout(step, 150);
+  })();
+}
+revealAllBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); revealAll(); });
 finalBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); finalize(); });
 shuffleBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); shuffleOrder(); });
 againBtn.addEventListener('click', function(e){ e.stopPropagation(); this.blur(); shuffleOrder(); });
