@@ -80,8 +80,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0D9B4;font-family:
 table.tl{position:absolute;border-collapse:separate;border-spacing:0 9px}
 table.tl th{font-size:44px;font-weight:700;color:var(--ivory);background:var(--red);padding:8px 26px;text-align:left}
 table.tl th:first-child{border-radius:18px 0 0 18px}table.tl th:last-child{border-radius:0 18px 18px 0}
-table.tl td{font-size:44px;line-height:1.12;background:var(--ivory);padding:8px 22px;border-top:5px solid var(--gold);border-bottom:5px solid var(--gold);vertical-align:middle}
+table.tl td{font-size:44px;line-height:1.1;background:var(--ivory);padding:6px 22px;border-top:5px solid var(--gold);border-bottom:5px solid var(--gold);vertical-align:middle}
 table.tl td:first-child{border-left:5px solid var(--gold);border-radius:18px 0 0 18px;font-weight:700;white-space:nowrap}
+table.tl td b{color:var(--red)}
 table.tl td:last-child{border-right:5px solid var(--gold);border-radius:0 18px 18px 0;color:var(--red);font-weight:600}
 table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
 
@@ -92,6 +93,21 @@ table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
 .photo img{display:block;width:100%;height:100%;object-fit:contain;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.2)}
 .photo.gone{display:none}
 
+/* poster mock-up (slide 10) */
+.poster{position:absolute;background:var(--ivory);border:10px solid var(--gold);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px;
+  box-shadow:0 26px 50px rgba(58,20,32,.35);transform:rotate(2deg)}
+.slide.active .poster.rise{animation:rise .7s .12s cubic-bezier(.2,.8,.2,1) both}
+.poster>div{border-radius:10px;text-align:center;font-weight:700;line-height:1.05;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.poster .pt{background:var(--red);color:var(--ivory);font-family:'Abril Fatface',Georgia,serif;font-weight:400;font-size:50px;padding:14px 8px}
+.poster .pn{font-size:44px;color:var(--red);padding:2px}
+.poster .pp{flex:1;background:linear-gradient(160deg,var(--sand),var(--gold-l));border:4px dashed var(--gold-d);position:relative}
+.poster .pp::before{content:"";width:150px;height:150px;margin-bottom:10px;background:radial-gradient(circle at 35% 30%,var(--gold-l),var(--rose) 60%,var(--red));
+  clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.poster .pp span{font-size:44px;color:var(--ink)}
+.poster .pl{font-size:44px;font-style:italic;color:var(--ink);background:var(--gold-l);padding:12px}
+.poster .pf{font-size:44px;color:var(--ink);border:4px solid var(--gold);padding:10px;gap:8px}
+.poster .pf i{display:block;width:80%;height:8px;border-radius:4px;background:var(--gold)}
+.poster .pv{font-size:44px;background:var(--rose);color:var(--ink);padding:12px}
 /* bottom bar */
 #bar{position:absolute;left:0;top:990px;width:1920px;height:90px;display:flex;align-items:center;justify-content:center;gap:26px;
   background:linear-gradient(180deg,#F7E3BE,#EBCB8C);border-top:6px solid var(--gold-d);box-shadow:0 -6px 20px rgba(58,20,32,.18)}
@@ -145,7 +161,7 @@ table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
       <div class="arrow rise d1" style="left:552px;top:430px">→</div>
       <div class="stage-chip rise d2" style="left:610px;top:400px;width:650px"><div class="num">2</div><div><div class="t">Essay</div><div class="s">in class · no devices</div></div></div>
       <div class="arrow rise d2" style="left:1272px;top:430px">→</div>
-      <div class="stage-chip rise d3" style="left:1340px;top:400px;width:550px"><div class="num">3</div><div><div class="t">Presentation</div><div class="s">homework</div></div></div>
+      <div class="stage-chip rise d3" style="left:1340px;top:400px;width:550px"><div class="num">3</div><div><div class="t">Presentation</div><div class="s">+ poster<br>homework</div></div></div>
       <div class="abs rise d3" style="left:0;width:1920px;top:566px;text-align:center"><span class="tab" style="font-size:46px">The five eras of fame</span></div>
       <div class="chip rise d4" style="left:18px;top:782px;width:350px;padding:10px 12px"><div class="n">Pre-mass-media</div><div class="d">up to ~1920s</div></div>
       <div class="chip rise d4" style="left:376px;top:782px;width:350px;padding:10px 12px"><div class="n">Golden age of Hollywood</div><div class="d">~1930s–1950s</div></div>
@@ -171,14 +187,14 @@ table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
 
     <!-- 4 Step 1 Rules -->
     <section class="slide" data-title="Step 1 — Rules">
-      <figure class="photo rise" data-file="Pen-writing-notes-studying.jpg" style="left:90px;top:190px;width:600px;height:460px;transform:rotate(-3deg)"></figure>
-      <div class="card rise d1" style="left:790px;top:60px;width:1070px;padding:36px 54px">
+      <figure class="photo rise" data-file="Pen-writing-notes-studying.jpg" style="left:50px;top:200px;width:560px;height:440px;transform:rotate(-3deg)"></figure>
+      <div class="card rise d1" style="left:670px;top:30px;width:1210px;padding:30px 50px">
         <h2 class="title">Step 1 — Rules</h2>
         <ul class="list">
           <li class="li">Write <b>by hand</b>. Keywords and short phrases only — <b>no full sentences</b>.</li>
-          <li class="li"><b>Max 5 words</b> per bullet.</li>
+          <li class="li"><b>Max 5 words</b> per bullet — <b>one word per box</b>.</li>
           <li class="li">Write only <b>inside the boxes</b> — no extra pages, no back of the sheet.</li>
-          <li class="li">Use at least <b>3 good sources</b>: website + article title.</li>
+          <li class="li" style="margin-bottom:0">Use at least <b>3 good sources</b>. Submit them <b>online</b>, not on your sheet.</li>
         </ul>
       </div>
     </section>
@@ -256,10 +272,10 @@ table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
       <figure class="photo rise d1" data-file="Taking_notes_with_a_pencil_(Unsplash).jpg" style="left:1370px;top:150px;width:490px;height:640px;transform:rotate(2.5deg)"></figure>
     </section>
 
-    <!-- 9 Step 3 Presentation: build -->
-    <section class="slide" data-title="Step 3 — Presentation (homework, present on Days 3–4)">
+    <!-- 9 Step 3 Presentation & Poster: slides -->
+    <section class="slide" data-title="Step 3 — Presentation &amp; Poster (homework, present on Days 3–4)">
       <div class="card rise" style="left:60px;top:20px;width:1800px;padding:16px 50px 20px">
-        <h2 class="title" style="font-size:93px">Step 3 — Presentation</h2>
+        <h2 class="title" style="font-size:93px">Step 3 — Presentation <span class="amp">&amp;</span> Poster</h2>
         <p class="body" style="font-size:56px;color:var(--red);font-weight:600">(homework, present on Days 3–4)</p>
       </div>
       <div class="chip flow rise d1" style="left:50px;top:282px"><div class="n">title</div><div class="d">name, era, photo</div></div>
@@ -285,21 +301,49 @@ table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
       </div>
     </section>
 
-    <!-- 10 Step 3 Present -->
+    <!-- 10 Step 3 Poster -->
+    <section class="slide" data-title="Step 3 — Poster">
+      <div class="card rise" style="left:40px;top:24px;width:1300px;padding:28px 48px">
+        <h2 class="title">Step 3 — Poster <span class="tab" style="font-family:'Lexend',Verdana,sans-serif;vertical-align:middle;margin:0 0 0 18px">about 30 minutes</span></h2>
+        <p class="body" style="margin-top:4px">Make a <b>one-page digital poster</b>:</p>
+        <ul class="list">
+          <li class="li"><b>Title:</b> Fame Through the Decades + your celebrity’s name and era</li>
+          <li class="li">A <b>picture</b> of your celebrity</li>
+          <li class="li" style="margin-bottom:0">A <b>tagline</b> (max 10 words), <b>3 short fame facts</b>, and your <b>verdict</b>: did they deserve their fame?</li>
+        </ul>
+      </div>
+      <div class="card rise d2" style="left:40px;top:762px;width:1300px;padding:16px 40px">
+        <div class="yesno" style="margin-top:0"><div class="mark yes">✓</div><p class="body" style="font-size:56px">AI can help with design and pictures.</p></div>
+        <div class="yesno" style="margin-top:10px"><div class="mark no">✗</div><p class="body" style="font-size:56px">The words must be <b>yours</b>.</p></div>
+      </div>
+      <div class="poster rise d1" style="left:1420px;top:56px;width:450px;height:900px">
+        <div class="pt">Fame Through the Decades</div>
+        <div class="pn">name · era</div>
+        <div class="pp"><span>picture</span></div>
+        <div class="pl">tagline</div>
+        <div class="pf"><i></i>3 fame facts<i></i><i></i></div>
+        <div class="pv">verdict</div>
+      </div>
+    </section>
+
+    <!-- 11 Step 3 Present -->
     <section class="slide" data-title="Step 3 — Present">
-      <div class="card rise" style="left:80px;top:70px;width:1060px;padding:38px 56px">
+      <div class="card rise" style="left:50px;top:30px;width:1260px;padding:28px 50px">
         <h2 class="title">Step 3 — Present</h2>
         <ul class="list">
           <li class="li">Speak for <b>3–4 minutes</b> using cue cards with keywords.</li>
           <li class="li"><b>Do not read</b> your slides.</li>
-          <li class="li">Be ready to answer <b>one question</b> about your person.</li>
-          <li class="li" style="margin-bottom:0">Upload your slides to the class folder <b>before Day 3</b>.</li>
+          <li class="li">Your <b>poster</b> is on screen as you start.</li>
+          <li class="li" style="margin-bottom:0">Be ready to answer <b>one question</b> about your person.</li>
         </ul>
       </div>
-      <figure class="photo rise d2" data-file="Vintage_Electro-Voice_Model_611_Microphone_With_Atlas_Sound_Stand,_Made_In_USA,_Circa_1950s_(14763782577).jpg" style="left:1300px;top:110px;width:500px;height:660px;transform:rotate(-2deg)"></figure>
+      <div class="card rise d2" style="left:50px;top:726px;width:1260px;padding:14px 50px;border-color:var(--red)">
+        <p class="body" style="font-size:55px">Upload <b>slides + poster</b> to the class folder.<br><b>Due: your presentation day.</b></p>
+      </div>
+      <figure class="photo rise d2" data-file="Vintage_Electro-Voice_Model_611_Microphone_With_Atlas_Sound_Stand,_Made_In_USA,_Circa_1950s_(14763782577).jpg" style="left:1370px;top:110px;width:500px;height:680px;transform:rotate(-2deg)"></figure>
     </section>
 
-    <!-- 11 Timeline -->
+    <!-- 12 Timeline -->
     <section class="slide" data-title="Timeline">
       <div class="card rise" style="left:300px;top:16px;width:620px;padding:4px 44px">
         <h2 class="title" style="font-size:93px">Timeline</h2>
@@ -307,10 +351,10 @@ table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
       <table class="tl rise d1" style="left:300px;top:150px;width:1590px">
         <colgroup><col style="width:270px"><col><col style="width:450px"></colgroup>
         <tr><th>Day</th><th>Task</th><th>Where</th></tr>
-        <tr><td>Day 1</td><td>Get your celebrity. Learn the rules. Start finding sources.</td><td>In class (devices)</td></tr>
-        <tr><td>Homework</td><td>Note sheet: keywords, 3+ sources. Sources &amp; AI Links form by the night before Day 2.</td><td>Home</td></tr>
-        <tr><td>Day 2</td><td>Sheets checked. Essay from notes only. Hand in essay + note sheet.</td><td>In class (no devices)</td></tr>
-        <tr><td>Homework</td><td>Build slides and cue cards. Upload before Day 3.</td><td>Home</td></tr>
+        <tr><td>Day 1</td><td>Get your celebrity. Learn the rules. Find sources.</td><td>In class (devices)</td></tr>
+        <tr><td>Homework</td><td>Note sheet: one word per box, max 5 words. Sources &amp; AI Links form: night before Day 2.</td><td>Home</td></tr>
+        <tr><td>Day 2</td><td>Sheets checked. Essay from notes only. Hand in both.</td><td>In class (no devices)</td></tr>
+        <tr><td>Homework</td><td>Slides, cue cards + poster (~30 min). <b>Due on your presentation day.</b></td><td>Home</td></tr>
         <tr><td>Day 3</td><td>Presentations (first half of class)</td><td>In class</td></tr>
         <tr><td>Day 4</td><td>Presentations (second half of class)</td><td>In class</td></tr>
       </table>
@@ -321,7 +365,7 @@ table.tl tr{box-shadow:0 8px 18px rgba(58,20,32,.18)}
   <div id="bar">
     <button id="contentsBtn">☰ Contents</button>
     <button id="back">◀ Back</button>
-    <span id="count">1 / 11</span>
+    <span id="count">1 / 12</span>
     <button id="next">Next ▶</button>
     <span id="classTag">Class 10A1</span>
   </div>
@@ -585,14 +629,21 @@ var SCENES=[
    ctx.restore();
    drawStar(ctx,1790,880,260,-.2,1,'tv');
  },
- /* 10 present: carpet climbing to the photo, posts on both sides */
+ /* 10 poster: gallery wall — a brass picture rail with stars beneath, carpet strip below */
+ function(ctx){terrFloor(ctx,12);
+   ctx.save();ctx.fillStyle=brass(ctx,0,0,1920,0);ctx.fillRect(1290,28,620,14);ctx.restore();
+   for(var i=0;i<3;i++){ctx.strokeStyle=GOLD_D;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(1500+i*120,42);ctx.lineTo(1620,120);ctx.stroke();}
+   carpet(ctx,[1300,1100],[1330,960],[1920,960],[1940,1100],27);
+   drawStar(ctx,1310,930,230,.3,1,'camera');drawStar(ctx,140,180,200,-.25,1,'record');
+ },
+ /* 11 present: carpet climbing to the photo, posts on both sides */
  function(ctx){terrFloor(ctx,10);
    carpet(ctx,[1200,1100],[1340,600],[1760,600],[1900,1100],21);
    postsAndRopes(ctx,[[1180,1010],[1250,800],[1300,640]],160);
    postsAndRopes(ctx,[[1910,1010],[1840,800],[1790,640]],160);
    drawStar(ctx,170,930,360,.25,1,'mic');
  },
- /* 11 timeline: six stars down the left margin, one per row */
+/* 12 timeline: six stars down the left margin, one per row */
  function(ctx){terrFloor(ctx,11);
    carpet(ctx,[-20,-20],[-20,1100],[48,1100],[48,-20],24);
    var ys=T_YS;
