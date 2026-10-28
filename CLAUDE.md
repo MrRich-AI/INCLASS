@@ -22,19 +22,17 @@ Neither type is a student game: no name/class login, no scoreboard submission, n
 - If a request clashes with these rules, ask before building.
 
 ## Shared across both types
-- **CONTROL (formerly the Lesson Template) is the master code for shared features:** any feature these builds share with Lesson HTML (roster picker, slide stopwatch, work timer, B/W, C, ?, P, cover boxes, zoom, language sign, COPY/NOTE pencil, REV, drag-into-gap, choice buttons, EXPLAIN, evidence windows) is copied from the current CONTROL file, `_shared/control/control.html` in the Lessons repo (mrrich-ai/lessons), never from an older build. Restyle it to the build's look, but keep its behaviour. If a shared feature is changed or added while working on an INCLASS or RVW build, make the same change in CONTROL (and its README and the Lessons CLAUDE.md) in the same step.
+- **SHARED is the master code for shared features** (mrrich-ai/SHARED; it replaces CONTROL, `_shared/control/control.html` in the Lessons repo, which is now frozen). Any feature these builds share with Lesson HTML is copied from the current SHARED code, never from an older build. Restyle it to the build's look, but keep its behaviour. Each shared feature's full rules are in its SHARED module README (pointers below). Whenever a shared feature is added or changed, update the module code, README and demo in SHARED in the same commit (SHARED/WORKFLOW.md).
+- **Frames:** INCLASS uses the `inclass` frame, RVW the `rvw` frame (SHARED/control/variants/README.md).
 - **Screen:** 16:9, rendered at 1920×1080 and scaled to fit any screen, no scrolling, high contrast, readable from the back of the room.
-- **Navigation:** Next/Back, arrow keys, slide counter, Contents listing every slide (scrolls inside its window, opens with the current slide in view).
-- **REV (answer progression):** blank click / Space / → reveals the next hidden answer, one answer per step (never several at once; drag-and-drop sorters/matches place one item per step in reading order; never wire REV to Check answers / Reveal all); once all show, it advances. ← hides the last revealed; with none revealed, goes back. Individual answers still toggle; progression skips opened ones. Bottom Next/Back always change slides immediately. Returning keeps answers as left. Highlighting text (drag-select or double-click) never counts as a click. Non-REV slides: Space/arrows change slides, blank clicks do nothing.
-- **Click-to-pause:** every timer or countdown pauses/resumes when the timer itself is clicked.
+- **Navigation, REV (answer progression), click-to-pause:** see SHARED/control/README.md.
 - **Delivery:** one self-contained HTML file.
-- **EXPLAIN (light-bulb rule/pattern explainer):** a light-bulb button that opens a B1-level explanation of the slide's content and the English rule or pattern behind it (based on the slide and standard English rules/guidelines).
-  - **Criteria:** a slide whose task depends on an English rule or pattern (grammar, word formation, collocations, linking words, punctuation, text organisation, register, exam strategy) that the source doesn't clearly state. Not for open discussion with no pattern, or slides where the source already explains the rule.
-  - **Ask first:** whenever Claude finds a slide that meets the criteria (before building, or while editing an existing build), list it by slide number with a one-line summary of the rule and ask Richard whether to include it. Never add it automatically.
-  - **Icon:** a classic glowing light bulb, code-drawn SVG (glass bulb, zigzag filament, screw base, glass highlight, gently pulsing rays). No text, no emoji. Never faded. A slight continuous wobble that pauses on hover. In a free corner (INCLASS: bottom-left above the bottom bar by default; RVW: in the header strip, right end), never covering content.
-  - **Panel:** large pop-up over the dimmed slide, readable from the back. B1 English: short sentences, common words, grammar terms only when needed and explained. (1) What this slide is about — one line; (2) The rule / pattern — 2–4 sentences; (3) Examples — 2–3 with the pattern highlighted; (4) Watch out! — one common mistake with the correction.
-  - **No spoilers:** never shows hidden answers; uses the source's own examples or new examples of the same pattern.
-  - **Behaviour:** close with the bulb, a click outside or Esc; never triggers REV or changes the slide; closes on slide change. RVW: listed in the ? sheet and shown in presenter view; it is a teacher tool, so it is allowed under "No content additions".
+- **EXPLAIN (light-bulb rule/pattern explainer):** see SHARED/features/explain/README.md (INCLASS and RVW bulb positions are listed there).
+
+## Workflow: Step 1 (chat) and Step 2 (Claude Code)
+Full workflow: SHARED/WORKFLOW.md. Tags and data blocks: SHARED/TAGGING.md. Applies to INCLASS, RVW and INSTRUCT builds.
+- **Step 1 (chat): the main build only.** Unique slides, the tags and JSON data blocks from SHARED/TAGGING.md, and space reserved for the CONTROL frame. Ends with **one combined approval list** (the items that apply to the build type): CLUE candidates, EXPLAIN slides, GAMIFY options, PROVE for non-exam Reading. The quiz, Words from today and PROVE on Exam-style question sections are automatic where the build type uses them.
+- **Step 2 (Claude Code)**, triggered by "Add CONTROL and approved FEATURES to <path>": copy the current code from SHARED (never from older builds); wire it to the tags and data blocks; build each GAMIFY game from `gamify-data` on top of the GAMIFY engine, class and solo versions, following the GAMIFY rules; render-check at 1920×1080; commit with no raw HTML pasted.
 
 ---
 
@@ -56,17 +54,14 @@ Neither type is a student game: no name/class login, no scoreboard submission, n
 - **Font size:** as large as the slide allows with no overflow; rearrange dense slides rather than shrink.
 
 ### Interactive features
-- **REV** on every slide with fixed answers.
-- **Drag-into-gap:** word-bank gap fills; on reveal a correct guess turns green ✓, a wrong one is crossed out red and the correct word slides in. Clear button. Single-use banks grey out placed words; reusable banks stay available.
-- **Choice buttons:** "A or B" items get vote buttons; correct turns green, a wrong pick shakes red.
+- **REV** on every slide with fixed answers (see SHARED/control/README.md).
+- **Drag-into-gap:** see SHARED/activities/drag-into-gap/README.md.
+- **Choice buttons:** see SHARED/activities/choice-buttons/README.md.
 - **Work timer and other interactive features:** depend on the content — do whatever is most intuitive for an in-class activity.
 
 ### Teacher tools
-- **Roster picker 🎡** (in the bottom margin): first click asks which class (skipped if only one roster has names or a class was already chosen anywhere in the file); "Change class" beside the class name; later clicks reuse it until the file closes. Pick: 2-s animation scrolling fast, then slowing to a stop, with digital ticking (no mute). Picked name quickly enlarges and glows, then shrinks; the window fades, leaving only the name by the icon until clicked again or the slide changes. No "click to pick again" text. Picked students are left out of later picks; no absentee feature.
-- **Slide stopwatch ⏱** (in the bottom bar): click offers 1, 2, 3, 4, 5, 7.5, 10, 12, 15 min; chosen time shows as a glowing digital display; click the display to start/pause/resume; click the icon again to change the time. Last 10%: red pulsing digits, silent. At zero: a random sound plays for 3 s and TIME'S UP flashes for 3 s, then stays (not flashing) until clicked. Changing slides stops and clears it. Sound pool (random, never the same twice in a row): digital alarm clock, game-show buzzer, boxing bell, 8-bit victory jingle, gong, school bell, arcade fanfare, spaceship alert, xylophone run, air horn, cuckoo clock, drum roll + cymbal, train whistle, doorbell, laser zaps, wind chimes, sad trombone.
-- **B / W keys** (no buttons): B = black screen "Eyes on me 👀" with a looping "shhhh" until B/Esc; W = plain white, silent.
-- **First screen:** shown still and dimmed until clicked, no prompt text.
-- **Number teams (if a build uses them):** absent-student swap — hovering a team member's name shows a small ✕; one click (no confirmation) removes them and a 2-s spin picks a replacement from students on neither team, preferring those who haven't played that lesson. Only affects that team in that game. Not for whole-class "full" teams.
+- **Roster picker 🎡** (in the bottom margin), **slide stopwatch ⏱** (in the bottom bar), **B / W keys** (no buttons), **first screen:** see SHARED/control/README.md (`inclass` frame).
+- **Number teams (if a build uses them):** absent-student swap — see SHARED/features/gamify/README.md.
 
 ### Not used in INCLASS
 CLUE/VISCLUE vocabulary cards, offline-font notice, student mode (?student/?zh), click-to-zoom, read-aloud, end-of-deck quiz, 5/6 break screens, ? sheet, presenter view, Words from today, VI toggle, flashcards, GAMIFY.
@@ -100,39 +95,24 @@ These replace the INCLASS look rules for RVW builds.
 
 ### Answers
 - Every answer starts hidden; answer text at least about 36px; each reveal includes a short explanation shown only behind the reveal.
-- REV progression on answer slides, plus Reveal all / Hide all on each slide.
+- REV progression on answer slides, plus Reveal all / Hide all on each slide: see SHARED/control/README.md.
 
 ### Evidence-window reveal (reading comprehension)
-- One step per click (click/Space/→ forward, ← back). The window pops up over the other questions with the rest of the slide dimmed; the question being answered stays visible and outlined; if there isn't room on one side, panels split above and below the question; text may drop slightly in size only if it still won't fit.
-- **Multiple matching / multiple choice (4 steps):** (1) window opens with the full paragraph containing the answer plus one paragraph containing a red-herring distractor, in source order; (2) distractor line highlighted light red; (3) correct answer sentence highlighted yellow; (4) window closes and the answer shows with a trimmed excerpt, key words highlighted.
-- **Note-making / short answer (4 steps):** (1) window opens with the answer's full paragraph; (2) the part paraphrasing the question or heading highlighted light blue; (3) answer words highlighted yellow and bold; (4) window closes and the answer shows with a trimmed excerpt labelled with its paragraph number.
-- Claude picks the distractors; only when more than one plausible distractor is found for a question, ask before building. Reveal all skips the windows; leaving a slide mid-window resets that question to hidden.
-- **NOTECLEANUP (named feature — use only when Richard asks for it by name; replaces the note-making steps above for that build):** teaches that notes should be short. The window shows the answer's paragraph with the note form (heading/prompt + answer line) below it, outlined. Steps, one per click: (1) window opens on the paragraph, answer line empty; (2) the answer **and its justification** highlighted yellow in the paragraph; (3) that whole yellow span is written onto the answer line word by word; (4) light blue on the heading/prompt words and on the words in the written answer that paraphrase or repeat them; (5) those written words get a red highlight and a red strikethrough, leaving the short answer; (6) window closes and the note line keeps the crossed-out version (struck words red, short answer bold blue on yellow) with a one-line explanation (paragraph number + what the struck words repeat). If an answer has no prompt/answer paraphrase, steps 4–5 are skipped. Reveal all skips windows; ← steps back; Esc or leaving the slide mid-window resets that line. First used: TEST-REVIEW/G10/unit-13-success-and-fame (Oct 26 2026).
+- See SHARED/features/prove/README.md (window: SHARED/activities/evidence-window/README.md). Multiple matching / multiple choice windows are not built yet.
+- **NOTECLEANUP** (named feature — use only when Richard asks for it by name): see SHARED/features/notecleanup/README.md.
 
 ### No content additions
 No new slides, activities, vocab cards, drag-and-drop or other interactive conversions; no added animations except the evidence-window highlights, the teacher tools below and approved EXPLAIN bulbs. Reproduce source pptx animations and click-builds as they are.
 
 ### Teacher tools (RVW)
 All teacher tools are present (teacher-only; none change the source content).
-- **Header strip:** a thin strip above the source slide holds the header tools; the source slide is scaled down slightly so nothing covers it or its page furniture.
-- **Header tools:** roster picker 🎡 and slide stopwatch ⏱ (as in INCLASS above, but in the header strip); language sign; COPY/NOTE pencil ✏️.
-  - **Language sign:** dormant = small faded England flag (St George's cross, not the UK flag) next to the 🎡. Click: enlarges to the centre with flag + "ENGLISH ONLY", glows ~1 s, returns to the strip keeping flag + text (vivid). Later clicks flip between English and Vietnamese flag + "ĐƯỢC DÙNG TIẾNG VIỆT"; clicking the enlarged sign switches it too; a quick double click on the strip sign returns it to the faded flag. Resets on every slide change. Flags as built-in SVG, never emoji.
-  - **COPY/NOTE pencil ✏️** (faded, beside the ⏱): 1st click "Copy into your notebook" strip slides down over the slide header; 2nd "Make your notes. Only key words/phrases"; 3rd "Add ideas to your notebook"; 4th hides. The strip glows, pulses and wobbles slightly; resets on slide change; no progress bar. The pencil glows faintly once answers are revealed where copying clearly fits — the strip never appears by itself.
-- **Work timer:** reading exercises get a countdown (10 and 15 min presets, start/pause/reset; click the time to start/pause), red near the end; a small "+1m" button adds 1 minute to the set time or while it counts down (also after Time's up). Once started it stays on screen on every slide (small, time + pause + "+1m" only); ↺ ends it. Never covers slide content (it lives in the header strip).
-- **B / W keys:** as in INCLASS.
-- **C key "Close your books":** the shared animation from the Lessons repo (_shared/close-your-books/snippet.html); click skips to the stamp; click / C / Esc returns to the slide.
-- **? key:** cheat sheet of every shortcut.
-- **P key:** presenter view in a second window (current + next slide, all answers and explanations), kept in step with the projector.
-- **Cover boxes:** hold the right mouse button and drag (or Shift + left-drag) to draw solid white boxes over any part of a slide (right-click menu off); left-click a box to remove it; never triggers REV; cleared on slide change.
-- **Click-to-zoom:** small magnifier on reading texts and images opens them full screen, keeping their look with a solid background; answers in gaps can be revealed while zoomed.
-- **First screen:** shown still and dimmed until clicked.
-- **Click-to-pause:** every timer pauses/resumes when clicked.
+- Header strip, header tools (🎡, ⏱, language sign, COPY/NOTE pencil ✏️), work timer, B / W, C, ?, P, cover boxes, click-to-zoom, first screen, click-to-pause: see SHARED/control/README.md (`rvw` frame).
 
 ### Not used in RVW
 O key ("Open your book"), 5/6 break screens and shortcuts, CLUE/VISCLUE, GAMIFY, end-of-deck quiz, Words from today, warmers, student versions (?student/?zh, VI, read-aloud, flashcards).
 
 ### Navigation and media
-- Discreet bottom bar: Contents, Reveal all, Back, slide counter, Next; arrows and Space also work. Contents labels every slide by its source slide/page and section.
+- Discreet bottom bar (Contents, Reveal all, Back, slide counter, Next; arrows and Space): see SHARED/control/README.md (`rvw` frame). Contents labels every slide by its source slide/page and section.
 - Links stay clickable; small audio/video embedded; ask about large or online-only media and flag anything that won't work offline.
 
 ### Checking and report
