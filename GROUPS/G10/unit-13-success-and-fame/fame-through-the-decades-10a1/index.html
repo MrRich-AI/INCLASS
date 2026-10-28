@@ -128,9 +128,9 @@
   .btn.small svg{width:24px;height:24px}
 
   /* Bottom bar */
-  #bar{position:absolute;left:290px;right:40px;top:978px;height:80px;display:flex;align-items:center;justify-content:center;gap:22px}
+  #bar{position:absolute;left:290px;right:40px;top:978px;height:80px;display:flex;align-items:center;justify-content:center;gap:16px}
   #hint{background:var(--panel);border:2px solid #5d4428;border-radius:999px;padding:12px 28px;font:400 22px var(--body);color:var(--cream);
-    max-width:900px;white-space:nowrap;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.55)}
+    max-width:900px;min-width:0;flex:0 1 auto;white-space:nowrap;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.55)}
   #hint b{color:var(--gold)}
   .btn{display:inline-flex;align-items:center;gap:12px;font:600 30px var(--cond);letter-spacing:.06em;padding:10px 34px;border-radius:999px;border:3px solid #fff1c7;
     background:linear-gradient(#ffd977,#e6a42a);color:#1a1205;cursor:pointer;box-shadow:0 6px 0 #8a5a12,0 12px 26px rgba(0,0,0,.55);transition:transform .12s,opacity .2s}
@@ -141,6 +141,8 @@
   .btn:disabled{background:#3a2f26;color:#a39582;border-color:#5d4428;box-shadow:0 6px 0 #0a0706;cursor:default}
   .btn[hidden]{display:none}
   .btn svg{width:30px;height:30px}
+  #randBtn:not(:disabled){animation:btnGlow 1.4s ease-in-out infinite}
+  @keyframes btnGlow{50%{box-shadow:0 6px 0 #8a5a12,0 0 0 4px rgba(255,241,199,.7),0 0 34px rgba(242,193,78,.9)}}
 
   /* Slide navigation */
   #nav{position:absolute;left:40px;top:984px;height:68px;display:flex;align-items:center;gap:10px;background:var(--panel);border:2px solid #5d4428;
@@ -156,7 +158,7 @@
     font:600 32px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.01em;transform-origin:center}
 
   /* Finalized: Day 1 / Day 2 presentation order */
-  .btn.mid{font-size:26px;padding:10px 26px;gap:10px}
+  .btn.mid{font-size:26px;padding:10px 22px;gap:10px;white-space:nowrap;flex:0 0 auto}
   .btn.mid svg{width:26px;height:26px}
   #pick.final #students,#pick.final #archive{display:none}
   #dayview{position:absolute;left:40px;top:166px;width:1840px;height:794px;display:none}
@@ -236,7 +238,7 @@
     <div id="bar">
       <div id="hint"></div>
       <button class="btn" id="drawBtn">Draw Celebrities</button>
-      <button class="btn mid" id="randBtn" hidden><svg viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="3" width="24" height="24" rx="6" fill="#fff6e3" stroke="#1a1205" stroke-width="2.5"/><circle cx="10" cy="10" r="2.6" fill="#1a1205"/><circle cx="20" cy="20" r="2.6" fill="#1a1205"/><circle cx="15" cy="15" r="2.6" fill="#1a1205"/><circle cx="20" cy="10" r="2.6" fill="#1a1205"/><circle cx="10" cy="20" r="2.6" fill="#1a1205"/></svg>Random Swap</button>
+      <button class="btn mid" id="randBtn" hidden><svg viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="3" width="24" height="24" rx="6" fill="#fff6e3" stroke="#1a1205" stroke-width="2.5"/><circle cx="10" cy="10" r="2.6" fill="#1a1205"/><circle cx="20" cy="20" r="2.6" fill="#1a1205"/><circle cx="15" cy="15" r="2.6" fill="#1a1205"/><circle cx="20" cy="10" r="2.6" fill="#1a1205"/><circle cx="10" cy="20" r="2.6" fill="#1a1205"/></svg>Swap for Unused</button>
       <button class="btn ghost mid" id="redrawBtn" hidden>Draw Again</button>
       <button class="btn mid" id="finalBtn" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" fill="#1a1205"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#1a1205" stroke-width="2.6"/></svg>Celebrities Finalized</button>
       <button class="btn" id="shuffleBtn" hidden>Shuffle Presentation Order</button>
@@ -596,8 +598,8 @@ function updateBar(){
   else if (!drawn && busy) hint.innerHTML = 'Drawing stars from the archive…';
   else if (!drawn) hint.innerHTML = 'Every student gets a star from one of five eras of fame.';
   else if (busy) hint.innerHTML = 'Swapping…';
-  else if (sel < 0) hint.innerHTML = 'Click a student to swap their celebrity.';
-  else { hint.innerHTML = '<b></b> selected · click a student or a bright name to swap · Esc cancels'; hint.querySelector('b').textContent = STUDENTS[sel]; }
+  else if (sel < 0) hint.innerHTML = 'Click a student to trade or swap their celebrity.';
+  else { hint.innerHTML = '<b></b> selected · Swap for Unused, or click a student / name'; hint.querySelector('b').textContent = STUDENTS[sel]; }
   fit(hint, 22, 15);
   dlBtn.hidden = !drawn;
   if (typeof resetBtn !== 'undefined'){ resetBtn.hidden = !drawn; resetBtn.disabled = busy; }
@@ -713,8 +715,8 @@ function swapUnused(a, id){
 }
 function randomSwap(){
   if (busy || sel < 0) return;
-  var i = sel, old = assign[i], era = CELEBS[old].era;
-  var cand = CELEBS.filter(function(c){ return c.era === era && owner[c.id] < 0; }).map(function(c){ return c.id; });
+  var i = sel, old = assign[i];
+  var cand = CELEBS.filter(function(c){ return owner[c.id] < 0; }).map(function(c){ return c.id; });   /* any unused celebrity, any era */
   if (!cand.length) return;
   var nw = cand[rnd(cand.length)];
   deselect(true); busy = true; assign[i] = nw; updateBar();
