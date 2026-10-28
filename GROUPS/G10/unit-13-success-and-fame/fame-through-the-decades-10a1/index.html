@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fame Through the Decades – Celebrity Draw (10A1)</title>
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Oswald:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--gold:#f2c14e;--cream:#fff6e3;--panel:#130e0b;--card:#1d1512;
+    --display:'Limelight',Georgia,serif;--cond:'Oswald','Arial Narrow','Roboto Condensed',sans-serif;--body:'Atkinson Hyperlegible',Arial,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#080605;overflow:hidden}
+  #stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+    font-family:var(--body);color:var(--cream);user-select:none;-webkit-user-select:none}
+  #bg{position:absolute;left:0;top:0;width:1920px;height:1080px}
+
+  /* Header */
+  .plate{position:absolute;left:40px;top:24px;padding:12px 34px 16px;background:var(--panel);border:2px solid #5d4428;border-radius:18px;
+    box-shadow:0 10px 28px rgba(0,0,0,.6)}
+  .kicker{font:700 20px var(--body);letter-spacing:.34em;color:var(--gold)}
+  h1{font:400 58px/1.05 var(--display);color:var(--cream);margin-top:4px;letter-spacing:.01em}
+  .pill{position:absolute;right:40px;top:50px;padding:10px 30px;border-radius:999px;background:var(--gold);color:#1a1205;
+    font:700 30px var(--cond);letter-spacing:.04em;border:3px solid #fff1c7;box-shadow:0 8px 22px rgba(0,0,0,.55)}
+
+  /* Student cards */
+  #students{position:absolute;left:40px;top:166px;width:1230px;height:794px;display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(6,minmax(0,1fr));gap:14px 16px}
+  .card{position:relative;min-width:0;background:var(--card);border:2px solid #3f2f23;border-radius:16px;display:flex;align-items:center;gap:14px;
+    padding:0 16px 0 14px;box-shadow:0 6px 18px rgba(0,0,0,.5);transition:transform .2s,box-shadow .2s,border-color .2s}
+  .ready .card{cursor:pointer}
+  .badge{flex:0 0 62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a8,#f2c14e 55%,#b5832a);
+    color:#1a1205;font:700 32px var(--cond);display:flex;align-items:center;justify-content:center;border:3px solid #fff1c7}
+  .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+  .top{display:flex;align-items:baseline;gap:10px;height:36px}
+  .sname{flex:1;min-width:0;font:600 32px/36px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.02em}
+  .era{flex:0 0 auto;font:700 15px var(--body);letter-spacing:.06em;white-space:nowrap}
+  .frame{position:relative;height:56px;border-radius:6px;background:#070505;padding:7px 0;overflow:hidden}
+  .frame::before,.frame::after{content:'';position:absolute;left:0;right:0;height:4px;
+    background:repeating-linear-gradient(90deg,rgba(255,238,205,.6) 0 8px,transparent 8px 16px)}
+  .frame::before{top:1.5px}.frame::after{bottom:1.5px}
+  .frame.spinning::before,.frame.spinning::after{animation:sprocket .25s linear infinite}
+  @keyframes sprocket{to{background-position:16px 0}}
+  .win{position:relative;height:42px;overflow:hidden;border-radius:3px}
+  .win.hide>*{visibility:hidden}
+  .reel{position:absolute;left:0;right:0;top:0;will-change:transform}
+  .ri{display:block;height:42px;line-height:42px;padding:0 12px;border-left:6px solid;font:600 29px var(--cond);color:#fff;
+    white-space:nowrap;overflow:hidden;letter-spacing:.02em}
+  .ri.ph{background:#2a201a;border-color:#6d5a47;color:#c9bba6;letter-spacing:.4em}
+  .card.sel{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 0 0 4px rgba(242,193,78,.55),0 0 36px rgba(242,193,78,.65)}
+  .picking .card:not(.sel):hover{border-color:#fff6e3}
+  .card.pop .win{animation:landFlash .7s ease-out}
+  @keyframes landFlash{0%{transform:scale(1.07);filter:brightness(1.7)}100%{transform:scale(1);filter:none}}
+  .card.incoming .era{visibility:hidden}
+
+  /* Archive */
+  #archive{position:absolute;left:1296px;top:166px;width:584px;height:794px;background:var(--panel);border:2px solid #5d4428;border-radius:16px;
+    padding:10px 12px 12px;display:flex;flex-direction:column;box-shadow:0 10px 28px rgba(0,0,0,.6)}
+  .ahead{display:flex;align-items:baseline;justify-content:space-between;height:32px;padding:0 4px}
+  .ahead .t{font:400 24px var(--display);color:var(--gold)}
+  .ahead .h{font:700 15px var(--body);color:#e9dcc6;letter-spacing:.06em}
+  #eras{flex:1;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+  .eblock{flex:1;background:#1c1411;border:1px solid #3d2e22;border-left:6px solid;border-radius:10px;padding:6px 10px 8px;display:flex;flex-direction:column}
+  .ehead{display:flex;align-items:center;justify-content:space-between;gap:10px;height:24px}
+  .et{flex:1;min-width:0;font:400 16px var(--body);color:#efe4d2;white-space:nowrap;overflow:hidden}
+  .et b{font-weight:700}
+  .ecount{flex:0 0 auto;font:700 15px var(--body);color:#fff6e3;background:#2f241c;border-radius:999px;padding:1px 10px}
+  .chips{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:6px;margin-top:6px}
+  .chip{min-width:0;min-height:0;border-radius:7px;border:2px solid;display:flex;flex-direction:column;justify-content:center;padding:0 9px;overflow:hidden;
+    transition:background .3s,border-color .3s}
+  .chip .n{font:600 20px/22px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.02em}
+  .chip .o{font:700 13px/15px var(--body);white-space:nowrap;overflow:hidden;display:none}
+  .chip.taken{background:#110c0a!important;border-color:#3b2e25!important}
+  .chip.taken .n{color:#ab9d8a}
+  .chip.taken .o{display:block}
+  .chip.hide .n,.chip.hide .o{visibility:hidden}
+  .ready .chip{cursor:pointer}
+  .picking .chip:not(.taken){animation:chipGlow 1.4s ease-in-out infinite}
+  @keyframes chipGlow{50%{box-shadow:0 0 0 2px #fff6e3,0 0 18px var(--ec)}}
+  .chip.pulse{animation:chipPulse .8s ease-out!important}
+  @keyframes chipPulse{0%{transform:scale(1.12);box-shadow:0 0 26px var(--ec)}100%{transform:scale(1)}}
+
+  /* Bottom bar */
+  #bar{position:absolute;left:40px;right:40px;top:978px;height:80px;display:flex;align-items:center;justify-content:center;gap:22px}
+  #hint{background:var(--panel);border:2px solid #5d4428;border-radius:999px;padding:12px 28px;font:400 22px var(--body);color:var(--cream);
+    max-width:1180px;white-space:nowrap;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.55)}
+  #hint b{color:var(--gold)}
+  .btn{display:inline-flex;align-items:center;gap:12px;font:600 30px var(--cond);letter-spacing:.06em;padding:10px 34px;border-radius:999px;border:3px solid #fff1c7;
+    background:linear-gradient(#ffd977,#e6a42a);color:#1a1205;cursor:pointer;box-shadow:0 6px 0 #8a5a12,0 12px 26px rgba(0,0,0,.55);transition:transform .12s,opacity .2s}
+  .btn:hover:not(:disabled){transform:translateY(-2px)}
+  .btn:active:not(:disabled){transform:translateY(3px);box-shadow:0 3px 0 #8a5a12,0 8px 18px rgba(0,0,0,.55)}
+  .btn.ghost{background:#1d1512;color:var(--cream);border-color:#7a5c3c;box-shadow:0 6px 0 #0a0706,0 12px 26px rgba(0,0,0,.55)}
+  .btn.warn{background:#7d1d1d;border-color:#ffb3a8;color:#fff}
+  .btn:disabled{background:#3a2f26;color:#a39582;border-color:#5d4428;box-shadow:0 6px 0 #0a0706;cursor:default}
+  .btn[hidden]{display:none}
+  .btn svg{width:30px;height:30px}
+
+  #fly{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:50}
+  .flyer{position:absolute;left:0;top:0;display:flex;align-items:center;padding:0 12px;border:2px solid;border-left-width:6px;border-radius:6px;
+    font:600 26px var(--cond);color:#fff;white-space:nowrap;overflow:hidden;letter-spacing:.02em;transform-origin:center}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="bg" width="1920" height="1080"></canvas>
+  <div class="plate"><div class="kicker">◆ Celebrity Draw ◆</div><h1>Fame Through the Decades</h1></div>
+  <div class="pill" id="pill"></div>
+  <div id="students"></div>
+  <section id="archive">
+    <div class="ahead"><span class="t">The Archive</span><span class="h">BRIGHT = STILL AVAILABLE</span></div>
+    <div id="eras"></div>
+  </section>
+  <div id="bar">
+    <div id="hint"></div>
+    <button class="btn" id="drawBtn">Draw Celebrities</button>
+    <button class="btn" id="randBtn" hidden><svg viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="3" width="24" height="24" rx="6" fill="#fff6e3" stroke="#1a1205" stroke-width="2.5"/><circle cx="10" cy="10" r="2.6" fill="#1a1205"/><circle cx="20" cy="20" r="2.6" fill="#1a1205"/><circle cx="15" cy="15" r="2.6" fill="#1a1205"/><circle cx="20" cy="10" r="2.6" fill="#1a1205"/><circle cx="10" cy="20" r="2.6" fill="#1a1205"/></svg>Random Swap</button>
+    <button class="btn ghost" id="redrawBtn" hidden>Draw Again</button>
+  </div>
+  <div id="fly"></div>
+</div>
+
+<script>
+/* ===== Edit here: class and students ===== */
+var CLASS_NAME = '10A1';
+var STUDENTS = ['Aavni','Andy','Ashley','Bob','Camry','Felicia','Henry','Izza','Jena','Jeremy','Katie','Kevin','Lam','Melissa','Nicky','Sam','Tony'];
+
+/* ===== Celebrity list by era ===== */
+var ERAS = [
+  {n:1, name:'Pre-mass-media', years:'up to 1920s', short:'to 1920s', c:'#e0b673', b:'#3c2a15',
+   celebs:['Florence Nightingale','Harry Houdini','Marie Curie','Mary Pickford','Charlie Chaplin','Mark Twain']},
+  {n:2, name:'Golden age of Hollywood', years:'1930s–1950s', short:'1930s–50s', c:'#d7dde7', b:'#2c3038',
+   celebs:['Shirley Temple','Judy Garland','Jesse Owens','Frank Sinatra','Audrey Hepburn','Amelia Earhart']},
+  {n:3, name:'TV and tabloid', years:'1960s–1990s', short:'1960s–90s', c:'#ff8f45', b:'#401f0c',
+   celebs:['Muhammad Ali','Princess Diana','Bruce Lee','Oprah Winfrey','John Lennon','Pelé']},
+  {n:4, name:'Early internet', years:'2000s', short:'2000s', c:'#62b8ff', b:'#0f2a46',
+   celebs:['Britney Spears','David Beckham','Paris Hilton','Usain Bolt','Emma Watson','Justin Bieber']},
+  {n:5, name:'Social media', years:'2010s–now', short:'2010s–now', c:'#ff62c4', b:'#3b0f2d',
+   celebs:['MrBeast','Taylor Swift','Greta Thunberg','Khaby Lame','Lisa (BLACKPINK)','Cristiano Ronaldo']}
+];
+
+var CELEBS = [];
+ERAS.forEach(function(E, e){ E.celebs.forEach(function(nm){ CELEBS.push({id:CELEBS.length, name:nm, era:e, c:E.c, b:E.b}); }); });
+var N = STUDENTS.length;
+
+/* ===== True randomness ===== */
+function rnd(n){
+  var lim = Math.floor(4294967296 / n) * n, a = new Uint32Array(1);
+  do { crypto.getRandomValues(a); } while (a[0] >= lim);
+  return a[0] % n;
+}
+function shuffle(arr){ for (var i = arr.length - 1; i > 0; i--){ var j = rnd(i + 1), t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }
+function range(n){ var a = []; for (var i = 0; i < n; i++) a.push(i); return a; }
+
+/* Even spread across the five eras: 17 → 4,4,3,3,3 (which eras get the extra one is random) */
+function balancedPick(){
+  var base = Math.floor(N / ERAS.length), extra = N % ERAS.length, rank = shuffle(range(ERAS.length)), pool = [];
+  ERAS.forEach(function(E, e){
+    var q = Math.min(E.celebs.length, base + (rank.indexOf(e) < extra ? 1 : 0));
+    var ids = shuffle(CELEBS.filter(function(c){ return c.era === e; }).map(function(c){ return c.id; }));
+    pool = pool.concat(ids.slice(0, q));
+  });
+  return shuffle(pool);
+}
+
+/* ===== State ===== */
+var assign = new Array(N).fill(null), owner = new Array(CELEBS.length).fill(-1);
+var drawn = false, busy = false, sel = -1, S = 1;
+var stage = document.getElementById('stage');
+document.getElementById('pill').textContent = 'Class ' + CLASS_NAME;
+
+/* ===== Build cards ===== */
+var cards = [], studentsEl = document.getElementById('students');
+STUDENTS.forEach(function(name, i){
+  var card = document.createElement('div'); card.className = 'card';
+  card.innerHTML = '<div class="badge"></div><div class="info"><div class="top"><div class="sname"></div><div class="era"></div></div><div class="frame"><div class="win"></div></div></div>';
+  card.querySelector('.badge').textContent = name.charAt(0).toUpperCase();
+  card.querySelector('.sname').textContent = name;
+  card.addEventListener('click', function(e){ e.stopPropagation(); cardClick(i); });
+  studentsEl.appendChild(card);
+  cards.push({card:card, sname:card.querySelector('.sname'), era:card.querySelector('.era'), frame:card.querySelector('.frame'), win:card.querySelector('.win')});
+});
+
+/* ===== Build archive ===== */
+var chips = [], ecounts = [], erasEl = document.getElementById('eras');
+ERAS.forEach(function(E, e){
+  var blk = document.createElement('div'); blk.className = 'eblock'; blk.style.borderLeftColor = E.c;
+  var head = document.createElement('div'); head.className = 'ehead';
+  var et = document.createElement('span'); et.className = 'et';
+  var b = document.createElement('b'); b.style.color = E.c; b.textContent = 'ERA ' + E.n;
+  et.appendChild(b); et.appendChild(document.createTextNode(' · ' + E.name + ' · ' + E.years));
+  var cnt = document.createElement('span'); cnt.className = 'ecount';
+  head.appendChild(et); head.appendChild(cnt); blk.appendChild(head); ecounts.push(cnt);
+  var grid = document.createElement('div'); grid.className = 'chips';
+  CELEBS.filter(function(c){ return c.era === e; }).forEach(function(c){
+    var ch = document.createElement('div'); ch.className = 'chip';
+    ch.style.background = c.b; ch.style.borderColor = c.c; ch.style.setProperty('--ec', c.c);
+    ch.innerHTML = '<div class="n"></div><div class="o"></div>';
+    ch.querySelector('.n').textContent = c.name; ch.querySelector('.o').style.color = c.c;
+    ch.addEventListener('click', function(ev){ ev.stopPropagation(); chipClick(c.id); });
+    grid.appendChild(ch); chips[c.id] = ch;
+  });
+  blk.appendChild(grid); erasEl.appendChild(blk);
+});
+
+/* ===== Rendering ===== */
+function fit(el, max, min){
+  var s = max; el.style.fontSize = s + 'px';
+  while (el.scrollWidth > el.clientWidth + 1 && s > min){ s--; el.style.fontSize = s + 'px'; }
+}
+function mkItem(c){
+  var d = document.createElement('div'); d.className = 'ri';
+  d.style.background = c.b; d.style.borderLeftColor = c.c; d.textContent = c.name;
+  return d;
+}
+function setFrame(i){
+  var C = cards[i], id = assign[i];
+  C.win.innerHTML = '';
+  if (id === null){
+    var p = document.createElement('div'); p.className = 'ri ph'; p.textContent = '? ? ?'; C.win.appendChild(p);
+    C.era.textContent = '';
+  } else {
+    var c = CELEBS[id], it = mkItem(c); C.win.appendChild(it); fit(it, 29, 18);
+    C.era.textContent = 'ERA ' + ERAS[c.era].n + ' · ' + ERAS[c.era].short; C.era.style.color = c.c;
+  }
+}
+function renderArchive(){
+  var used = [0,0,0,0,0];
+  CELEBS.forEach(function(c){
+    var ch = chips[c.id], o = owner[c.id];
+    ch.classList.toggle('taken', o >= 0);
+    ch.querySelector('.o').textContent = o >= 0 ? '→ ' + STUDENTS[o] : '';
+    if (o >= 0) used[c.era]++;
+  });
+  ecounts.forEach(function(el, e){ el.textContent = used[e] + '/' + ERAS[e].celebs.length + ' drawn'; });
+}
+function pulseChip(id){ var ch = chips[id]; ch.classList.remove('pulse'); void ch.offsetWidth; ch.classList.add('pulse'); setTimeout(function(){ ch.classList.remove('pulse'); }, 850); }
+function popCard(i){ var c = cards[i].card; c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); setTimeout(function(){ c.classList.remove('pop'); }, 750); }
+
+/* ===== Bottom bar ===== */
+var hint = document.getElementById('hint'), drawBtn = document.getElementById('drawBtn'),
+    randBtn = document.getElementById('randBtn'), redrawBtn = document.getElementById('redrawBtn');
+function updateBar(){
+  stage.classList.toggle('ready', drawn && !busy);
+  stage.classList.toggle('picking', sel >= 0);
+  drawBtn.hidden = drawn || busy;
+  randBtn.hidden = redrawBtn.hidden = !drawn && !busy ? true : !drawn;
+  randBtn.disabled = sel < 0 || busy;
+  redrawBtn.disabled = busy;
+  if (!drawn && busy){ hint.innerHTML = 'Drawing stars from the archive…'; randBtn.hidden = redrawBtn.hidden = true; }
+  else if (!drawn) hint.innerHTML = 'Every student gets a star from one of five eras of fame.';
+  else if (busy) hint.innerHTML = 'Swapping…';
+  else if (sel < 0) hint.innerHTML = 'Click a student to swap their celebrity.';
+  else hint.innerHTML = '<b></b> selected · click a student to trade · click a bright name to swap in · or Random Swap · Esc cancels';
+  if (drawn && !busy && sel >= 0) hint.querySelector('b').textContent = STUDENTS[sel];
+}
+
+/* ===== Selection ===== */
+function select(i){ deselect(true); sel = i; cards[i].card.classList.add('sel'); updateBar(); }
+function deselect(quiet){ if (sel >= 0) cards[sel].card.classList.remove('sel'); sel = -1; if (!quiet) updateBar(); }
+function cardClick(i){
+  if (busy || !drawn) return;
+  if (sel < 0) select(i);
+  else if (sel === i) deselect();
+  else swapStudents(sel, i);
+}
+function chipClick(id){
+  if (busy || !drawn) return;
+  var o = owner[id];
+  if (sel < 0){ if (o >= 0) select(o); return; }
+  if (o === sel){ deselect(); return; }
+  if (o >= 0) swapStudents(sel, o); else swapUnused(sel, id);
+}
+stage.addEventListener('click', function(e){ if (!e.target.closest('.btn')) { if (sel >= 0 && !busy) deselect(); } });
+
+/* ===== Reel spin (draw + random swap) ===== */
+var ITEM_H = 42;
+function spin(jobs, done){
+  jobs.forEach(function(j){
+    var L = Math.max(14, Math.round(2100 * j.d / 3 / ITEM_H)), seq = [j.target], prev = j.target;
+    for (var k = 1; k < L; k++){ var id; do { id = Math.floor(Math.random() * CELEBS.length); } while (id === prev); seq.push(id); prev = id; }
+    var reel = document.createElement('div'); reel.className = 'reel';
+    seq.forEach(function(id){ reel.appendChild(mkItem(CELEBS[id])); });
+    var C = cards[j.i]; C.win.innerHTML = ''; C.win.appendChild(reel);
+    C.frame.classList.add('spinning'); C.era.textContent = '· · ·'; C.era.style.color = '#c9bba6';
+    j.reel = reel; j.L = L; j.done = false;
+    reel.style.transform = 'translateY(' + (-(L - 1) * ITEM_H) + 'px)';
+  });
+  var t0 = performance.now();
+  function step(now){
+    var t = (now - t0) / 1000, all = true;
+    jobs.forEach(function(j){
+      if (j.done) return;
+      var p = Math.min(1, t / j.d), e = 1 - Math.pow(1 - p, 3), b = 2.4 * Math.pow(1 - p, 2);
+      j.reel.style.transform = 'translateY(' + (-(j.L - 1) * ITEM_H * (1 - e)).toFixed(1) + 'px)';
+      j.reel.style.filter = b > 0.15 ? 'blur(' + b.toFixed(2) + 'px)' : 'none';
+      if (p >= 1){ j.done = true; land(j); } else all = false;
+    });
+    if (!all) requestAnimationFrame(step); else if (done) done();
+  }
+  requestAnimationFrame(step);
+}
+function land(j){
+  cards[j.i].frame.classList.remove('spinning');
+  setFrame(j.i); popCard(j.i);
+  if (j.onLand) j.onLand(); else { owner[j.target] = j.i; renderArchive(); pulseChip(j.target); }
+}
+
+/* ===== The draw: all students at once, one 7-second animation ===== */
+function draw(){
+  if (busy) return;
+  deselect(true); busy = true; drawn = false;
+  owner.fill(-1); assign = balancedPick(); renderArchive(); updateBar();
+  var order = shuffle(range(N));
+  var jobs = order.map(function(i, k){ return {i:i, target:assign[i], d:4.2 + 2.8 * k / Math.max(1, N - 1)}; });
+  spin(jobs, function(){ busy = false; drawn = true; updateBar(); });
+}
+
+/* ===== Swaps ===== */
+function rectOf(el){
+  var s = stage.getBoundingClientRect(), r = el.getBoundingClientRect();
+  return {x:(r.left - s.left) / S, y:(r.top - s.top) / S, w:r.width / S, h:r.height / S};
+}
+function fly(c, from, to, bend, done){
+  var el = document.createElement('div'); el.className = 'flyer';
+  el.style.background = c.b; el.style.borderColor = c.c; el.style.boxShadow = '0 14px 30px rgba(0,0,0,.65),0 0 22px ' + c.c;
+  el.textContent = c.name; document.getElementById('fly').appendChild(el);
+  var sx = from.x + from.w / 2, sy = from.y + from.h / 2, ex = to.x + to.w / 2, ey = to.y + to.h / 2;
+  var dist = Math.hypot(ex - sx, ey - sy), cx = (sx + ex) / 2, cy = (sy + ey) / 2 - bend * (90 + dist * 0.28);
+  var t0 = performance.now(), D = 820;
+  function step(now){
+    var p = Math.min(1, (now - t0) / D), e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2, u = 1 - e;
+    var x = u * u * sx + 2 * u * e * cx + e * e * ex, y = u * u * sy + 2 * u * e * cy + e * e * ey;
+    var w = from.w + (to.w - from.w) * e, h = from.h + (to.h - from.h) * e, sc = 1 + 0.18 * Math.sin(Math.PI * p);
+    el.style.width = w + 'px'; el.style.height = h + 'px';
+    el.style.transform = 'translate(' + (x - w / 2) + 'px,' + (y - h / 2) + 'px) scale(' + sc + ')';
+    if (p < 1) requestAnimationFrame(step); else { el.remove(); if (done) done(); }
+  }
+  requestAnimationFrame(step);
+}
+function finishSwap(n){ var left = n; return function(){ if (--left === 0){ busy = false; updateBar(); } }; }
+
+function swapStudents(a, b){
+  var ra = rectOf(cards[a].win), rb = rectOf(cards[b].win), ca = assign[a], cb = assign[b];
+  deselect(true); busy = true;
+  assign[a] = cb; assign[b] = ca; owner[ca] = b; owner[cb] = a;
+  [a, b].forEach(function(i){ setFrame(i); cards[i].win.classList.add('hide'); cards[i].card.classList.add('incoming'); });
+  renderArchive(); updateBar();
+  var fin = finishSwap(2);
+  fly(CELEBS[ca], ra, rb, 1, function(){ arrive(b); fin(); });
+  fly(CELEBS[cb], rb, ra, -1, function(){ arrive(a); fin(); });
+}
+function arrive(i){ cards[i].win.classList.remove('hide'); cards[i].card.classList.remove('incoming'); popCard(i); }
+
+function swapUnused(a, id){
+  var old = assign[a], ra = rectOf(cards[a].win), rNew = rectOf(chips[id]), rOld = rectOf(chips[old]);
+  deselect(true); busy = true;
+  assign[a] = id; owner[old] = -1; owner[id] = a;
+  setFrame(a); cards[a].win.classList.add('hide'); cards[a].card.classList.add('incoming');
+  renderArchive(); chips[old].classList.add('hide'); updateBar();
+  var fin = finishSwap(2);
+  fly(CELEBS[id], rNew, ra, 1, function(){ arrive(a); pulseChip(id); fin(); });
+  fly(CELEBS[old], ra, rOld, -1, function(){ chips[old].classList.remove('hide'); pulseChip(old); fin(); });
+}
+
+function randomSwap(){
+  if (busy || sel < 0) return;
+  var i = sel, old = assign[i], era = CELEBS[old].era;
+  var cand = CELEBS.filter(function(c){ return c.era === era && owner[c.id] < 0; }).map(function(c){ return c.id; });
+  if (!cand.length) return;
+  var nw = cand[rnd(cand.length)];
+  deselect(true); busy = true; assign[i] = nw; updateBar();
+  spin([{i:i, target:nw, d:1.8, onLand:function(){ owner[old] = -1; owner[nw] = i; renderArchive(); pulseChip(old); pulseChip(nw); }}],
+       function(){ busy = false; updateBar(); });
+}
+
+/* ===== Buttons and keys ===== */
+var confirmTimer = null;
+drawBtn.addEventListener('click', function(e){ e.stopPropagation(); draw(); });
+randBtn.addEventListener('click', function(e){ e.stopPropagation(); randomSwap(); });
+redrawBtn.addEventListener('click', function(e){
+  e.stopPropagation(); if (busy) return;
+  if (!redrawBtn.classList.contains('warn')){
+    redrawBtn.classList.add('warn'); redrawBtn.textContent = 'Click again to redraw all';
+    confirmTimer = setTimeout(resetRedraw, 3000); return;
+  }
+  resetRedraw(); draw();
+});
+function resetRedraw(){ clearTimeout(confirmTimer); redrawBtn.classList.remove('warn'); redrawBtn.textContent = 'Draw Again'; }
+document.addEventListener('keydown', function(e){
+  if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); if (!drawn && !busy) draw(); }
+  else if (e.key === 'Escape'){ if (!busy) deselect(); }
+  else if (e.key === 'r' || e.key === 'R'){ randomSwap(); }
+});
+
+/* ===== Scale stage to fit ===== */
+function fitStage(){
+  S = Math.min(innerWidth / 1920, innerHeight / 1080);
+  stage.style.transform = 'translate(' + ((innerWidth - 1920 * S) / 2) + 'px,' + ((innerHeight - 1080 * S) / 2) + 'px) scale(' + S + ')';
+}
+addEventListener('resize', fitStage); fitStage();
+
+function fitAll(){
+  cards.forEach(function(C, i){ fit(C.sname, 32, 22); if (assign[i] !== null) { var it = C.win.querySelector('.ri'); if (it) fit(it, 29, 18); } });
+  chips.forEach(function(ch){ fit(ch.querySelector('.n'), 20, 13); });
+  document.querySelectorAll('.et').forEach(function(el){ fit(el, 16, 12); });
+}
+for (var i = 0; i < N; i++) setFrame(i);
+renderArchive(); updateBar(); fitAll();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+
+/* ===================================================================
+   Background: painterly film strips running through five eras of fame
+   =================================================================== */
+(function(){
+  var cv = document.getElementById('bg'), g = cv.getContext('2d');
+  function mk(w, h){ var c = document.createElement('canvas'); c.width = w; c.height = h; return [c, c.getContext('2d')]; }
+  function rr(a, b){ return a + Math.random() * (b - a); }
+  function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
+  function dab(c, x, y, rx, ry, ang, col, al){
+    c.save(); c.globalAlpha = al; c.fillStyle = col; c.translate(x, y); c.rotate(ang);
+    c.beginPath(); c.ellipse(0, 0, Math.max(.5, rx), Math.max(.4, ry), 0, 0, Math.PI * 2); c.fill(); c.restore();
+  }
+  /* Fill a shape with a base colour, then lay brush dabs inside it */
+  function paint(c, path, box, base, cols, n, sz, ang, aj, rule){
+    c.save(); c.beginPath(); path(c); c.fillStyle = base; c.fill(rule || 'nonzero'); c.clip(rule || 'nonzero');
+    for (var i = 0; i < n; i++) dab(c, rr(box[0], box[0] + box[2]), rr(box[1], box[1] + box[3]), rr(sz * .6, sz * 1.6), rr(sz * .18, sz * .45), ang + rr(-aj, aj), pick(cols), rr(.25, .6));
+    c.restore();
+  }
+  function rrect(c, x, y, w, h, r){ c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+  function heart(c, x, y, s){ c.moveTo(x, y + s * .35); c.bezierCurveTo(x - s, y - s * .45, x - s * .45, y - s * 1.05, x, y - s * .4); c.bezierCurveTo(x + s * .45, y - s * 1.05, x + s, y - s * .45, x, y + s * .35); c.closePath(); }
+  function vignette(c, w, h, col, a){ var gr = c.createRadialGradient(w / 2, h / 2, Math.min(w, h) * .25, w / 2, h / 2, Math.max(w, h) * .7); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, col.replace('A', a)); c.fillStyle = gr; c.fillRect(0, 0, w, h); }
+  var FW = 230, FH = 140, ALL = function(c){ c.rect(0, 0, FW, FH); }, BOX = [0, 0, FW, FH];
+
+  /* Era 1 – sepia vaudeville stage */
+  function era1(){
+    var r = mk(FW, FH), c = r[1];
+    paint(c, ALL, BOX, '#3b2715', ['#4d331c','#5e4024','#2e1d0f','#6e4c2b'], 260, 16, 0, 1.5);
+    paint(c, function(p){ p.rect(0, 98, FW, 42); }, [0, 98, FW, 42], '#7a5530', ['#8f6638','#6a4626','#a07444'], 140, 12, 0, .15);
+    paint(c, function(p){ p.ellipse(115, 112, 62, 15, 0, 0, Math.PI * 2); }, [50, 95, 130, 34], '#d9b47a', ['#ecd2a0','#c99e62','#f5e2bb'], 90, 9, 0, .3);
+    var curtL = function(p){ p.moveTo(0, 0); p.lineTo(54, 0); p.quadraticCurveTo(38, 62, 60, 140); p.lineTo(0, 140); p.closePath(); };
+    var curtR = function(p){ p.moveTo(FW, 0); p.lineTo(FW - 54, 0); p.quadraticCurveTo(FW - 38, 62, FW - 60, 140); p.lineTo(FW, 140); p.closePath(); };
+    paint(c, curtL, [0, 0, 62, 140], '#5c2f18', ['#7d4527','#42200e','#93592f'], 170, 14, Math.PI / 2, .12);
+    paint(c, curtR, [FW - 62, 0, 62, 140], '#5c2f18', ['#7d4527','#42200e','#93592f'], 170, 14, Math.PI / 2, .12);
+    paint(c, function(p){ p.rect(0, 0, FW, 16); }, [0, 0, FW, 16], '#4a2512', ['#6b391c','#2f170a','#7f4a24'], 60, 10, 0, .2);
+    c.fillStyle = '#1c1108';
+    c.beginPath(); c.moveTo(106, 62); c.lineTo(124, 62); c.lineTo(128, 96); c.lineTo(102, 96); c.closePath(); c.fill();
+    c.fillRect(105, 95, 7, 15); c.fillRect(118, 95, 7, 15);
+    c.beginPath(); c.arc(115, 53, 8, 0, Math.PI * 2); c.fill();
+    c.fillRect(103, 43, 24, 3); c.fillRect(108, 29, 14, 15);
+    c.strokeStyle = '#1c1108'; c.lineWidth = 2.5; c.beginPath(); c.moveTo(126, 72); c.lineTo(137, 66); c.lineTo(140, 110); c.stroke();
+    vignette(c, FW, FH, 'rgba(30,16,4,A)', .75);
+    return r[0];
+  }
+  /* Era 2 – silver-screen star and microphone */
+  function era2(){
+    var r = mk(FW, FH), c = r[1];
+    paint(c, ALL, BOX, '#2b2e34', ['#373b42','#23262b','#454a52','#1c1e22'], 260, 16, 0, 1.5);
+    c.save(); c.globalAlpha = .22; c.strokeStyle = '#eef1f5'; c.lineWidth = 2;
+    for (var k = 0; k < 14; k++){ var a = k / 14 * Math.PI * 2; c.beginPath(); c.moveTo(150 + Math.cos(a) * 44, 62 + Math.sin(a) * 44); c.lineTo(150 + Math.cos(a) * 68, 62 + Math.sin(a) * 68); c.stroke(); }
+    c.restore();
+    var star = function(p){ for (var k = 0; k < 10; k++){ var a = -Math.PI / 2 + k * Math.PI / 5, R = k % 2 ? 16 : 38; p[k ? 'lineTo' : 'moveTo'](150 + Math.cos(a) * R, 62 + Math.sin(a) * R); } p.closePath(); };
+    paint(c, star, [110, 22, 80, 80], '#d9dde4', ['#f4f6f9','#bfc4cc','#e6e9ee','#9ea4ad'], 160, 7, 0, 1.5);
+    paint(c, function(p){ p.rect(0, 118, FW, 22); }, [0, 118, FW, 22], '#1b1d21', ['#26292e','#121315'], 60, 10, 0, .1);
+    c.strokeStyle = '#8a9099'; c.lineWidth = 4; c.beginPath(); c.moveTo(58, 72); c.lineTo(58, 120); c.stroke();
+    c.fillStyle = '#6f757e'; c.fillRect(40, 118, 36, 5);
+    paint(c, function(p){ rrect(p, 44, 26, 28, 46, 13); }, [44, 26, 28, 46], '#9aa0a8', ['#c9ced5','#6f747c','#e0e3e7'], 70, 6, 0, 1.5);
+    c.strokeStyle = 'rgba(30,32,36,.75)'; c.lineWidth = 1.5;
+    for (var y = 34; y < 68; y += 5){ c.beginPath(); c.moveTo(48, y); c.lineTo(68, y); c.stroke(); }
+    vignette(c, FW, FH, 'rgba(0,0,0,A)', .7);
+    return r[0];
+  }
+  /* Era 3 – 1970s living-room TV */
+  function era3(){
+    var r = mk(FW, FH), c = r[1];
+    paint(c, ALL, BOX, '#5a2a12', ['#7a3a18','#9c4a1c','#4a220e'], 200, 16, Math.PI / 2, .1);
+    ['#c4561e','#e8a03a','#c4561e','#e8a03a','#c4561e','#e8a03a'].forEach(function(col, k){
+      var x = k * 40 + 6; paint(c, function(p){ p.rect(x, 0, 12, 118); }, [x, 0, 12, 118], col, [col,'#f0b85a','#a8461a'], 40, 8, Math.PI / 2, .1);
+    });
+    paint(c, function(p){ p.rect(0, 116, FW, 24); }, [0, 116, FW, 24], '#3e2010', ['#4f2a14','#2c160a','#5c3219'], 60, 12, 0, .1);
+    paint(c, function(p){ rrect(p, 50, 32, 130, 86, 12); }, [50, 32, 130, 86], '#7a4a24', ['#93592b','#5e3618','#a86a35'], 150, 10, 0, .2);
+    var bars = ['#f2c14e','#e5793b','#3fb6a8','#d94f70','#6c8ee0'];
+    c.save(); c.beginPath(); rrect(c, 62, 42, 86, 66, 11); c.clip();
+    bars.forEach(function(col, k){ var x = 62 + k * 17.2; paint(c, function(p){ p.rect(x, 42, 17.6, 66); }, [x, 42, 17.6, 66], col, [col,'#ffffff'], 18, 6, Math.PI / 2, .2); });
+    c.restore();
+    c.strokeStyle = 'rgba(20,10,4,.8)'; c.lineWidth = 3; c.beginPath(); rrect(c, 62, 42, 86, 66, 11); c.stroke();
+    c.fillStyle = '#e8c58a'; [[164, 58], [164, 82]].forEach(function(q){ c.beginPath(); c.arc(q[0], q[1], 6, 0, Math.PI * 2); c.fill(); });
+    c.strokeStyle = '#2a1508'; c.lineWidth = 2.5; c.beginPath(); c.moveTo(115, 32); c.lineTo(86, 6); c.moveTo(115, 32); c.lineTo(146, 8); c.stroke();
+    c.fillStyle = '#2a1508'; c.beginPath(); c.arc(86, 6, 3, 0, 7); c.arc(146, 8, 3, 0, 7); c.fill();
+    vignette(c, FW, FH, 'rgba(25,8,0,A)', .6);
+    return r[0];
+  }
+  /* Era 4 – 2000s CD and flip phone */
+  function era4(){
+    var r = mk(FW, FH), c = r[1];
+    paint(c, ALL, BOX, '#10233d', ['#1a3a63','#0b1a2e','#2a5a90','#1f4775'], 280, 16, .4, 1);
+    paint(c, function(p){ p.arc(86, 72, 46, 0, Math.PI * 2); }, [40, 26, 92, 92], '#c3d1df', ['#9fdcff','#d0b3ff','#ffffff','#a5f0d5','#ffd6a5','#b8c6d6'], 240, 7, 0, Math.PI);
+    c.fillStyle = '#e8eef5'; c.beginPath(); c.arc(86, 72, 14, 0, 7); c.fill();
+    c.fillStyle = '#10233d'; c.beginPath(); c.arc(86, 72, 7, 0, 7); c.fill();
+    c.save(); c.globalAlpha = .35; c.strokeStyle = '#fff'; c.lineWidth = 3; c.beginPath(); c.arc(86, 72, 36, -2.4, -1.5); c.stroke(); c.restore();
+    paint(c, function(p){ rrect(p, 152, 16, 42, 52, 8); }, [152, 16, 42, 52], '#aab4c0', ['#d6dde5','#8994a2','#eef2f6'], 60, 6, 0, 1);
+    paint(c, function(p){ rrect(p, 152, 72, 42, 54, 8); }, [152, 72, 42, 54], '#9aa5b2', ['#c8d0da','#7c8795'], 60, 6, 0, 1);
+    c.fillStyle = '#4b5562'; c.fillRect(156, 68, 34, 5);
+    paint(c, function(p){ rrect(p, 158, 23, 30, 36, 3); }, [158, 23, 30, 36], '#5fd0ff', ['#8fe2ff','#3bb3e8','#c9f2ff'], 30, 5, 0, 1);
+    c.fillStyle = '#3d4652';
+    for (var row = 0; row < 3; row++) for (var col = 0; col < 3; col++){ c.beginPath(); c.arc(162 + col * 11, 88 + row * 11, 3, 0, 7); c.fill(); }
+    vignette(c, FW, FH, 'rgba(0,4,14,A)', .6);
+    return r[0];
+  }
+  /* Era 5 – neon social-media phone */
+  function era5(){
+    var r = mk(FW, FH), c = r[1];
+    paint(c, ALL, BOX, '#1a0a28', ['#2c0f45','#120620','#3d1660','#24103a'], 280, 16, .2, 1.5);
+    c.fillStyle = '#12061e'; c.beginPath(); rrect(c, 72, 12, 86, 120, 14); c.fill();
+    c.save(); c.shadowColor = '#ff5cbf'; c.shadowBlur = 12; c.strokeStyle = '#ff6ccb'; c.lineWidth = 4; c.beginPath(); rrect(c, 72, 12, 86, 120, 14); c.stroke(); c.restore();
+    c.save(); c.shadowColor = '#4ff2ff'; c.shadowBlur = 10; c.fillStyle = '#4ff2ff'; c.beginPath(); c.moveTo(104, 52); c.lineTo(104, 86); c.lineTo(132, 69); c.closePath(); c.fill();
+    c.fillRect(86, 108, 58, 4); c.restore();
+    c.fillStyle = '#ff6ccb'; c.fillRect(86, 108, 24, 4);
+    [[38, 38, 13, '#ff4fb8'], [194, 52, 11, '#ff8ad6'], [32, 104, 10, '#ff8ad6'], [198, 112, 14, '#ff4fb8']].forEach(function(h){
+      c.save(); c.shadowColor = h[3]; c.shadowBlur = 10; c.fillStyle = h[3]; c.beginPath(); heart(c, h[0], h[1], h[2]); c.fill(); c.restore();
+    });
+    c.fillStyle = '#4ff2ff'; [[190, 22, 4], [44, 70, 3], [176, 86, 3]].forEach(function(d){ c.beginPath(); c.arc(d[0], d[1], d[2], 0, 7); c.fill(); });
+    vignette(c, FW, FH, 'rgba(6,0,12,A)', .55);
+    return r[0];
+  }
+  var frames = [era1(), era2(), era3(), era4(), era5()];
+
+  /* Film strip tile: five era frames + sprocket holes */
+  var TW = 1240, TH = 210, tr = mk(TW, TH), tile = tr[0], t = tr[1];
+  paint(t, function(p){ p.rect(0, 0, TW, TH); }, [0, 0, TW, TH], '#140d09', ['#21160f','#0c0806','#2a1c13'], 900, 26, 0, .08);
+  t.fillStyle = 'rgba(236,222,194,.88)';
+  for (var x = 6; x < TW; x += 31){ t.beginPath(); rrect(t, x, 8, 18, 16, 3); rrect(t, x, 186, 18, 16, 3); t.fill(); }
+  t.font = '700 9px Arial'; t.textBaseline = 'middle';
+  frames.forEach(function(f, k){
+    var fx = k * 248 + 9;
+    t.fillStyle = '#050302'; t.fillRect(fx - 3, 32, FW + 6, FH + 6);
+    t.drawImage(f, fx, 35);
+    t.fillStyle = 'rgba(232,176,74,.85)'; t.fillText('◆ ERA ' + (k + 1) + ' ◆', fx + 6, 180);
+  });
+  t.fillStyle = 'rgba(255,255,255,.07)'; t.fillRect(0, 29, TW, 2); t.fillRect(0, 179, TW, 1);
+
+  /* Film reel */
+  var rr2 = mk(360, 360), reel = rr2[0], rc = rr2[1];
+  paint(rc, function(p){ p.arc(180, 180, 176, 0, Math.PI * 2); }, [4, 4, 352, 352], '#5d5a57', ['#8a8682','#45423f','#a9a49d','#6c6864'], 900, 18, 0, Math.PI);
+  rc.fillStyle = '#0c0907';
+  for (var k = 0; k < 6; k++){ var a = k * Math.PI / 3; rc.beginPath(); rc.arc(180 + Math.cos(a) * 112, 180 + Math.sin(a) * 112, 36, 0, Math.PI * 2); rc.fill(); }
+  paint(rc, function(p){ p.arc(180, 180, 46, 0, Math.PI * 2); }, [134, 134, 92, 92], '#8e8a85', ['#b9b4ad','#6a6662','#d1ccc4'], 120, 8, 0, Math.PI);
+  rc.fillStyle = '#0c0907'; rc.beginPath(); rc.arc(180, 180, 11, 0, Math.PI * 2); rc.fill();
+  for (k = 0; k < 3; k++){ a = k * Math.PI * 2 / 3; rc.fillRect(180 + Math.cos(a) * 11 - 3, 180 + Math.sin(a) * 11 - 3, 6, 6); }
+  rc.strokeStyle = 'rgba(255,255,255,.28)'; rc.lineWidth = 4; rc.beginPath(); rc.arc(180, 180, 170, -2.6, -1.2); rc.stroke();
+  rc.strokeStyle = 'rgba(0,0,0,.5)'; rc.lineWidth = 5; rc.beginPath(); rc.arc(180, 180, 174, 0, Math.PI * 2); rc.stroke();
+
+  /* Painted backdrop */
+  var br = mk(1920, 1080), base = br[0], b = br[1];
+  var gr = b.createLinearGradient(0, 0, 1920, 1080); gr.addColorStop(0, '#1d130e'); gr.addColorStop(.5, '#221319'); gr.addColorStop(1, '#150d0b');
+  paint(b, function(p){ p.rect(0, 0, 1920, 1080); }, [0, 0, 1920, 1080], gr, ['#2c1b14','#2e1824','#3b2519','#1a0f12','#3c2131','#24160f'], 2800, 60, -.3, .6);
+  vignette(b, 1920, 1080, 'rgba(0,0,0,A)', .6);
+
+  function strip(cy, ang, sc, off, dir){
+    g.save(); g.translate(960, cy); g.rotate(ang); g.scale(sc, sc);
+    var span = 1920 / sc / 2 + 300, n = Math.ceil(span / TW) + 1, x0 = -n * TW + (dir > 0 ? off : -off);
+    for (var x = x0; x < span; x += TW) g.drawImage(tile, x, -TH / 2);
+    g.restore();
+  }
+  function spinReel(x, y, sc, rot){ g.save(); g.translate(x, y); g.rotate(rot); g.scale(sc, sc); g.drawImage(reel, -180, -180); g.restore(); }
+
+  var last = 0, off1 = 0, off2 = 0, rot = 0;
+  function frame(ts){
+    requestAnimationFrame(frame);
+    if (ts - last < 33) return;
+    var dt = Math.min(.1, (ts - last) / 1000); last = ts;
+    off1 = (off1 + dt * 28) % TW; off2 = (off2 + dt * 22) % TW; rot += dt * .22;
+    g.drawImage(base, 0, 0);
+    spinReel(1808, 92, .95, rot);
+    spinReel(96, 1010, .78, -rot * 1.2);
+    strip(96, -.035, .62, off1, -1);
+    strip(1030, .022, .55, off2, 1);
+    for (var i = 0; i < 34; i++){ g.fillStyle = 'rgba(255,240,215,' + rr(.04, .14).toFixed(2) + ')'; g.fillRect(rr(0, 1920), rr(0, 1080), rr(1, 3), rr(1, 3)); }
+    if (Math.random() < .04){ g.fillStyle = 'rgba(255,240,215,.07)'; g.fillRect(rr(0, 1920), 0, 1.5, 1080); }
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

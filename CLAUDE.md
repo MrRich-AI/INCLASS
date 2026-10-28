@@ -11,6 +11,7 @@ Neither type is a student game: no name/class login, no scoreboard submission, n
 - INCLASS: `/G9/unit-03-food/<activity-name>/index.html` (mirrors the Lessons repo: two-digit unit number, lowercase hyphenated names).
 - RVW: `/TEST-REVIEW/G9/unit-02-technology/index.html`.
 - INSTRUCT (project/instruction slides; rules live in the GROUPS | INSTRUCT Builds project): `/INSTRUCTIONS/G10/unit-13-success-and-fame/<project-name>/index.html`, listed under the landing page's Instructions tab.
+- GROUPS (teacher-run class-group tools; rules live in the GROUPS | INSTRUCT Builds project): `/GROUPS/G10/unit-13-success-and-fame/<project-name>-<class>/index.html`, listed under the landing page's Groups tab. Commit without asking.
 - Root `index.html` is the landing page — always add new builds to it.
 - Classes: G9 = 9A1, 9A2, 9A3; G10 = 10A1. Roster nicknames are built into each file — copy them from the most recent build of the same grade and keep them easy to edit.
 

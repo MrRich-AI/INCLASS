@@ -32,12 +32,12 @@
 <body>
 <div class="wrap">
   <h1>In-Class <em>Activities</em></h1>
-  <p class="sub">Choose a grade, Instructions or Test Review, then pick an activity.</p>
+  <p class="sub">Choose a grade, Instructions, Groups or Test Review, then pick an activity.</p>
   <div class="tabs" id="tabs"></div>
   <div id="list"></div>
 </div>
 <script>
-/* Add new activities here: tab ('G9', 'G10' or 'REVIEW'), grade, unit number, unit title, activity title, short description, folder path.
+/* Add new activities here: tab ('G9', 'G10', 'INSTRUCT', 'GROUPS' or 'REVIEW'), grade, unit number, unit title, activity title, short description, folder path.
    Test reviews go in the REVIEW tab with paths under TEST-REVIEW/. */
 var ACTIVITIES = [
   {tab:'G10', grade:'G10', unit:11, unitTitle:'Heroes', title:'Hero or Not?', desc:'Eight real-life dilemmas to discuss and vote on.', path:'G10/unit-11-heroes/hero-or-not/'},
@@ -47,10 +47,11 @@ var ACTIVITIES = [
   {tab:'G10', grade:'G10', unit:13, unitTitle:'Success and fame', title:'Lights, Camera, Adverb!', desc:'Adverb charades: act out the action, then spell the -ly adverb on the board.', path:'G10/unit-13-success-and-fame/lights-camera-adverb/'},
   {tab:'G10', grade:'G10', unit:13, unitTitle:'Success and fame', title:'Behind the Spotlight', desc:'Project lead-in: two stars on living with fame, then the four stages of fame from a 2009 study.', path:'G10/unit-13-success-and-fame/behind-the-spotlight/'},
   {tab:'INSTRUCT', grade:'G10', unit:13, unitTitle:'Success and fame', title:'Fame Through the Decades', desc:'Project instructions: research, essay, presentation and timeline.', path:'INSTRUCTIONS/G10/unit-13-success-and-fame/fame-through-the-decades/'},
+  {tab:'GROUPS', grade:'G10', unit:13, unitTitle:'Success and fame', title:'Fame Through the Decades \u2013 Celebrity Draw (10A1)', desc:'Every student draws a celebrity from five eras of fame; swap between students or with unused stars.', path:'GROUPS/G10/unit-13-success-and-fame/fame-through-the-decades-10a1/'},
   {tab:'REVIEW', grade:'G9', unit:2, unitTitle:'Technology', title:'Unit 2 Test Review', desc:'Walk through the Unit 2 test with step-by-step answers and evidence.', path:'TEST-REVIEW/G9/unit-02-technology/'},
   {tab:'REVIEW', grade:'G10', unit:13, unitTitle:'Success and fame', title:'Unit 13 Test Review: Reading', desc:'The reading exercise, with note windows that cross out the words a short note doesn\u2019t need.', path:'TEST-REVIEW/G10/unit-13-success-and-fame/'}
 ];
-var TABS = [{id:'G9',label:'Grade 9'},{id:'G10',label:'Grade 10'},{id:'INSTRUCT',label:'Instructions'},{id:'REVIEW',label:'Test Review'}];
+var TABS = [{id:'G9',label:'Grade 9'},{id:'G10',label:'Grade 10'},{id:'INSTRUCT',label:'Instructions'},{id:'GROUPS',label:'Groups'},{id:'REVIEW',label:'Test Review'}];
 var IDS = TABS.map(function(t){ return t.id; });
 var tabs = document.getElementById('tabs'), list = document.getElementById('list');
 var saved; try{ saved = localStorage.getItem('inclassGrade'); }catch(e){}
@@ -66,13 +67,13 @@ function render(){
   });
   list.textContent = '';
   var items = ACTIVITIES.filter(function(a){ return a.tab === current; }).sort(function(a,b){ return (parseInt(a.grade.slice(1)) - parseInt(b.grade.slice(1))) || (a.unit - b.unit); });
-  if(!items.length){ var p = document.createElement('p'); p.className = 'empty'; p.textContent = current === 'REVIEW' ? 'No test reviews yet.' : current === 'INSTRUCT' ? 'No instructions yet.' : 'No activities yet.'; list.appendChild(p); return; }
+  if(!items.length){ var p = document.createElement('p'); p.className = 'empty'; p.textContent = current === 'REVIEW' ? 'No test reviews yet.' : current === 'INSTRUCT' ? 'No instructions yet.' : current === 'GROUPS' ? 'No group tools yet.' : 'No activities yet.'; list.appendChild(p); return; }
   var units = {};
   var order = [];
   items.forEach(function(a){ var k = a.grade + '-' + a.unit; if(!units[k]){ units[k] = []; order.push(k); } units[k].push(a); });
   order.forEach(function(u){
     var sec = document.createElement('section'); sec.className = 'unit';
-    var h = document.createElement('h2'); var f = units[u][0]; h.textContent = (current === 'REVIEW' || current === 'INSTRUCT' ? 'Grade ' + f.grade.slice(1) + ' · ' : '') + 'Unit ' + f.unit + ' · ' + f.unitTitle; sec.appendChild(h);
+    var h = document.createElement('h2'); var f = units[u][0]; h.textContent = (current === 'REVIEW' || current === 'INSTRUCT' || current === 'GROUPS' ? 'Grade ' + f.grade.slice(1) + ' · ' : '') + 'Unit ' + f.unit + ' · ' + f.unitTitle; sec.appendChild(h);
     var grid = document.createElement('div'); grid.className = 'grid';
     units[u].forEach(function(a){
       var c = document.createElement('a'); c.className = 'card'; c.href = a.path;
