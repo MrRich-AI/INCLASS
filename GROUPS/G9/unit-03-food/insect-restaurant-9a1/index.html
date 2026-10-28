@@ -32,7 +32,15 @@
 
   /* Cards */
   .card{position:absolute;left:0;top:0;perspective:1600px;will-change:transform}
+  .tz{position:absolute;inset:0;transform-style:preserve-3d;perspective:1600px}
   .flip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .62s cubic-bezier(.45,.05,.3,1)}
+  .ny{display:none;position:absolute;inset:0;z-index:5;background:var(--cream);border-radius:16px;align-items:center;justify-content:center;text-align:center;
+    font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:50px;line-height:1.05;color:var(--wine)}
+  .card.notyet .ny{display:flex}
+  .peek{position:absolute;top:0;right:0;width:200px;height:200px;z-index:4;transform:scale(0);transform-origin:100% 0;pointer-events:none;
+    background:linear-gradient(225deg,rgba(0,0,0,0) 49.6%,#C9B48A 50%,var(--cream) 53%);filter:drop-shadow(-6px 8px 6px rgba(0,0,0,.45))}
+  .peek span{position:absolute;left:14px;top:92px;transform:rotate(45deg);transform-origin:50% 50%;font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:27px;color:var(--wine);white-space:nowrap}
+  .card.burstglow .glowring{opacity:1;animation:none;box-shadow:0 0 70px 34px rgba(255,236,150,.95),0 0 0 9px #FFF6CC}
   .card.down .flip{transform:rotateY(180deg)}
   .face{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
   .front{background:var(--cream);border:6px solid var(--wood);box-shadow:0 18px 30px rgba(0,0,0,.45);display:flex;flex-direction:column;align-items:center;padding:30px 14px 22px}
@@ -74,6 +82,10 @@
   .chip.landed span{background:transparent;border-color:transparent;box-shadow:none}
   @keyframes bob{0%,100%{transform:translateY(-9px) rotate(-1.5deg)}50%{transform:translateY(9px) rotate(1.5deg)}}
 
+  #fx{position:absolute;inset:0;width:1920px;height:1080px;pointer-events:none;z-index:45}
+  #beam{position:absolute;left:600px;top:0;width:720px;height:1000px;pointer-events:none;z-index:49;opacity:0;
+    clip-path:polygon(43% 0,57% 0,100% 100%,0 100%);background:linear-gradient(180deg,rgba(255,244,190,.75),rgba(255,236,160,.25) 70%,rgba(255,236,160,.05))}
+
   /* Controls */
   #btn{position:absolute;left:50%;top:880px;transform:translateX(-50%);font-family:'Atkinson Hyperlegible',Verdana,sans-serif;font-weight:700;font-size:38px;
     color:#FFF7E2;background:linear-gradient(180deg,#3E7A34,var(--forest) 60%,#234720);border:5px solid var(--gold);border-radius:999px;padding:18px 54px;cursor:pointer;
@@ -97,6 +109,8 @@
   </div>
   <div id="cards" class="prestart namesHidden"></div>
   <div id="chips"></div>
+  <div id="beam"></div>
+  <canvas id="fx" width="1920" height="1080"></canvas>
   <button id="btn" type="button">Make Teams</button>
   <div id="hint"></div>
 </div>
@@ -160,13 +174,14 @@ GROUPS.forEach(function(g, i){
   var names = g.members.map(function(m){ return '<li>' + m.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</li>'; }).join('');
   el.innerHTML =
     '<div class="glowring"></div>' +
-    '<div class="flip">' +
-      '<div class="face front"><div class="badge">' + g.letter + '</div><div class="glabel">GROUP ' + g.letter + '</div><div class="divider"></div><ul class="names">' + names + '</ul></div>' +
-      '<div class="face back"><div class="orn top">' + ORN + '</div><div class="backnum">?</div><div class="orn bot">' + ORN + '</div></div>' +
-    '</div>' +
+    '<div class="tz"><div class="flip">' +
+      '<div class="face front"><div class="badge">' + g.letter + '</div><div class="glabel">GROUP ' + g.letter + '</div><div class="divider"></div><ul class="names">' + names + '</ul><div class="ny">NOT<br>YET!</div></div>' +
+      '<div class="face back"><div class="orn top">' + ORN + '</div><div class="backnum">?</div><div class="orn bot">' + ORN + '</div><div class="peek"><span>NOT YET!</span></div></div>' +
+    '</div></div>' +
     '<div class="tag"></div>';
   container.appendChild(el);
-  var c = { el: el, num: el.querySelector('.backnum'), tag: el.querySelector('.tag') };
+  el.dataset.idx = i;
+  var c = { el: el, idx: i, num: el.querySelector('.backnum'), tag: el.querySelector('.tag'), tz: el.querySelector('.tz'), flip: el.querySelector('.flip'), peek: el.querySelector('.peek'), revealed: false };
   cards.push(c); slotCard.push(i);
   setPos(c, slotX(i), TOP, 0);
 });
@@ -256,7 +271,7 @@ setTimeout(readyChips, 1200);
 
 /* ---------- Flow ---------- */
 var btn = document.getElementById('btn'), hint = document.getElementById('hint');
-var state = 'title', revealIdx = 0, locked = false;
+var state = 'title', revealedCount = 0, nextSlot = -1, locked = false;
 function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
 function ordinal(n){ var s = ['TH','ST','ND','RD'], v = n % 100; return n + (s[(v-20)%10] || s[v] || s[0]); }
 function ordWord(n){ var s = ['th','st','nd','rd'], v = n % 100; return n + (s[(v-20)%10] || s[v] || s[0]); }
@@ -287,11 +302,13 @@ function animateSwap(i, j, dur){
   });
 }
 
+function lowestUnrevealed(){ for (var i = 0; i < N; i++) if (!cards[slotCard[i]].revealed) return i; return -1; }
 function setNext(){
   cards.forEach(function(c){ c.el.classList.remove('next'); });
-  if (revealIdx < N){
-    cards[slotCard[revealIdx]].el.classList.add('next');
-    hint.innerHTML = 'Click anywhere or press <b>Space</b> to reveal the <b>' + ordWord(revealIdx+1) + '</b> group';
+  nextSlot = lowestUnrevealed();
+  if (nextSlot >= 0){
+    cards[slotCard[nextSlot]].el.classList.add('next');
+    hint.innerHTML = 'Click anywhere or press <b>Space</b> for the <b>' + ordWord(nextSlot+1) + '</b> group &nbsp;·&nbsp; or click any card';
     hint.classList.add('show');
   }
 }
@@ -301,7 +318,8 @@ async function shuffle(){
   state = 'busy';
   btn.classList.add('hide'); btn.blur();
   hint.classList.remove('show');
-  cards.forEach(function(c){ c.el.classList.remove('next'); c.tag.classList.remove('show'); });
+  nextSlot = -1; revealedCount = 0;
+  cards.forEach(function(c){ c.revealed = false; c.el.classList.remove('next'); c.tag.classList.remove('show'); });
 
   // 1) flip face-down one by one, left to right
   for (var s = 0; s < N; s++){
@@ -344,22 +362,122 @@ async function shuffle(){
     await wait(120);
   }
   await wait(350);
-  revealIdx = 0; state = 'reveal'; setNext();
+  state = 'reveal'; setNext();
 }
 
-async function revealNext(){
-  if (state !== 'reveal' || locked) return;
+/* ---------- Teases (play after a click, before the card flips; never show names) ---------- */
+function A(el, frames, opts){ return el.animate(frames, opts).finished; }
+var beam = document.getElementById('beam');
+var TEASES = {
+  fakeout: async function(c){
+    await A(c.flip, [{transform:'rotateY(180deg)'},{transform:'rotateY(112deg)',offset:.35},{transform:'rotateY(96deg)',offset:.5},{transform:'rotateY(96deg)',offset:.68},{transform:'rotateY(180deg)'}], {duration:1200, easing:'ease-in-out'});
+  },
+  drumroll: async function(c){
+    var f = [];
+    for (var i = 0; i <= 44; i++){ var a = i/44, amp = 2 + a*13, sg = i % 2 ? 1 : -1;
+      f.push({transform:'translate(' + (sg*amp*(.55 + rand()*.45)).toFixed(1) + 'px,' + ((rand() - .5)*amp*.7).toFixed(1) + 'px) rotate(' + (sg*a*2.8).toFixed(2) + 'deg)'}); }
+    f.push({transform:'none'});
+    await A(c.tz, f, {duration:1700});
+  },
+  zoom: async function(c){
+    await A(c.tz, [{transform:'scale(1)'},{transform:'scale(.28)',offset:.38},{transform:'scale(.28)',offset:.55},{transform:'scale(1.14)',offset:.84},{transform:'scale(1)'}], {duration:1500, easing:'ease-in-out'});
+  },
+  twirl: async function(c){
+    await A(c.flip, [{transform:'rotateY(180deg)'},{transform:'rotateY(1260deg)'}], {duration:1600, easing:'cubic-bezier(.6,0,.9,.55)'});
+  },
+  quickflip: async function(c){
+    await A(c.flip, [{transform:'rotateY(180deg)'},{transform:'rotateY(0deg)',offset:.32},{transform:'rotateY(0deg)',offset:.62},{transform:'rotateY(180deg)'}], {duration:1100, easing:'ease-in-out'});
+  },
+  coin: async function(c){
+    await A(c.tz, [{transform:'translateY(0) rotateX(0deg)', easing:'cubic-bezier(.2,.7,.4,1)'},{transform:'translateY(-330px) rotateX(540deg)', offset:.5, easing:'cubic-bezier(.6,0,.8,.3)'},{transform:'translateY(0) rotateX(1080deg)', offset:.9},{transform:'translateY(-18px) rotateX(1080deg)', offset:.95},{transform:'translateY(0) rotateX(1080deg)'}], {duration:1500});
+  },
+  spotlight: async function(c, isLast){
+    var sl = slotCard.indexOf(c.idx), dx = 960 - (slotX(sl) + CARD_W/2), dy = 520 - (TOP + CARD_H/2);
+    var go = [{transform:'none'},{transform:'translate(' + dx + 'px,' + dy + 'px) scale(1.28)'}];
+    c.el.style.zIndex = 60;
+    beam.animate([{opacity:0},{opacity:1}], {duration:500, fill:'forwards'});
+    var anim = c.tz.animate(go, {duration:750, easing:'cubic-bezier(.3,.7,.3,1)', fill:'forwards'});
+    await anim.finished; await wait(350);
+    if (isLast){ c.el.classList.remove('notyet'); c.el.classList.remove('down'); await wait(900); }
+    else { await A(c.flip, [{transform:'rotateY(180deg)'},{transform:'rotateY(0deg)',offset:.35},{transform:'rotateY(0deg)',offset:.6},{transform:'rotateY(180deg)'}], {duration:1000}); }
+    var back = c.tz.animate(go.slice().reverse(), {duration:700, easing:'ease-in-out', fill:'forwards'});
+    beam.animate([{opacity:1},{opacity:0}], {duration:600, fill:'forwards'});
+    await back.finished; anim.cancel(); back.cancel();
+    return isLast;
+  },
+  corner: async function(c){
+    await A(c.peek, [{transform:'scale(0)'},{transform:'scale(1)',offset:.3},{transform:'scale(.92)',offset:.5},{transform:'scale(1)',offset:.7},{transform:'scale(0)'}], {duration:1500, easing:'ease-in-out'});
+  },
+  countdown: async function(c){
+    var keep = c.num.textContent;
+    for (var n = 3; n >= 1; n--){ c.num.textContent = n; c.num.classList.remove('pop'); void c.num.offsetWidth; c.num.classList.add('pop'); await wait(520); }
+    c.num.textContent = keep;
+  },
+  heartbeat: async function(c){
+    var gaps = [400, 340, 280, 230, 190, 160, 135, 115], tot = gaps.reduce(function(a, b){ return a + b; }, 0), f = [{transform:'scale(1)', offset:0}], t = 0;
+    gaps.forEach(function(g){ f.push({transform:'scale(1.1)', offset:(t + g*.35)/tot}); t += g; f.push({transform:'scale(1)', offset:t/tot}); });
+    await A(c.tz, f, {duration:tot});
+  },
+  decode: async function(c, isLast){
+    var keep = c.num.textContent, letters = GROUPS.map(function(g){ return g.letter; }).join('') + '?#*%';
+    c.num.style.transition = 'opacity .3s'; c.num.style.opacity = '.45'; await wait(300); c.num.style.opacity = '1';
+    var end = performance.now() + 1300;
+    while (performance.now() < end){ c.num.textContent = letters.charAt(randInt(letters.length)); c.num.style.color = rand() < .5 ? '#9FE07A' : '#F2C94C'; await wait(55); }
+    c.num.style.color = '';
+    c.num.textContent = isLast ? GROUPS[c.idx].letter : keep;
+    c.num.classList.remove('pop'); void c.num.offsetWidth; c.num.classList.add('pop');
+    await wait(isLast ? 600 : 300);
+    if (isLast){ c.el.classList.remove('notyet'); c.el.classList.remove('down'); await wait(650); c.num.textContent = keep; return true; }
+    return false;
+  },
+  burst: async function(c, isLast){
+    c.el.classList.add('burstglow');
+    var f = []; for (var i = 0; i <= 20; i++){ var a = i/20; f.push({transform:'scale(' + (1 + a*.08) + ') rotate(' + ((i % 2 ? 1 : -1)*a*2) + 'deg)'}); }
+    await A(c.tz, f, {duration:900});
+    var sl = slotCard.indexOf(c.idx);
+    spawnBurst(slotX(sl) + CARD_W/2, TOP + CARD_H/2, 150);
+    c.el.classList.remove('burstglow');
+    if (isLast){
+      c.el.classList.remove('notyet');
+      c.flip.style.transition = 'none'; c.el.classList.remove('down'); void c.flip.offsetWidth; c.flip.style.transition = '';
+    }
+    await A(c.tz, [{transform:'scale(1.08)'},{transform:'scale(1)'}], {duration:350, easing:'ease-out'});
+    await wait(250);
+    return isLast;
+  },
+  bluff: async function(c){
+    var sl = slotCard.indexOf(c.idx), nb = sl + 1 < N ? sl + 1 : sl - 1, dx = slotX(nb) - slotX(sl), dir = dx > 0 ? 1 : -1;
+    c.el.style.zIndex = 60;
+    await A(c.tz, [{transform:'none'},{transform:'translate(' + dx*.5 + 'px,-230px) rotate(' + dir*9 + 'deg)', offset:.24},{transform:'translate(' + dx + 'px,0)', offset:.44},{transform:'translate(' + dx + 'px,0)', offset:.56},{transform:'translate(' + dx*.5 + 'px,-180px) rotate(' + (-dir*7) + 'deg)', offset:.76},{transform:'none'}], {duration:1600, easing:'ease-in-out'});
+  }
+};
+var TEASE_NAMES = Object.keys(TEASES);
+
+async function reveal(slot){
+  if (state !== 'reveal' || locked || slot < 0) return;
+  var c = cards[slotCard[slot]];
+  if (c.revealed) return;
   locked = true;
-  var c = cards[slotCard[revealIdx]];
-  c.el.classList.remove('next');
-  hint.classList.remove('show');
-  c.el.classList.remove('down');
-  c.tag.textContent = ordinal(revealIdx + 1);
-  await wait(380);
+  cards.forEach(function(k){ k.el.classList.remove('next'); });
+  nextSlot = -1; hint.classList.remove('show');
+  c.el.style.zIndex = 50;
+  // second-to-last card flipped (by flip sequence) gets a chain of 2–3 teases; every other click gets one
+  var chain = (N >= 2 && revealedCount === N - 2) ? 2 + randInt(2) : 1;
+  var picks = shuffled(TEASE_NAMES).slice(0, chain), done = false;
+  for (var i = 0; i < picks.length; i++){
+    var isLast = i === picks.length - 1;
+    c.el.classList.add('notyet');
+    done = await TEASES[picks[i]](c, isLast) === true;
+    if (!isLast) await wait(220);
+  }
+  c.el.classList.remove('notyet');
+  if (!done){ c.el.classList.remove('down'); await wait(620); }
+  c.revealed = true; revealedCount++;
+  c.tag.textContent = ordinal(slot + 1);
   c.tag.classList.add('show');
-  await wait(320);
-  revealIdx++;
-  if (revealIdx < N){ setNext(); }
+  c.el.style.zIndex = '';
+  await wait(250);
+  if (revealedCount < N){ setNext(); }
   else {
     state = 'done';
     btn.textContent = 'Shuffle Again';
@@ -367,9 +485,56 @@ async function revealNext(){
   }
   locked = false;
 }
+function revealNext(){ reveal(lowestUnrevealed()); }
+
+/* ---------- Magical next-card effect: fireflies and pollen swirling round the next card ---------- */
+var fx = document.getElementById('fx'), fctx = fx.getContext('2d'), flies2 = [], bursts = [];
+for (var fi = 0; fi < 44; fi++) flies2.push({ p: rand(), sp: .035 + rand()*.06, off: 8 + rand()*40, w: rand()*6.28, r: 3.2 + rand()*3.6, hue: rand() < .7 ? 0 : 1 });
+function perim(t, x, y, w, h, o){
+  var L = 2*(w + h), d = ((t % 1) + 1) % 1 * L;
+  if (d < w) return [x + d, y - o];
+  d -= w; if (d < h) return [x + w + o, y + d];
+  d -= h; if (d < w) return [x + w - d, y + h + o];
+  d -= w; return [x - o, y + h - d];
+}
+function spawnBurst(cx, cy, n){
+  for (var i = 0; i < n; i++){ var a = rand()*6.283, v = 4 + rand()*13;
+    bursts.push({ x: cx + (rand() - .5)*CARD_W*.6, y: cy + (rand() - .5)*CARD_H*.6, vx: Math.cos(a)*v, vy: Math.sin(a)*v - 2, life: 1, r: 2 + rand()*4, c: rand() < .5 ? '255,236,140' : (rand() < .5 ? '200,255,150' : '255,255,255') }); }
+}
+function glowDot(x, y, r, rgb, a){
+  var g = fctx.createRadialGradient(x, y, 0, x, y, r*4);
+  g.addColorStop(0, 'rgba(255,255,240,' + a + ')'); g.addColorStop(.25, 'rgba(' + rgb + ',' + a*.9 + ')'); g.addColorStop(1, 'rgba(' + rgb + ',0)');
+  fctx.fillStyle = g; fctx.beginPath(); fctx.arc(x, y, r*4, 0, 6.283); fctx.fill();
+}
+var fxLast = 0;
+function fxFrame(now){
+  requestAnimationFrame(fxFrame);
+  var dt = Math.min(.05, (now - (fxLast || now))/1000); fxLast = now;
+  fctx.clearRect(0, 0, 1920, 1080);
+  if (nextSlot >= 0 && state === 'reveal'){
+    var x = slotX(nextSlot), t = now/1000;
+    flies2.forEach(function(f){
+      f.p += f.sp*dt;
+      var o = f.off + Math.sin(t*2.2 + f.w)*12, pt = perim(f.p, x, TOP, CARD_W, CARD_H, o);
+      var tw = .55 + .45*Math.sin(t*5 + f.w*3);
+      glowDot(pt[0], pt[1] + Math.sin(t*3 + f.w)*6, f.r, f.hue ? '190,255,140' : '255,226,110', tw);
+    });
+  }
+  for (var i = bursts.length - 1; i >= 0; i--){
+    var b = bursts[i]; b.x += b.vx; b.y += b.vy; b.vx *= .94; b.vy = b.vy*.94 + .12; b.life -= dt*.9;
+    if (b.life <= 0){ bursts.splice(i, 1); continue; }
+    glowDot(b.x, b.y, b.r, b.c, Math.max(0, b.life));
+  }
+}
+requestAnimationFrame(fxFrame);
 
 btn.addEventListener('click', function(e){ e.stopPropagation(); if (state === 'title') makeTeams(); else shuffle(); });
-window.addEventListener('click', function(e){ if (e.target === btn) return; revealNext(); });
+window.addEventListener('click', function(e){
+  if (e.target === btn || state !== 'reveal') return;
+  var el = e.target.closest ? e.target.closest('.card') : null;
+  if (el){ var c = cards[+el.dataset.idx]; if (!c.revealed){ reveal(slotCard.indexOf(c.idx)); return; } }
+  revealNext();
+});
 window.addEventListener('keydown', function(e){
   if (e.key === ' ' || e.key === 'Spacebar' || e.key === 'Enter' || e.key === 'ArrowRight'){
     e.preventDefault();
