@@ -509,6 +509,71 @@ button{font-family:inherit}
 @keyframes iris{to{width:1240px;height:1240px;margin:-620px 0 0 -620px}}
 
 @media (prefers-reduced-motion:reduce){#atmo .spot,#atmo .blinds,#grain{animation:none}}
+/* ===== SHARED · activities/evidence-window (rows-window) ===== */
+/* ---------- the notes task + evidence windows ---------- */
+.fnotes .ins{font-size:30px;line-height:1.28;margin:8px 0 2px}
+.fnotes .nh{display:flex;align-items:baseline;justify-content:space-between;font-size:32px;font-weight:800;margin:8px 0 4px}
+.fnotes .nh .mk{font-weight:800;font-size:30px;color:var(--ink)}
+.fnotes .nh .any{font-weight:700;font-size:24px;color:var(--teal-dark);margin-left:14px}
+.fnotes .exm{font-style:italic;font-size:28px;font-weight:600;color:#333;margin-left:18px}
+.evr{position:relative;display:flex;align-items:center;gap:12px;height:60px;margin-bottom:6px;cursor:pointer}
+.evr .bl{font-size:36px;font-weight:900;color:var(--ink);text-align:center;width:34px;flex:none}
+.evr .cov{flex:1;height:54px;display:flex;align-items:center;gap:14px;padding:0 20px;background:repeating-linear-gradient(135deg,#eef7f8 0 14px,#e2f1f3 14px 28px);border:3px dashed var(--teal);border-radius:12px;color:var(--teal-dark);font-weight:800;font-size:26px;transition:opacity .3s}
+.evr .cov::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:var(--teal);color:#fff;font-size:24px;flex:none}
+.evr .ea,.evr .ex{display:none}
+.evr.shown .cov{display:none}
+.evr.shown .ea,.evr.shown .ex{display:block}
+.evr .ea{flex:none;max-width:1120px;font-size:34px;font-weight:800;color:var(--okdk);background:var(--okbg);border:3px solid var(--ok);border-radius:12px;padding:4px 18px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.evr .ea i{font-weight:600;font-style:normal;opacity:.75}
+.evr .ex{flex:1;min-width:0;font-family:"EB Garamond",Georgia,serif;font-size:27px;line-height:1.2;color:#222;background:#f3f6f7;border-radius:10px;padding:5px 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.evr .ex b{font-family:"Mulish",sans-serif;font-size:20px;color:#0a8b99;margin-right:6px}
+.evr.shown .ea,.evr.shown .ex{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+.evr.act{z-index:28}
+.evr.act .cov{background:#fff;border-style:solid;border-color:#f5b31b;box-shadow:0 0 0 6px rgba(245,179,27,.35)}
+mark.p,mark.a{color:inherit;padding:0 2px;border-radius:3px;background:linear-gradient(var(--hl),var(--hl)) no-repeat 0 0 / 0% 100%;transition:background-size .7s ease .1s}
+mark.p{--hl:#bfe0ff}mark.a{--hl:#ffe24d;font-weight:700}
+.evr.shown mark.p,.evr.shown mark.a{background-size:100% 100%}
+#evw{position:absolute;inset:0;z-index:25;display:none}
+#evw.on{display:block}
+#evw .dim{position:absolute;inset:0;background:rgba(15,30,34,.55)}
+#evw .pan{position:absolute;left:110px;width:1700px;background:#fff;border-top:10px solid #0d8d9d;box-shadow:0 22px 50px rgba(0,0,0,.45);padding:16px 34px 22px;animation:evPop .3s ease-out}
+@keyframes evPop{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+#evw .pan h4{font-size:24px;font-weight:800;color:#0a8b99;letter-spacing:.5px;margin-bottom:8px;display:flex;justify-content:space-between;gap:20px}
+#evw .pan h4 span{color:#555;font-weight:700}
+#evw .pan p{font-family:"EB Garamond",Georgia,serif;font-size:33px;line-height:1.42;color:#111}
+#evw .pan.sm p{font-size:29px}
+#evw mark.p,#evw mark.a{font-weight:inherit}
+#evw.s2 mark.p{background-size:100% 100%}
+#evw.s3 mark.p,#evw.s3 mark.a{background-size:100% 100%}
+#evw.s3 mark.a{font-weight:700}
+#evw .key{display:flex;justify-content:flex-end;gap:22px;margin-top:10px;font-size:20px;font-weight:800;color:#555}
+#evw .key span{display:flex;align-items:center;gap:8px}
+#evw .key i{display:inline-block;width:24px;height:16px;border-radius:3px}
+.evtot{font-size:30px;font-weight:800;margin-left:22px}
+
+
+/* ===== Slide 18: order the stages (SHARED evidence windows restyled to this build) ===== */
+.ordSl,#evw{--teal:#c99a2e;--teal-dark:#8a6410;--ink:#1b1b20;--ok:#2f8f57;--okbg:#e6f4ea;--okdk:#1f6e3f}
+.ordGrid{display:grid;grid-template-columns:430px 1fr;gap:34px;margin-top:20px}
+.ordBank .gbank{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.ordBank .gchip{font-size:29px;text-align:center}
+.ordBtns{display:flex;gap:14px;margin-top:18px}
+.ordRows{min-width:0;overflow:hidden;background:linear-gradient(180deg,var(--card2),var(--card));border-radius:6px;padding:14px 22px 16px;box-shadow:0 26px 50px rgba(0,0,0,.55)}
+.ordSl .evr{height:auto;min-height:72px;margin-bottom:6px;gap:16px}
+.ordSl .evr .bl{width:150px;font:400 30px/1 var(--deco);color:#8a6410;text-align:left}
+.ordSl .evr.og .bl{color:#8f2f2e}
+.ordSl .evr .gap{min-width:410px;height:62px;font-size:29px;flex:none}
+.ordSl .evr .cov{height:58px;font-size:24px}
+.ordSl .evr .ea{display:none!important}
+.ordSl .evr .ex{font-family:Georgia,serif;font-size:23px}
+.ordSl .evr .ex b{font-family:var(--body);font-size:19px;color:#8a6410}
+.ordSl .oghead{font:400 28px/1 var(--deco);color:#8f2f2e;margin:12px 0 8px;border-top:2px dashed #b9b2a2;padding-top:12px}
+.ordSl .oghead span{font:600 22px var(--body);color:var(--cmut)}
+.ordSl .ordWhy{margin-top:8px;font-size:25px;line-height:1.3}
+#evw .pan{border-top-color:#c99a2e}
+#evw .pan h4{color:#8a6410;font-family:var(--body)}
+#evw .pan p{font-family:Georgia,serif;font-size:32px}
+#evw .key{font-family:var(--body)}
 </style>
 </head>
 <body>
@@ -801,7 +866,7 @@ button{font-family:inherit}
         <svg class="gsvg ans shape" id="shape" viewBox="0 0 1100 640" style="pointer-events:none">
           <path class="seg2" d="M10 330 C60 200 90 120 150 150 C200 175 210 110 260 120 C330 130 360 60 420 70 C470 80 490 260 560 330 C620 380 660 420 720 400 C800 380 860 430 920 440 C980 450 1040 470 1090 480" fill="none" stroke="#c99a2e" stroke-width="10" stroke-linecap="round"/>
           <g style="font:700 26px var(--body)" fill="#1b1b20">
-            <text class="lbl" x="70" y="100">love / hate</text><text class="lbl" x="350" y="40">addiction</text><text class="lbl" x="520" y="250">acceptance</text><text class="lbl" x="700" y="360">adaptation</text><text class="lbl" x="860" y="530">ongoing problems</text>
+            <text class="lbl" x="70" y="100">Stage 1</text><text class="lbl" x="350" y="40">Stage 2</text><text class="lbl" x="520" y="250">Stage 3</text><text class="lbl" x="700" y="360">Stage 4</text><text class="lbl" x="860" y="530">ongoing problems</text>
           </g>
         </svg>
       </div>
@@ -855,28 +920,22 @@ button{font-family:inherit}
   </section>
 
   <!-- ============================== 18. JIGSAW ============================== -->
-  <section class="slide l2" data-timer="1" data-title="Jigsaw: one group, one section" data-grp="Lesson 2">
-    <div class="slate"><div class="frameNo">frame <b>4</b></div><h1>One group, one section</h1></div>
+  <section class="slide l2 ordSl" data-rev="1" data-text="The Four Stages of Fame" data-title="Order the stages: four stages and three ongoing problems" data-grp="Lesson 2">
+    <div class="slate"><div class="frameNo">frame <b>4</b></div><h1>Four stages, three problems</h1><div class="seg">Shuffle and match</div></div>
     <div class="rule"></div>
-    <div class="body" style="top:138px">
-      <div class="card rise" style="padding:20px 32px;display:flex;gap:40px;align-items:center">
-        <div class="task" style="font-size:34px">Read <b>only</b> your group's section. Then write:</div>
-        <div class="task" style="font-size:34px"><b style="color:#8a6410">①</b> a one-sentence summary in your own words</div>
-        <div class="task" style="font-size:34px"><b style="color:#8a6410">②</b> a modern example (a YouTuber, an athlete …)</div>
+    <div class="body" style="top:132px">
+      <div class="card rise" style="padding:16px 30px"><div class="task" style="font-size:33px">The headline says <b>“four stages”</b>, but the article has <b>seven</b> headings. Drag them into order: <b>Stage 1–4</b>, then the <b>3 ongoing problems</b>.</div></div>
+      <div class="ordGrid">
+        <div class="ordBank rise d1">
+          <div class="gbank"><span class="gchip" data-w="love/hate">Love/hate</span><span class="gchip" data-w="addiction">Addiction</span><span class="gchip" data-w="acceptance">Acceptance</span><span class="gchip" data-w="adaptation">Adaptation</span><span class="gchip" data-w="loss of self">Loss of self</span><span class="gchip" data-w="mistrust">Mistrust</span><span class="gchip" data-w="demanding expectations">Demanding expectations</span></div>
+          <div class="ordBtns"><button class="bb" id="ordShuffle">Shuffle</button><button class="bb gclear">Clear</button></div>
+        </div>
+        <div class="ordRows rise d2">
+          <div class="evr rv srow" data-para="5" data-p="At first" data-a="both love the attention and adoration while they question the gratification they experience from fame|&#x27;I enjoy parts of it, but I hate parts of it, too,&#x27;" data-head="Stage 1"><span class="bl">Stage 1</span><span class="gap" data-ans="love/hate"><span class="gg"></span><span class="ga">Love/hate</span></span><div class="cov">Check with the text</div><div class="ea">Love/hate</div><div class="ex"><b>Para 5</b>… that participants <mark class="a">both love the attention and adoration while they question the gratification they experience from fame</mark> …</div></div><div class="evr rv srow" data-para="6" data-p="it becomes difficult for the person to imagine living without fame" data-a="the most addicting of them all is fame" data-head="Stage 2"><span class="bl">Stage 2</span><span class="gap" data-ans="addiction"><span class="gg"></span><span class="ga">Addiction</span></span><div class="cov">Check with the text</div><div class="ea">Addiction</div><div class="ex"><b>Para 6</b>… another, and <mark class="a">the most addicting of them all is fame</mark> …</div></div><div class="evr rv srow" data-para="7" data-p="As the attention becomes overwhelming" data-a="the celebrity resolves to accept fame|&#x27;You learn to accept it,&#x27;" data-head="Stage 3"><span class="bl">Stage 3</span><span class="gap" data-ans="acceptance"><span class="gg"></span><span class="ga">Acceptance</span></span><div class="cov">Check with the text</div><div class="ea">Acceptance</div><div class="ex"><b>Para 7</b>… the fore, <mark class="a">the celebrity resolves to accept fame</mark> …</div></div><div class="evr rv srow" data-para="8" data-p="Only after accepting that &#x27;it comes with the territory&#x27;" data-a="can the celebrity adaptively navigate" data-head="Stage 4"><span class="bl">Stage 4</span><span class="gap" data-ans="adaptation"><span class="gg"></span><span class="ga">Adaptation</span></span><div class="cov">Check with the text</div><div class="ea">Adaptation</div><div class="ex"><b>Para 8</b>… the territory&#x27; <mark class="a">can the celebrity adaptively navigate</mark> …</div></div><div class="oghead">Ongoing problems <span>– they continue even after a celebrity has adapted</span></div><div class="evr rv srow og" data-para="10" data-p="All the while" data-a="a loss of ownership of life|feeling like a thing rather than a person" data-head="Ongoing problem"><span class="bl">Ongoing</span><span class="gap" data-ans="loss of self|mistrust|demanding expectations"><span class="gg"></span><span class="ga">Loss of self</span></span><div class="cov">Check with the text</div><div class="ea">Loss of self</div><div class="ex"><b>Para 10</b>… confusion and <mark class="a">a loss of ownership of life</mark> …</div></div><div class="evr rv srow og" data-para="11" data-p="Eventually" data-a="evoke mistrust" data-head="Ongoing problem"><span class="bl">Ongoing</span><span class="gap" data-ans="loss of self|mistrust|demanding expectations"><span class="gg"></span><span class="ga">Mistrust</span></span><div class="cov">Check with the text</div><div class="ea">Mistrust</div><div class="ex"><b>Para 11</b>… the celebrity <mark class="a">evoke mistrust</mark> …</div></div><div class="evr rv srow og" data-para="13" data-p="becomes a vicious cycle" data-a="Living up to others’ expectations|a hungry and demanding public" data-head="Ongoing problem"><span class="bl">Ongoing</span><span class="gap" data-ans="loss of self|mistrust|demanding expectations"><span class="gg"></span><span class="ga">Demanding expectations</span></span><div class="cov">Check with the text</div><div class="ea">Demanding expectations</div><div class="ex"><b>Para 13</b>… &quot;<mark class="a">Living up to others’ expectations</mark> …</div></div>
+          <span class="ans whyBox ordWhy" style="display:block"><span class="hint">why only four stages?</span><span class="a">Stages 1–4 <span class="hl">happen one after another</span>. The last three are <span class="hl">ongoing problems</span>: “Even once they've adapted to their new status, they have to accept” them (para 9).</span></span>
+        </div>
       </div>
-      <div class="strip rise d2" id="jigStrip" style="margin-top:26px">
-        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><path d="M48 82C20 62 8 46 8 30 8 18 18 10 29 10c8 0 15 5 19 12 4-7 11-12 19-12 11 0 21 8 21 20 0 16-12 32-40 52z" fill="#c8403f" stroke="#f0d8d6" stroke-width="3"/><path d="M48 22l-6 16 10 8-8 12 6 14" fill="none" stroke="#18181d" stroke-width="5" stroke-linejoin="round"/></svg><div class="fn">1</div><div class="ft">Love/hate</div><div class="members"></div></div>
-        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><path d="M22 16v34a26 26 0 0 0 52 0V16H58v34a10 10 0 0 1-20 0V16z" fill="#cfd0d6" stroke="#f3f1ea" stroke-width="2"/><rect x="22" y="12" width="16" height="16" fill="#c8403f"/><rect x="58" y="12" width="16" height="16" fill="#c8403f"/><path d="M16 84l6-8M48 90v-10M80 84l-6-8" stroke="#f2d27a" stroke-width="4" stroke-linecap="round"/></svg><div class="fn">2</div><div class="ft">Addiction</div><div class="members"></div></div>
-        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><circle cx="48" cy="48" r="36" fill="none" stroke="#f2d27a" stroke-width="5" stroke-dasharray="6 5"/><circle cx="48" cy="48" r="27" fill="#2b2a24" stroke="#f2d27a" stroke-width="3"/><path d="M34 49l10 10 19-22" fill="none" stroke="#f2d27a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="fn">3</div><div class="ft">Acceptance</div><div class="members"></div></div>
-        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><path d="M18 40h60l-6-16c-2-6-8-8-24-8s-22 2-24 8z" fill="#3c3c45" stroke="#cfd0d6" stroke-width="3"/><path d="M8 42h80" stroke="#cfd0d6" stroke-width="6" stroke-linecap="round"/><path d="M14 56h28l-2 12c-1 6-5 8-12 8s-12-2-13-8zM54 56h28l-1 12c-1 6-6 8-13 8s-11-2-12-8z" fill="#0b0b0d" stroke="#cfd0d6" stroke-width="3"/><path d="M42 60h12" stroke="#cfd0d6" stroke-width="3"/><path d="M20 62l8-4" stroke="#fff" stroke-width="3" opacity=".6"/></svg><div class="fn">4</div><div class="ft">Adaptation</div><div class="members"></div></div>
-        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><ellipse cx="48" cy="40" rx="24" ry="28" fill="#cfd0d6"/><path d="M28 64c-10 4-16 12-18 24h76c-2-12-8-20-18-24" fill="#8f909a"/><text x="48" y="52" text-anchor="middle" style="font:400 36px var(--deco)" fill="#18181d">?</text></svg><div class="fn">5</div><div class="ft">Loss of self</div><div class="members"></div></div>
-        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><path d="M6 48c10-18 26-28 42-28s32 10 42 28c-10 18-26 28-42 28S16 66 6 48z" fill="#f3f1ea"/><circle cx="48" cy="48" r="16" fill="#3c3c45"/><circle cx="48" cy="48" r="7" fill="#0b0b0d"/><circle cx="53" cy="43" r="3" fill="#fff"/><path d="M14 30c12-8 24-12 34-12s20 2 34 10" fill="none" stroke="#cfd0d6" stroke-width="6" stroke-linecap="round"/><path d="M4 44c14-6 30-8 44-8" stroke="#18181d" stroke-width="10" opacity=".0"/></svg><div class="fn">6</div><div class="ft">Mistrust</div><div class="members"></div></div>
-        <div class="fr"><svg class="fi" viewBox="0 0 96 96"><circle cx="48" cy="46" r="36" fill="none" stroke="#cfd0d6" stroke-width="5"/><g stroke="#8f909a" stroke-width="3"><path d="M48 10v72M12 46h72M23 21l50 50M73 21L23 71"/></g><circle cx="48" cy="46" r="6" fill="#cfd0d6"/><ellipse cx="48" cy="72" rx="12" ry="8" fill="#c99a2e"/><circle cx="58" cy="68" r="5" fill="#c99a2e"/><path d="M30 88h36" stroke="#cfd0d6" stroke-width="5" stroke-linecap="round"/></svg><div class="fn">7</div><div class="ft">Demanding expectations</div><div class="members"></div></div>
-      </div>
-      <div class="gpBar rise d3" style="margin-top:24px">
-        <button class="bb prim" id="gpBtn">Make 7 groups</button>
-        <span class="note" id="gpNote" style="color:var(--dim)">Groups use the class you choose in the student picker.</span>
-      </div>
+      <div class="gcols" hidden><p data-p="1">The media doesn’t take kindly to celebrities who complain about fame. Kristen Stewart—notorious for delivering anti-paparazzi tirades—has been voted one of the least popular actresses in Hollywood. The premise of the Twitter @CelebsComplain_, which has 25,000 followers, is that it’s unseemly to have negative thoughts if you’re famous.</p><p data-p="2">So it’s no surprise that it can be hard to get celebrities to open up about fame. But in 2009, for a paper in the Journal of Phenomenological Psychology, Donna Rockwell of the Michigan School of Professional Psychology and David C. Giles of the University of Winchester interviewed well-known—but unnamed—American celebrities to gain insight into how they experienced fame and dealt with its ups and downs.</p><p data-p="3">Their sample consisted of 15 adults between the ages of 35 and 86 who had at some point in their lives achieved “celebrity status” in the U.S., and included “a TV star, a TV news personality, a state governor, a Hollywood actor, a local TV sportscaster, NHL hockey and NBA basketball athletes, a famous CEO, a celebrity lawyer, a former Rhythm &amp; Blues superstar, and a former child star.”</p><p data-p="4">Based on the interviews, Rockwell and Giles identified four phases the newly famous pass through as they come to terms with their celebrity status.</p><p data-p="5">&quot;At first, the experience of becoming famous provides much ego stroking. Newly famous people find themselves warmly embraced. There is a guilty pleasure associated with the thrill of being admired in that participants both love the attention and adoration while they question the gratification they experience from fame. &#x27;I enjoy parts of it, but I hate parts of it, too,&#x27; was a generally reported theme.&quot;</p><p data-p="6">&quot;The lure of adoration is attractive, and it becomes difficult for the person to imagine living without fame. One participant said, &#x27;It is somewhat of a high,&#x27; and another, &#x27;I kind of get off on it.&#x27; One said, &#x27;I’ve been addicted to almost every substance known to man at one point or another, and the most addicting of them all is fame.&#x27;”</p><p data-p="7">&quot;As the attention becomes overwhelming and expectations, temptations, mistrust, and familial concerns come to the fore, the celebrity resolves to accept fame, including its threatening phenomenal aspects. &#x27;You learn to accept it,&#x27; one celebrity said. After a while, celebrities report that they come to see that fame is &#x27;just so much the will-o’-the-wisp, and you just can’t build a house on that kind of stuff.&#x27;”</p><p data-p="8">&quot;Only after accepting that &#x27;it comes with the territory&#x27; can the celebrity adaptively navigate fame’s choppy waters. &#x27;Once you’re famous,&#x27; a participant said, &#x27;you don’t make eye contact or you keep walking . . . and you just don’t hear [people calling your name].&#x27; Adaptive patterns can include reclusiveness, which gives rise in turn to mistrust and isolation.&quot;</p><p data-p="9">Even once they&#x27;ve adapted to their new status, they have to accept:</p><p data-p="10">&quot;From an initial desire to become successful, the celebrity experiences personal confusion and a loss of ownership of life in a depersonalizing &#x27;entitization&#x27; process, in which participants reported feeling like a thing rather than a person of unique character… All the while hearing one’s name screamed out, the famous person feels as if he or she is not even there….The celebrity suffers a loss of personal freedom in relation to the world and develops a heightened capacity to scan his or her environment in a state of alerted attention in order to assess the possibilities of advance or the need to retreat.&quot;</p><p data-p="11">&quot;Eventually, the very others who adore the celebrity evoke mistrust. &#x27;There is always a part of you that wonders why they are becoming friendly with you.&#x27; In an everyday environment, the celebrity wonders, &#x27;Do people like me because of who I am or because of what I do? You find out there are millions of people who like you for what you do. They couldn’t care less who you are.&#x27;”</p><p data-p="12">&quot;The celebrity copes with intense public scrutiny through character splitting. He or she divides into two identities by contriving a celebrity entity, a new self-presentation in the &#x27;public sphere.&#x27; &#x27;The only way I think you can really handle it is to say, &#x27;That’s not really me ... it’s this working part of me, or the celebrity part of me.&#x27;</p><p data-p="13">&quot;Living up to others’ expectations becomes a vicious cycle, in which the celebrity, like a hamster on a wheel, works to satisfy a hungry and demanding public. The famous person feels the need to always &#x27;be on.&#x27;… There is an obligation to be &#x27;nice to everyone, and that becomes exhausting.&#x27;&quot;</p></div>
     </div>
   </section>
 
@@ -899,30 +958,9 @@ button{font-family:inherit}
     </div>
   </section>
 
-  <!-- ============================== 20. WHY FOUR? ============================== -->
-  <section class="slide l2" data-rev="1" data-title="Notice: Why “four stages” when there are seven headings?" data-grp="Lesson 2">
-    <div class="slate"><div class="frameNo">frame <b>6</b></div><h1>Seven headings, four stages?</h1><div class="seg">Notice</div></div>
-    <div class="rule"></div>
-    <div class="body" style="top:136px">
-      <div class="card rise" style="padding:22px 32px"><div class="task" style="font-size:40px">The headline says <b>“four stages”</b>, but the article has <b>seven</b> headings. Why?</div></div>
-      <div class="strip rise d1" id="whyStrip" style="margin-top:24px">
-        <div class="fr ph"><div class="fn">1</div><div class="ft">Love/hate</div><div class="tag">stage 1</div></div>
-        <div class="fr ph"><div class="fn">2</div><div class="ft">Addiction</div><div class="tag">stage 2</div></div>
-        <div class="fr ph"><div class="fn">3</div><div class="ft">Acceptance</div><div class="tag">stage 3</div></div>
-        <div class="fr ph"><div class="fn">4</div><div class="ft">Adaptation</div><div class="tag">stage 4</div></div>
-        <div class="fr og"><div class="fn">5</div><div class="ft">Loss of self</div><div class="tag">ongoing</div></div>
-        <div class="fr og"><div class="fn">6</div><div class="ft">Mistrust</div><div class="tag">ongoing</div></div>
-        <div class="fr og"><div class="fn">7</div><div class="ft">Demanding expectations</div><div class="tag">ongoing</div></div>
-      </div>
-      <div class="card rise d2" style="margin-top:34px;padding:24px 34px">
-        <span class="ans whyBox" id="whyAns" style="display:block"><span class="hint">answer</span><span class="a">Only the first four are <span class="hl">stages</span> – they happen one after another. The last three are <span class="hl">ongoing difficulties</span> that continue even after a celebrity has adapted.</span></span>
-      </div>
-    </div>
-  </section>
-
   <!-- ============================== 21. QUICK CHECK ============================== -->
   <section class="slide l2" data-rev="1" data-title="Quick check (optional)" data-grp="Lesson 2">
-    <div class="slate"><div class="frameNo">frame <b>7</b></div><h1>Quick check</h1><div class="seg">Optional · 3 minutes</div></div>
+    <div class="slate"><div class="frameNo">frame <b>6</b></div><h1>Quick check</h1><div class="seg">Optional · 3 minutes</div></div>
     <div class="rule"></div>
     <div class="body big" style="display:flex;flex-direction:column;gap:30px">
       <div class="card qa rise"><div class="q"><span class="qn">1</span>How many people were interviewed?</div><span class="ans"><span class="hint">answer</span><span class="a"><span class="hl">15</span></span></span></div>
@@ -933,18 +971,18 @@ button{font-family:inherit}
 
   <!-- ============================== 22. MATCH-UP ============================== -->
   <section class="slide l2" data-rev="1" data-title="Match-up: the videos and the article" data-grp="Lesson 2">
-    <div class="slate"><div class="frameNo">frame <b>8</b></div><h1>Back to our guests</h1><div class="seg">Match each quote to a stage or difficulty</div></div>
+    <div class="slate"><div class="frameNo">frame <b>7</b></div><h1>Back to our guests</h1><div class="seg">Match each quote to a stage or difficulty</div></div>
     <div class="rule"></div>
     <div class="body" style="top:128px">
       <div class="mq">
         <div class="gbank reuse rise">
           <span class="gchip" data-w="love/hate">love/hate</span><span class="gchip" data-w="addiction">addiction</span><span class="gchip" data-w="acceptance">acceptance</span><span class="gchip" data-w="adaptation">adaptation</span><span class="gchip" data-w="loss of self">loss of self</span><span class="gchip" data-w="mistrust">mistrust</span><span class="gchip" data-w="demanding expectations">demanding expectations</span><button class="gclear">Clear</button>
         </div>
-        <div class="qc rise d1"><div class="who">1<b>Damon</b></div><div class="qt">“They've literally hired extras to play my friends.”</div><span class="ans gap" data-ans="mistrust"><span class="gg"></span><span class="ga">mistrust</span></span></div>
+        <div class="qc rise d1"><div class="who">1<b>Damon</b></div><div class="qt">“They've literally hired extras to play my friends.”</div><span class="ans gap" data-ans="loss of self"><span class="gg"></span><span class="ga">loss of self</span></span></div>
         <div class="qc rise d1"><div class="who">2<b>Harvey</b></div><div class="qt">“I can't go to movies. I can't go to mall with my kids.”</div><span class="ans gap" data-ans="loss of self"><span class="gg"></span><span class="ga">loss of self</span></span></div>
         <div class="qc rise d2"><div class="who">3<b>Damon</b></div><div class="qt">“Everybody treats you differently.”</div><span class="ans gap" data-ans="mistrust"><span class="gg"></span><span class="ga">mistrust</span></span></div>
         <div class="qc rise d2"><div class="who">4<b>Harvey</b></div><div class="qt">Why the big house? “Cause I can't go nowhere.”</div><span class="ans gap" data-ans="adaptation"><span class="gg"></span><span class="ga">adaptation</span></span></div>
-        <div class="qc rise d3"><div class="who">5<b>Damon</b></div><div class="qt">He keeps the power balance with his family and friends the same.</div><span class="ans gap" data-ans="mistrust"><span class="gg"></span><span class="ga">mistrust</span></span></div>
+        <div class="qc rise d3"><div class="who">5<b>Damon</b></div><div class="qt">He keeps the power balance with his family and friends the same.</div><span class="ans gap" data-ans="adaptation"><span class="gg"></span><span class="ga">adaptation</span></span></div>
         <div class="qc rise d3"><div class="who">6<b>Harvey</b></div><div class="qt">Fans want photos. His kids: “Dad, can you just pay attention to us?”</div><span class="ans gap" data-ans="demanding expectations"><span class="gg"></span><span class="ga">demanding expectations</span></span></div>
         <div class="qc rise d4"><div class="who">7<b>Damon</b></div><div class="qt">“It took a couple years to try to find my feet again.”</div><span class="ans gap" data-ans="acceptance/adaptation"><span class="gg"></span><span class="ga">acceptance / adaptation</span></span></div>
         <div class="qc rise d4" style="background:linear-gradient(180deg,#2a2a31,#1d1d22);color:#ddd"><div class="who" style="color:var(--lamp)"><b style="color:var(--lamp)">Think</b>about it</div><div class="qt" style="color:#e9e7e1">The article: you “can't build a house” on fame. Harvey built his life <i>in</i> one. Why?</div></div>
@@ -954,7 +992,7 @@ button{font-family:inherit}
 
   <!-- ============================== 23. WRITE ============================== -->
   <section class="slide l2" data-timer="1" data-title="Write: Damon / Harvey is at the ___ stage because ___." data-grp="Lesson 2">
-    <div class="slate"><div class="frameNo">frame <b>9</b></div><h1>Write it up</h1></div>
+    <div class="slate"><div class="frameNo">frame <b>8</b></div><h1>Write it up</h1></div>
     <div class="rule"></div>
     <div class="body" style="display:flex;gap:36px">
       <div class="wrFrames rise" style="width:720px;flex:none">
@@ -1041,9 +1079,8 @@ var TEACHER_NOTES = {
  "Lesson 2: The Four Stages of Fame": ["Article: Alice Robb, <i>The New Republic</i>, 2014 – reports Rockwell &amp; Giles's 2009 study (15 unnamed famous Americans aged 35–86).","Hand out the printout now, or let students scan the QR code.","Content note: the Addiction section has a celebrity comparing fame to drugs, with one crude phrase."],
  "Warm-up: How does a new celebrity feel over time?": ["<b>0–5 min.</b> Link back to Lesson 1. Students sketch a quick line graph of a new star's feelings (high/low) over time and compare with a partner.","Draw the class's idea on the graph with the mouse. The gold line is one possible reading of the article – show it, or save it for after the jigsaw."],
  "Read the introduction: who, how many, what was unusual?": ["<b>10–15 min.</b> Pairs read the introduction only (before “Love/hate”).","Note the intro also says the media doesn't like celebrities who complain about fame – compare Harvey's “I'm not complaining”."],
- "Jigsaw: one group, one section": ["<b>15–25 min.</b> Seven groups, one heading each. “Make 7 groups” shuffles the class you chose in 🎡 (click again to reshuffle).","Each group writes (1) a one-sentence summary in their own words and (2) a modern example.","Work timer: top right (10 or 15 min). Once started it stays on screen."],
- "Share and build: note-making table": ["<b>25–35 min.</b> Groups report in article order. Everyone copies the seven-row table.","Click a cell to show a sample summary or example after each group reports."],
- "Notice: Why “four stages” when there are seven headings?": ["Ask the question at the end of the share. Reveal: the four phases are a sequence; the last three are ongoing difficulties (the article introduces them with “Even once they've adapted …”)."],
+ "Order the stages: four stages and three ongoing problems": ["<b>15–25 min.</b> Pairs read the whole article, then drag the seven headings into order: Stage 1–4, then the three ongoing problems (any order). Shuffle mixes the headings again; Clear empties the slots.","Click / Space / → checks each slot with the text: the paragraph opens, blue shows the order clue, yellow shows the words that give the heading, then the window closes and the guess turns green ✓ or red ✗.","Last click: why there are only four stages (the article says “Even once they've adapted … they have to accept:”)."],
+ "Share and build: note-making table": ["<b>25–35 min.</b> Pairs report in article order. Everyone copies the seven-row table.","Click a cell to show a sample summary or example after each group reports."],
  "Quick check (optional)": ["Optional, 3 minutes."],
  "Match-up: the videos and the article": ["<b>35–40 min.</b> Pairs match each quote to a stage or difficulty. Words can be used more than once.","Quote 7 accepts acceptance <i>or</i> adaptation.","Quotes 3 (Damon) and 6 (Harvey) are extra items added to your key.","Harvey's original words are “big ass house” – shortened on the slide."],
  "Write: Damon / Harvey is at the ___ stage because ___.": ["Students write 4–5 sentences. Work timer top right.","Show the sample only after students have written."],
@@ -1340,7 +1377,7 @@ var TIMER_SOUNDS=(function(){
   var cur=0,revealBtn=document.getElementById('revealBtn');
 
   /* ---- reveals ---- */
-  function revealables(s){return [].slice.call(s.querySelectorAll('.ans'));}
+  function revealables(s){return [].slice.call(s.querySelectorAll('.ans, .evr'));}
   function hasAnswers(s){return revealables(s).length>0;}
   function allShown(s){return revealables(s).every(function(e){return e.classList.contains('shown');});}
   function setShown(el,on,quiet){
@@ -1358,7 +1395,6 @@ var TIMER_SOUNDS=(function(){
     if(el.classList.contains('tgap'))markTg(el);
     if(el.id==='prisonAns')document.getElementById('prison').classList.toggle('on',el.classList.contains('shown'));
     if(el.id==='bathAns')document.getElementById('queue').classList.toggle('on',el.classList.contains('shown'));
-    if(el.id==='whyAns')document.getElementById('whyStrip').classList.toggle('sp4',el.classList.contains('shown'));
     var s=el.closest('.slide');if(s===slides[cur])updateRevealBtn();
   }
   document.querySelectorAll('.ans').forEach(function(el){
@@ -1765,6 +1801,158 @@ var TIMER_SOUNDS=(function(){
   frame(performance.now());
   window.titleScene={start:function(){if(running)return;running=true;raf=requestAnimationFrame(frame);},stop:function(){running=false;if(raf)cancelAnimationFrame(raf);}};
   window.onSlideEnter=function(s){if(s.classList.contains('ttl'))titleScene.start();else titleScene.stop();};
+})();
+</script>
+<script>
+/* ===== Slide 18 glue: shuffle, any-order ongoing slots, ✓/✗ on each slot when its evidence closes ===== */
+(function(){
+  var sl=document.querySelector('.ordSl');if(!sl)return;
+  var OG=[{"n": "Loss of self", "k": 10, "p": "All the while", "a": "a loss of ownership of life|feeling like a thing rather than a person", "ex": "<b>Para 10</b>… confusion and <mark class=\"a\">a loss of ownership of life</mark> …"}, {"n": "Mistrust", "k": 11, "p": "Eventually", "a": "evoke mistrust", "ex": "<b>Para 11</b>… the celebrity <mark class=\"a\">evoke mistrust</mark> …"}, {"n": "Demanding expectations", "k": 13, "p": "becomes a vicious cycle", "a": "Living up to others’ expectations|a hungry and demanding public", "ex": "<b>Para 13</b>… &quot;<mark class=\"a\">Living up to others’ expectations</mark> …"}];
+  var bank=sl.querySelector('.gbank'),rows=[].slice.call(sl.querySelectorAll('.evr')),og=rows.filter(function(r){return r.classList.contains('og');});
+  function nm(x){return (x||'').toLowerCase().trim();}
+  function shuffle(){var c=[].slice.call(bank.children);for(var i=c.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=c[i];c[i]=c[j];c[j]=t;}c.forEach(function(x){bank.appendChild(x);});}
+  shuffle();document.getElementById('ordShuffle').addEventListener('click',function(e){e.stopPropagation();shuffle();});
+  /* ongoing slots accept the three problems in any order: each slot takes the evidence of the problem dropped there */
+  function assign(){
+    var left=OG.slice(),pick={};
+    og.forEach(function(r,i){var g=nm(r.querySelector('.gap').dataset.guess),k=left.findIndex(function(o){return nm(o.n)===g;});if(k>-1){pick[i]=left[k];left.splice(k,1);}});
+    og.forEach(function(r,i){if(r.classList.contains('shown')||r.classList.contains('act'))return;var o=pick[i]||left.shift();if(!o)return;
+      r.dataset.para=o.k;r.dataset.p=o.p;r.dataset.a=o.a;r.querySelector('.ga').textContent=o.n;r.querySelector('.ea').textContent=o.n;r.querySelector('.ex').innerHTML=o.ex;});
+  }
+  function mark(r){
+    var gp=r.querySelector('.gap'),on=r.classList.contains('shown'),g=nm(gp.dataset.guess);
+    var ok=!!g&&gp.dataset.ans.split('|').some(function(a){return nm(a)===g;});
+    gp.classList.toggle('shown',on);gp.classList.toggle('right',on&&!!g&&ok);gp.classList.toggle('wrong',on&&!!g&&!ok);
+  }
+  rows.forEach(function(r){
+    var gp=r.querySelector('.gap');
+    gp.addEventListener('click',function(e){e.stopPropagation();});
+    new MutationObserver(function(){assign();mark(r);}).observe(gp,{attributes:true,attributeFilter:['data-guess']});
+    new MutationObserver(function(){mark(r);}).observe(r,{attributes:true,attributeFilter:['class']});
+  });
+  /* a drag that ends over the slide is not a click */
+  window.addEventListener('click',function(e){if(Date.now()-(window.__gdragEnd||0)<400&&e.target.closest&&e.target.closest('.ordSl'))e.stopPropagation();},true);
+  /* ← hides the “why” answer first */
+  var why=sl.querySelector('.ordWhy');
+  window.addEventListener('keydown',function(e){
+    if(!sl.classList.contains('active')||!why.classList.contains('shown'))return;
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){why.click();e.preventDefault();e.stopImmediatePropagation();}
+  },true);
+})();
+</script>
+<script>
+/* ===== SHARED · activities/evidence-window (windows) ===== */
+/* ===== Note-making evidence windows (Reading exercises) =====
+   Each answer row (.evr) steps: 1 window opens with the whole paragraph · 2 the part that matches the heading turns light blue
+   · 3 the answer words turn yellow (bold) · 4 window closes and the answer shows with a short excerpt.
+   Click / Space / → = next step, ← = step back. Reveal all skips the windows. */
+(function(){
+  var stage=document.getElementById('stage');
+  var evw=document.createElement('div');evw.id='evw';evw.innerHTML='<div class="dim"></div>';stage.appendChild(evw);
+  var paras={};
+  /* paragraphs are kept per text (the slide's data-text) so a build can hold two readings with the same paragraph numbers */
+  document.querySelectorAll('.gcols p[data-p]').forEach(function(p){var c=p.cloneNode(true);c.querySelectorAll('.pn').forEach(function(x){x.remove();});var t=c.textContent.replace(/\s+/g,' ').trim(),sl=p.closest('.slide');paras[((sl&&sl.dataset.text)||'')+'|'+p.dataset.p]=t;if(!(p.dataset.p in paras))paras[p.dataset.p]=t;});
+  function TEXTOF(r){var s=r.closest('.slide');return (s&&s.dataset.text)||'The text';}
+  function esc(x){return x.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function S(x){return (x||'').split('|').filter(Boolean);}
+  function marked(text,list){
+    var hits=[];
+    list.forEach(function(m){var i=text.indexOf(m.t);if(i<0){console.warn('evidence not found:',m.t);return;}hits.push({i:i,j:i+m.t.length,c:m.c});});
+    hits.sort(function(a,b){return a.i-b.i;});
+    var out='',pos=0;
+    hits.forEach(function(h){if(h.i<pos)return;out+=esc(text.slice(pos,h.i))+'<mark class="'+h.c+'">'+esc(text.slice(h.i,h.j))+'</mark>';pos=h.j;});
+    return out+esc(text.slice(pos));
+  }
+  var rows=[].slice.call(document.querySelectorAll('.evr'));
+  var owner=null,hist=new Map(),internal=false;
+  function N(){return 4;}
+  function st(r){return r._st||0;}
+  function slideOf(r){return r.closest('.slide');}
+  function active(){return document.querySelector('.slide.active');}
+  function rowsOf(s){return rows.filter(function(r){return slideOf(r)===s;});}
+  function scale(){return stage.getBoundingClientRect().height/1080;}
+  function stageY(el){var sc=scale(),sr=stage.getBoundingClientRect(),r=el.getBoundingClientRect();return {t:(r.top-sr.top)/sc,b:(r.bottom-sr.top)/sc};}
+  function openWin(r,s){
+    if(owner!==r){
+      closeWin();owner=r;r.classList.add('act');
+      var k=r.dataset.para,list=S(r.dataset.p).map(function(t){return {t:t,c:'p'};}).concat(S(r.dataset.a).map(function(t){return {t:t,c:'a'};}));
+      var pan=document.createElement('div');pan.className='pan';
+      var sl=slideOf(r),pt=paras[((sl&&sl.dataset.text)||'')+'|'+k];if(pt==null)pt=paras[k];
+      pan.innerHTML='<h4><b></b><span></span></h4><p>'+marked(pt||'',list)+'</p><div class="key"><span><i style="background:#bfe0ff"></i>matches the heading</span><span><i style="background:#ffe24d"></i>the answer</span></div>';
+      pan.querySelector('h4 b').textContent=TEXTOF(r)+' · Paragraph '+k;pan.querySelector('h4 span').textContent=r.dataset.head||'';
+      evw.appendChild(pan);evw.classList.add('on');place(r,pan);
+    }
+    evw.classList.toggle('s2',s>=2);evw.classList.toggle('s3',s>=3);
+  }
+  function place(r,pan){
+    var y=stageY(r),TOP=18,BOT=968,h=pan.offsetHeight;
+    var below=BOT-(y.b+22),above=y.t-22-TOP-52;
+    if(h>below&&h>above){pan.classList.add('sm');h=pan.offsetHeight;}
+    var top=h<=below?y.b+22:(h<=above?y.t-22-h:Math.max(TOP+52,Math.min(y.b+22,BOT-h)));
+    pan.style.top=top+'px';
+  }
+  function closeWin(){if(owner)owner.classList.remove('act');owner=null;evw.classList.remove('on','s2','s3');[].forEach.call(evw.querySelectorAll('.pan'),function(p){p.remove();});}
+  function setSt(r,v){
+    r._st=v;internal=true;r.classList.toggle('shown',v===4);internal=false;
+    if(v>=1&&v<4)openWin(r,v);else if(owner===r)closeWin();
+  }
+  function mid(s){return rowsOf(s).filter(function(r){var v=st(r);return v>0&&v<4;})[0];}
+  function H(s){if(!hist.has(s))hist.set(s,[]);return hist.get(s);}
+  function step(r){
+    var s=slideOf(r),m=mid(s);if(m&&m!==r)setSt(m,4);
+    setSt(r,st(r)+1);var h=H(s),k=h.indexOf(r);if(k>-1)h.splice(k,1);h.push(r);
+  }
+  function forward(){
+    var s=active();if(!s||!rowsOf(s).length)return false;
+    var nx=mid(s)||rowsOf(s).filter(function(r){return st(r)<4;})[0];
+    if(!nx)return false;step(nx);return true;
+  }
+  function back(){
+    var s=active();if(!s||!rowsOf(s).length)return false;
+    var h=H(s);
+    while(h.length&&st(h[h.length-1])===0)h.pop();
+    var r=h[h.length-1];if(!r)return false;
+    setSt(r,st(r)-1);if(st(r)===0)h.pop();return true;
+  }
+  /* Reveal all / Hide all and other outside changes to "shown" */
+  rows.forEach(function(r){
+    new MutationObserver(function(){
+      var on=r.classList.contains('shown');
+      if(on&&st(r)!==4){r._st=4;if(owner===r)closeWin();var h=H(slideOf(r));if(h.indexOf(r)<0)h.push(r);}
+      else if(!on&&st(r)===4){r._st=0;}
+    }).observe(r,{attributes:true,attributeFilter:['class']});
+    r.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(st(r)===4){setSt(r,0);return;}
+      step(r);
+    });
+  });
+  /* leaving the slide mid-window resets that answer */
+  document.querySelectorAll('.slide').forEach(function(s){
+    if(!rowsOf(s).length)return;
+    new MutationObserver(function(){
+      if(!s.classList.contains('active')){var m=mid(s);if(m)setSt(m,0);closeWin();}
+    }).observe(s,{attributes:true,attributeFilter:['class']});
+  });
+  function busy(){return !!document.querySelector('#contents.open,.lxScreen.on,#blackout.on,#whiteout.on,#zoomLayer.on,#bridge.play,#startGate');}
+  window.addEventListener('keydown',function(e){
+    var t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
+    if(busy())return;
+    var k=e.key;
+    if(k===' '||k==='ArrowRight'||k==='PageDown'){if(forward()){e.preventDefault();e.stopPropagation();}}
+    else if(k==='ArrowLeft'||k==='PageUp'){if(back()){e.preventDefault();e.stopPropagation();}}
+  },true);
+  /* blank clicks on the slide (and clicks on the dimmed window) step forward */
+  evw.addEventListener('click',function(e){e.stopPropagation();forward();});
+  document.querySelectorAll('.slide').forEach(function(s){
+    if(!rowsOf(s).length)return;
+    s.addEventListener('click',function(e){
+      if(e.target.closest('.evr,button,a,input,textarea,.clue,.zmBtn'))return;
+      if(forward()){e.stopPropagation();}
+    },true);
+  });
+  window.addEventListener('resize',function(){if(owner){var p=evw.querySelector('.pan');if(p){p.classList.remove('sm');place(owner,p);}}});
+  window.evWindows={forward:forward,back:back,close:function(){var s=active();var m=s&&mid(s);if(m)setSt(m,0);closeWin();}};
 })();
 </script>
 </body>
