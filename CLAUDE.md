@@ -32,6 +32,7 @@ Neither type is a student game: no name/class login, no scoreboard submission, n
 ## Workflow: Step 1 (chat) and Step 2 (Claude Code)
 Full workflow: SHARED/WORKFLOW.md. Tags and data blocks: SHARED/TAGGING.md. Applies to INCLASS, RVW and INSTRUCT builds.
 - **Step 1 (chat): the main build only.** Unique slides, the tags and JSON data blocks from SHARED/TAGGING.md, and space reserved for the CONTROL frame. Ends with **one combined approval list** (the items that apply to the build type): CLUE candidates, EXPLAIN slides, GAMIFY options, PROVE for non-exam Reading. The quiz, Words from today and PROVE on Exam-style question sections are automatic where the build type uses them.
+- **Handover to Claude Code (chat):** once a Step 1 build is finished (committed, waiting for Step 2), the chat reply ends with ready-to-paste instructions for Claude Code in a copyable block: the Step 2 trigger ("Add CONTROL and approved FEATURES to <path>"), where the Step 1 files and their STEP2-NOTES.md are, and anything else Step 2 must do for that build.
 - **Step 2 (Claude Code)**, triggered by "Add CONTROL and approved FEATURES to <path>": copy the current code from SHARED (never from older builds); wire it to the tags and data blocks; build each GAMIFY game from `gamify-data` on top of the GAMIFY engine, class and solo versions, following the GAMIFY rules; render-check at 1920×1080; commit with no raw HTML pasted.
 
 ---
