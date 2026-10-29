@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fame Through the Decades – Research Guide (G10 Unit 13)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1F3A5F;   /* primary: newsprint navy */
+  --tang:#F28C28;   /* secondary: tangerine */
+  --mag:#D6246E;    /* accent: magenta (sparingly) */
+  --sand:#F6E7CC;   /* base: warm sand */
+  --paper:#FFF9EE;
+  --ink:#1F3A5F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--sand)}
+body{font-family:'Nunito',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;user-select:none}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;background:var(--sand)}
+.slide{position:absolute;inset:0;display:none}
+.slide.on{display:block;animation:fadein .45s ease}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+canvas.bg{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.layer{position:absolute;inset:0}
+
+/* cards */
+.card{position:absolute;background:var(--paper);border:6px solid var(--navy);border-radius:30px;
+  box-shadow:0 12px 0 rgba(31,58,95,.22),0 24px 50px rgba(31,58,95,.22);padding:38px 50px}
+.card.tangedge{border-color:var(--tang)}
+h1,.h1{font-family:'Alfa Slab One',Georgia,serif;font-weight:400;font-size:98px;line-height:1.04;color:var(--navy);letter-spacing:.5px}
+.banner{position:absolute;background:var(--navy);color:var(--sand);border-radius:24px;padding:22px 52px;
+  box-shadow:0 12px 0 rgba(31,58,95,.25)}
+.banner h1{color:var(--sand)}
+.tag{display:inline-block;white-space:nowrap;background:var(--tang);color:var(--navy);font-weight:900;font-size:46px;border-radius:999px;
+  padding:8px 34px;letter-spacing:1px}
+.kicker{font-weight:900;font-size:46px;letter-spacing:3px;text-transform:uppercase;color:var(--mag)}
+.sub{font-size:56px;font-weight:800;color:var(--navy)}
+ul.steps{list-style:none}
+ul.steps li{font-size:57px;font-weight:800;line-height:1.14;padding-left:76px;position:relative;margin:0 0 24px}
+ul.steps li:last-child{margin-bottom:0}
+ul.steps li::before{content:"";position:absolute;left:4px;top:12px;width:46px;height:46px;border-radius:12px;background:var(--tang);
+  box-shadow:inset 0 -6px 0 rgba(31,58,95,.18)}
+ul.steps li.no::before{content:"✘";background:var(--mag);color:#fff;font-size:36px;line-height:46px;text-align:center}
+ul.steps li.ok::before{content:"✔";background:var(--navy);color:var(--sand);font-size:34px;line-height:46px;text-align:center}
+b.hl{background:linear-gradient(transparent 55%,rgba(242,140,40,.55) 55%);padding:0 4px}
+.mag{color:var(--mag)}
+.photo{position:absolute;background:#fff;padding:16px;border-radius:10px;box-shadow:0 18px 40px rgba(31,58,95,.3)}
+.photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:4px}
+.photo.contain img{object-fit:contain;background:#fff}
+
+/* tables */
+table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:44px;font-weight:700;line-height:1.18}
+table.t th{background:var(--navy);color:var(--sand);font-weight:900;text-align:left;padding:16px 26px}
+table.t td{background:var(--paper);padding:14px 26px;border-bottom:3px solid rgba(31,58,95,.14);vertical-align:top}
+table.t.tight td{padding:10px 24px}
+table.t tr:last-child td{border-bottom:none}
+table.t th:first-child{border-top-left-radius:20px}
+table.t th:last-child{border-top-right-radius:20px}
+table.t .good{background:var(--navy)}
+table.t .bad{background:var(--mag);color:#fff}
+.tablewrap{position:absolute;border-radius:26px;overflow:hidden;border:6px solid var(--navy);background:var(--paper);
+  box-shadow:0 12px 0 rgba(31,58,95,.22),0 24px 50px rgba(31,58,95,.22)}
+
+/* note-sheet example */
+.boxes{display:flex;gap:16px;margin-top:22px;flex-wrap:wrap}
+.boxes span{font-family:'Alfa Slab One',serif;font-size:48px;color:var(--navy);background:#fff;border:4px dashed var(--navy);
+  border-radius:12px;padding:10px 24px}
+.boxes span:first-child{background:var(--tang);border-style:solid}
+
+.chip{display:inline-block;background:var(--mag);color:#fff;font-weight:900;font-size:50px;border-radius:18px;padding:12px 30px;margin-right:22px}
+.chip.navy{background:var(--navy);color:var(--sand)}
+.tick{display:inline-block;width:56px;height:56px;border:6px solid var(--navy);border-radius:10px;vertical-align:-8px;margin-right:18px;background:#fff}
+
+/* progress */
+#prog{position:absolute;left:0;bottom:0;height:12px;background:var(--mag);transition:width .4s ease;z-index:50}
+#hint{position:absolute;right:30px;bottom:26px;z-index:50;font-size:43px;font-weight:900;color:var(--navy);
+  background:rgba(255,249,238,.92);border-radius:16px;padding:6px 22px;transition:opacity .6s}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 1 TITLE -->
+<section class="slide" data-scene="title">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:90px;top:170px;width:900px;padding:56px 60px 60px">
+      <div class="kicker">Unit 13 · Project</div>
+      <h1 style="font-size:103px;margin:16px 0 26px">Fame Through the Decades</h1>
+      <div style="height:10px;width:260px;background:var(--tang);border-radius:6px;margin-bottom:28px"></div>
+      <div class="sub" style="font-size:58px;line-height:1.2">Student Research Guide &amp; Sources Template</div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 THE 3 TABS -->
+<section class="slide" data-scene="tabs">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="banner" style="left:50%;transform:translateX(-50%);top:56px;white-space:nowrap"><h1 style="font-size:96px">Your Template: 3 Tabs</h1></div>
+    <div class="tablewrap" style="left:130px;top:262px;width:1660px">
+      <table class="t" style="font-size:52px">
+        <tr><th style="width:270px">Tab</th><th>What it is for</th></tr>
+        <tr><td><span class="tag">Tab 1</span></td><td>How to research your celebrity — and use AI and Wikipedia the right way</td></tr>
+        <tr><td><span class="tag">Tab 2</span></td><td><b>Sources &amp; AI Links:</b> your sources + AI chat links.<br><span class="mag" style="font-weight:900">Due the night before Day 2</span></td></tr>
+        <tr><td><span class="tag">Tab 3</span></td><td><b>Research Bank:</b> paste useful parts of your sources → make your handwritten note sheet</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 3 HOW TO RESEARCH / MAPS -->
+<section class="slide" data-scene="maps">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:800px;top:60px;width:1050px;padding:36px 50px">
+      <h1 style="font-size:93px">How to Research Your Celebrity</h1>
+      <div class="sub" style="margin-top:10px;font-size:52px;color:var(--mag)">Read this first. Follow the steps in order.</div>
+    </div>
+    <div class="card tangedge" style="left:800px;top:520px;width:1050px;padding:36px 50px">
+      <div style="font-size:58px;font-family:'Alfa Slab One';margin-bottom:22px;line-height:1.15">Wikipedia and AI are <span class="hl" style="background:linear-gradient(transparent 55%,rgba(242,140,40,.55) 55%)">maps</span>, not destinations.</div>
+      <ul class="steps">
+        <li class="no">Never list them as one of your 3 sources</li>
+        <li class="ok">Click through to the real article and use that</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 STEP 1 -->
+<section class="slide" data-scene="step1">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:70px;top:70px;width:1170px">
+      <div><span class="tag">Step 1</span> <span class="tag" style="background:var(--mag);color:#fff">10 minutes</span></div>
+      <h1 style="font-size:96px;margin:14px 0 28px">Get the big picture</h1>
+      <ul class="steps">
+        <li>Read the Wikipedia page <i>or</i> ask AI for a short overview</li>
+        <li>Find the basics: <b class="hl">when</b> famous, <b class="hl">why</b>, the 3–4 key events</li>
+        <li>No notes yet — just get to know your person</li>
+      </ul>
+    </div>
+    <div class="photo" style="left:1310px;top:300px;width:540px;height:420px;transform:rotate(2.5deg)">
+      <img alt="Stack of newspapers" src="https://commons.wikimedia.org/wiki/Special:FilePath/Newspapers_FT_SvD_IHT_WSJ.jpg?width=900" onerror="this.parentNode.style.display='none'">
+    </div>
+  </div>
+</section>
+
+<!-- 5 STEP 2 WIKIPEDIA -->
+<section class="slide" data-scene="step2wiki">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="photo contain" style="left:100px;top:330px;width:470px;height:470px;transform:rotate(-3deg)">
+      <img alt="Wikipedia logo" src="https://commons.wikimedia.org/wiki/Special:FilePath/Wikipedia-logo-v2.svg?width=700" onerror="this.parentNode.style.display='none'">
+    </div>
+    <div class="card" style="left:650px;top:70px;width:1200px">
+      <div><span class="tag">Step 2</span> <span class="tag" style="background:var(--navy);color:var(--sand)">Using Wikipedia</span></div>
+      <h1 style="font-size:96px;margin:14px 0 28px">Find real sources</h1>
+      <ul class="steps">
+        <li>Scroll to the bottom → <b class="hl">References</b></li>
+        <li>Each small number <b>[1]</b> links to a real source</li>
+        <li>Click the ones about your 5 questions</li>
+        <li>Open and read the <b class="hl">original article</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 6 STEP 2 AI -->
+<section class="slide" data-scene="step2ai">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:70px;top:60px;width:1250px">
+      <div><span class="tag">Step 2</span> <span class="tag" style="background:var(--navy);color:var(--sand)">Using AI</span></div>
+      <h1 style="font-size:96px;margin:14px 0 28px">Find real sources</h1>
+      <ul class="steps">
+        <li>Ask the AI to suggest sources</li>
+        <li>Click <b class="hl">every</b> link — check it is real</li>
+        <li class="no">AI sometimes invents articles and links</li>
+        <li>Link won't open, or says something different? <b>Don't use it.</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 7 STEP 3 TABLE -->
+<section class="slide" data-scene="step3">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="banner" style="left:80px;top:72px;width:1760px;padding:34px 40px 14px;text-align:center">
+      <h1 id="s3t" style="font-size:93px;white-space:nowrap">Check that each source is good</h1></div>
+    <span class="tag" style="position:absolute;left:110px;top:16px;box-shadow:0 6px 0 rgba(31,58,95,.25)">Step 3</span>
+    <div class="tablewrap" style="left:80px;top:268px;width:1760px">
+      <table class="t" style="font-size:46px">
+        <tr><th class="good" style="width:52%">✔ Good sources</th><th class="bad">✘ Not allowed as sources</th></tr>
+        <tr><td>Encyclopaedias: Britannica, Biography.com</td><td>Wikipedia</td></tr>
+        <tr><td>News: BBC, The Guardian, Time, CNN, NY Times</td><td>AI chatbot answers</td></tr>
+        <tr><td>Official sites: Nobel Prize, Olympics.com, UNICEF</td><td>Fan wikis (Fandom) and fan pages</td></tr>
+        <tr><td>Interviews with the celebrity</td><td>Forums: Reddit, Quora</td></tr>
+        <tr><td>Library or university websites</td><td>TikTok, YouTube comments, social media posts by fans</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 8 STEP 3 ASK YOURSELF -->
+<section class="slide" data-scene="step3b">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="photo" style="left:110px;top:300px;width:560px;height:440px;transform:rotate(-2.5deg)">
+      <img alt="Magnifying glass" src="https://commons.wikimedia.org/wiki/Special:FilePath/Magnifying_glass2.jpg?width=800" onerror="this.parentNode.style.display='none'">
+    </div>
+    <div class="card" style="left:780px;top:70px;width:1070px">
+      <div class="tag">Step 3</div>
+      <h1 style="font-size:96px;margin:14px 0 28px">Ask yourself:</h1>
+      <ul class="steps">
+        <li>Who wrote this?</li>
+        <li>Is it a real organisation?</li>
+        <li>Does it actually answer one of my questions?</li>
+      </ul>
+      <div style="margin-top:30px"><span class="chip">You need at least 3 good sources</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 STEP 4 -->
+<section class="slide" data-scene="step4">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:600px;top:50px;width:1250px">
+      <div class="tag">Step 4</div>
+      <h1 style="font-size:93px;margin:12px 0 26px">Copy and paste evidence into Tab 3</h1>
+      <ul class="steps">
+        <li>Paste each useful sentence under the matching question</li>
+        <li>Write the <b class="hl">source number</b> (Tab 2) next to every paste</li>
+        <li class="no">Real sources only: no AI answers, no Wikipedia text</li>
+        <li>Highlight the key words = <b class="hl">your keywords</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10 STEP 5 -->
+<section class="slide" data-scene="step5">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:70px;top:70px;width:1220px">
+      <div class="tag">Step 5</div>
+      <h1 style="font-size:93px;margin:12px 0 28px">Make your handwritten note sheet</h1>
+      <ul class="steps">
+        <li>Tab 3 highlighted words → your <b class="hl">paper</b> Research Note Sheet</li>
+        <li>Write by hand</li>
+        <li>One word per box · max 5 words per bullet · <b>no sentences</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 11 STEP 5 (cont.) -->
+<section class="slide" data-scene="step5b">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:200px;top:90px;width:1520px">
+      <div class="tag">Step 5</div>
+      <h1 style="font-size:93px;margin:12px 0 26px">Start each bullet with a main idea key word</h1>
+      <div class="boxes"><span>Olympics</span><span>1936</span><span>four</span><span>gold</span><span>medals</span></div>
+    </div>
+    <div class="banner" style="left:200px;top:720px;width:1520px;padding:26px 50px;font-size:56px;font-weight:900;line-height:1.2">
+      You write your essay in class using <span style="color:var(--tang)">only</span> this paper sheet — make the keywords count!
+    </div>
+  </div>
+</section>
+
+<!-- 12 STEP 6 -->
+<section class="slide" data-scene="step6">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:150px;top:250px;width:1620px">
+      <div class="tag">Step 6</div>
+      <h1 style="font-size:93px;margin:12px 0 26px">Fill in Tab 2 and share your AI chats</h1>
+      <ul class="steps">
+        <li>List each source: website, article title, full link, question(s)</li>
+        <li>Used AI? Paste the <b class="hl">share link</b> to every chat<br><span style="font-size:48px;color:var(--mag)">ChatGPT, Gemini or Claude: Share → create a link → copy</span></li>
+        <li>No AI? Tick <b>“No AI used”</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 13 USING AI THE RIGHT WAY -->
+<section class="slide" data-scene="airight">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:80px;top:40px;width:1760px;padding:26px 48px">
+      <h1 style="font-size:92px">Using AI the right way</h1>
+      <div style="font-size:48px;font-weight:800;margin-top:8px;line-height:1.2"><span class="mag" style="font-weight:900">Remember:</span> your teacher will read your AI chat links. Use AI to <b class="hl">find</b> and <b class="hl">understand</b>, never to <b>write</b> for you.</div>
+    </div>
+    <div class="tablewrap" style="left:80px;top:338px;width:1760px">
+      <table class="t" style="font-size:43px">
+        <tr><th class="good" style="width:50%">✔ Allowed</th><th class="bad">✘ Not allowed</th></tr>
+        <tr><td>“Suggest reliable news articles about Jesse Owens at the 1936 Olympics.”</td><td>“Write notes on Jesse Owens for my research sheet.”</td></tr>
+        <tr><td>“Explain this paragraph in simple English.” <i style="font-weight:600">(paste a source paragraph)</i></td><td>“Summarise Jesse Owens' life in bullet points.”</td></tr>
+        <tr><td>“What does ‘boycott’ mean in this sentence?”</td><td>“Write my essay / paragraph about Jesse Owens.”</td></tr>
+        <tr><td>“Is this website a reliable source?”</td><td>Copying AI answers into Tab 3 or onto your note sheet</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 14 TAB 2 SOURCES -->
+<section class="slide" data-scene="tab2">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:80px;top:30px;width:1760px;padding:24px 48px">
+      <h1 style="font-size:94px">Tab 2: Sources &amp; AI Links</h1>
+      <div style="font-size:48px;font-weight:800;margin-top:6px">Fill in: <b>Name · Class · Assigned celebrity · Era</b></div>
+    </div>
+    <div style="position:absolute;left:80px;top:300px;width:1760px;display:flex;justify-content:space-between;align-items:center">
+      <div class="banner" style="position:static;padding:12px 36px;font-size:48px;font-weight:900">My sources: <span style="color:var(--tang)">minimum 3</span> · no Wikipedia, no AI</div>
+      <span class="chip" style="margin:0">Due: night before Day 2</span>
+    </div>
+    <div class="tablewrap" style="left:80px;top:420px;width:1760px">
+      <table class="t" style="font-size:43px">
+        <tr><th style="width:80px">#</th><th style="width:310px">Website name</th><th style="width:540px">Article title</th><th>Full link (URL)</th><th style="width:300px">Helps with question(s) 1–5</th></tr>
+        <tr><td><b>1</b></td><td>BBC</td><td>“Jesse Owens: the man who beat Hitler”</td><td>https://www.bbc.com/…</td><td>1, 4</td></tr>
+        <tr><td><b>2</b></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td><b>3</b></td><td></td><td></td><td></td><td></td></tr>
+      </table>
+    </div>
+    <div class="tabnote" style="position:absolute;left:96px;top:930px;font-size:43px;font-weight:800;color:var(--navy);background:rgba(255,249,238,.95);border-radius:14px;padding:6px 22px">Row 1 = example · rows 4–5 for extra sources</div>
+  </div>
+</section>
+
+<!-- 15 TAB 2 AI CHATS -->
+<section class="slide" data-scene="tab2ai">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:80px;top:110px;width:1120px;padding:44px 56px">
+      <div class="tag">Tab 2</div>
+      <h1 style="font-size:98px;margin:16px 0 30px">My AI chats</h1>
+      <ul class="steps">
+        <li>What AI did you use, and what did you use it for?</li>
+        <li>Paste the <b class="hl">share link</b> to every chat</li>
+      </ul>
+      <div style="font-size:58px;font-weight:900;margin-top:36px"><span class="tick"></span>No AI used</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 TAB 3 RESEARCH BANK -->
+<section class="slide" data-scene="tab3">
+  <canvas class="bg"></canvas>
+  <div class="layer">
+    <div class="card" style="left:80px;top:30px;width:1760px;padding:22px 48px">
+      <div style="display:flex;align-items:center;gap:30px"><h1 style="font-size:93px;white-space:nowrap">Tab 3: Research Bank</h1><span class="tag">(copy &amp; paste)</span></div>
+      <div style="font-size:48px;font-weight:800;margin-top:8px">Paste under the right question · add the <b class="hl">source #</b> · <b class="hl">highlight</b> key words</div>
+    </div>
+    <div class="tablewrap" style="left:80px;top:286px;width:1760px">
+      <table class="t tight" style="font-size:50px">
+        <tr><td style="width:350px;white-space:nowrap"><span class="tag">Question 1</span></td><td>How did they become famous in this era?</td></tr>
+        <tr><td><span class="tag">Question 2</span></td><td>Who controlled their public image?</td></tr>
+        <tr><td><span class="tag">Question 3</span></td><td>How did fans find out about / interact with them?</td></tr>
+        <tr><td><span class="tag">Question 4</span></td><td>What did fame cost them? <span style="font-size:44px">(privacy, safety, mental health, control)</span></td></tr>
+        <tr><td><span class="tag">Question 5</span></td><td>What did they do with their fame? Do they deserve it?</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div id="prog"></div>
+<div id="hint">Click / → to continue</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var NAVY='#1F3A5F',TANG='#F28C28',MAG='#D6246E',SAND='#F6E7CC',PAPER='#FFF9EE';
+var SKY='#CFE3F2',WOOD='#C98A4E';
+
+/* ---------- utilities ---------- */
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function hexToRgb(h){h=h.replace('#','');return[parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+function mix(a,b,t){var A=hexToRgb(a),B=hexToRgb(b);return 'rgb('+Math.round(A[0]+(B[0]-A[0])*t)+','+Math.round(A[1]+(B[1]-A[1])*t)+','+Math.round(A[2]+(B[2]-A[2])*t)+')';}
+function rgba(h,a){var c=hexToRgb(h);return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';}
+function light(h,t){return mix(h,'#FFFFFF',t);}
+function dark(h,t){return mix(h,'#000000',t);}
+function toHex(c){if(c[0]==='#')return c;var m=c.match(/\d+/g);return '#'+m.slice(0,3).map(function(v){return(+v).toString(16).padStart(2,'0');}).join('');}
+
+function Painter(ctx,seed){this.c=ctx;this.r=rng(seed);}
+var P=Painter.prototype;
+P.rand=function(a,b){return a+(b-a)*this.r();};
+P.pick=function(arr){return arr[Math.floor(this.r()*arr.length)];};
+/* painterly rectangle: base fill + jittered translucent dabs clipped inside */
+P.prect=function(x,y,w,h,col,o){o=o||{};var c=this.c,base=toHex(col);c.save();c.beginPath();
+  if(o.r){this.rr(x,y,w,h,o.r);}else{c.rect(x,y,w,h);}c.fillStyle=base;c.fill();c.clip();
+  var n=o.n||Math.min(60,Math.max(8,Math.round(w*h/9000)));
+  for(var i=0;i<n;i++){var dx=x+this.rand(-.1,1.1)*w,dy=y+this.rand(-.1,1.1)*h,rw=this.rand(.15,.5)*w,rh=this.rand(.08,.3)*h;
+    c.fillStyle=this.r()<.5?rgba(toHex(light(base,.22)),.18):rgba(toHex(dark(base,.18)),.14);
+    c.beginPath();c.ellipse(dx,dy,rw/2+4,rh/2+4,this.rand(-.4,.4),0,Math.PI*2);c.fill();}
+  /* brush streaks */
+  var s=o.s===undefined?Math.round(n*1.2):o.s;c.lineCap='round';
+  for(var j=0;j<s;j++){var sx=x+this.r()*w,sy=y+this.r()*h,len=this.rand(.1,.35)*w;c.strokeStyle=this.r()<.5?rgba(toHex(light(base,.3)),.16):rgba(toHex(dark(base,.25)),.12);
+    c.lineWidth=this.rand(2,7);c.beginPath();c.moveTo(sx,sy);c.quadraticCurveTo(sx+len/2,sy+this.rand(-6,6),sx+len,sy+this.rand(-4,4));c.stroke();}
+  c.restore();
+  if(o.edge!==false){c.save();c.strokeStyle=rgba(toHex(dark(base,.35)),.35);c.lineWidth=o.lw||3;c.beginPath();if(o.r)this.rr(x,y,w,h,o.r);else c.rect(x,y,w,h);c.stroke();c.restore();}
+};
+P.rr=function(x,y,w,h,r){var c=this.c;c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();};
+P.dabCircle=function(x,y,r,col){var c=this.c,b=toHex(col);c.save();c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fillStyle=b;c.fill();c.clip();
+  for(var i=0;i<18;i++){c.fillStyle=this.r()<.5?rgba(toHex(light(b,.25)),.2):rgba(toHex(dark(b,.2)),.14);c.beginPath();c.arc(x+this.rand(-r,r),y+this.rand(-r,r),this.rand(.2,.6)*r,0,Math.PI*2);c.fill();}
+  c.restore();};
+P.shadow=function(x,y,w,h,a){var c=this.c;c.save();c.fillStyle='rgba(31,58,95,'+(a||.18)+')';c.beginPath();c.ellipse(x+w/2,y,w/2,h,0,0,Math.PI*2);c.fill();c.restore();};
+P.rot=function(x,y,a,fn){var c=this.c;c.save();c.translate(x,y);c.rotate(a);fn.call(this);c.restore();};
+
+/* ---------- scene parts ---------- */
+P.sky=function(h){var c=this.c,g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#BFDDF0');g.addColorStop(.7,'#E4EEF2');g.addColorStop(1,'#FBEFD9');c.fillStyle=g;c.fillRect(0,0,1920,h);
+  for(var i=0;i<7;i++){var cx=this.rand(0,1920),cy=this.rand(40,h*.45),s=this.rand(.7,1.4);for(var k=0;k<9;k++){c.fillStyle='rgba(255,255,255,'+this.rand(.45,.8)+')';c.beginPath();c.ellipse(cx+this.rand(-90,90)*s,cy+this.rand(-18,18)*s,this.rand(40,90)*s,this.rand(18,34)*s,0,0,Math.PI*2);c.fill();}}};
+P.sun=function(x,y,r){var c=this.c;c.save();c.strokeStyle='rgba(255,196,90,.55)';c.lineWidth=10;c.lineCap='round';
+  for(var i=0;i<16;i++){var a=i/16*Math.PI*2;c.beginPath();c.moveTo(x+Math.cos(a)*(r+22),y+Math.sin(a)*(r+22));c.lineTo(x+Math.cos(a)*(r+58+(i%2)*26),y+Math.sin(a)*(r+58+(i%2)*26));c.stroke();}
+  c.restore();this.dabCircle(x,y,r,'#FFC75A');this.dabCircle(x-r*.15,y-r*.15,r*.6,'#FFD98A');};
+P.buildings=function(base,minH,maxH){var x=-40,cols=['#F3D9B6','#F5C79B','#EBCFDB','#D5E0EC','#F1E2C2','#F7D2A8'];
+  while(x<1960){var w=this.rand(170,300),h=this.rand(minH,maxH),col=this.pick(cols);this.prect(x,base-h,w,h,col,{lw:2});
+    /* cornice */ this.prect(x-8,base-h-18,w+16,22,toHex(dark(col,.12)),{n:6,s:4,lw:2});
+    var wc=Math.max(2,Math.floor((w-40)/70));for(var yy=base-h+40;yy<base-120;yy+=96){for(var k=0;k<wc;k++){var wx=x+30+k*((w-60)/wc),ww=(w-60)/wc-22;
+      this.prect(wx,yy,ww,62,'#BFD4E6',{n:4,s:3,lw:2});this.c.fillStyle='rgba(255,255,255,.55)';this.c.fillRect(wx+5,yy+5,ww*.35,52);
+      this.prect(wx-4,yy+62,ww+8,8,toHex(dark(col,.15)),{n:2,s:1,edge:false});}}
+    x+=w+this.rand(0,12);}};
+P.sidewalk=function(y){this.prect(0,y,1920,1080-y,'#EAD9BC',{n:40,lw:0,edge:false});var c=this.c;c.save();c.strokeStyle='rgba(31,58,95,.15)';c.lineWidth=3;
+  for(var x=-200;x<2100;x+=150){c.beginPath();c.moveTo(x,y);c.lineTo(x-(x-960)*.5,1080);c.stroke();}for(var yy=y+40;yy<1080;yy+=(yy-y)*.35+30){c.beginPath();c.moveTo(0,yy);c.lineTo(1920,yy);c.stroke();}c.restore();
+  this.prect(0,y-14,1920,18,'#D9C4A0',{n:20,edge:false});};
+P.wall=function(col,y0,y1){this.prect(0,y0,1920,y1-y0,col,{n:50,edge:false});var c=this.c;c.save();c.strokeStyle=rgba(toHex(dark(col,.2)),.12);c.lineWidth=2;
+  for(var yy=y0+30;yy<y1;yy+=34){c.beginPath();c.moveTo(0,yy+this.rand(-2,2));c.lineTo(1920,yy+this.rand(-2,2));c.stroke();}c.restore();};
+P.counter=function(y){this.prect(-10,y,1940,40,WOOD,{n:40});var c=this.c;this.prect(-10,y+40,1940,1080-y-40,toHex(dark(WOOD,.12)),{n:40});
+  c.save();c.strokeStyle='rgba(90,50,20,.18)';c.lineWidth=2;for(var i=0;i<26;i++){var yy=y+48+this.r()*(1080-y-60);c.beginPath();c.moveTo(0,yy);c.bezierCurveTo(600,yy+this.rand(-8,8),1300,yy+this.rand(-8,8),1920,yy);c.stroke();}c.restore();};
+P.awning=function(x,y,w,h,cols){cols=cols||[TANG,PAPER];var n=Math.max(6,Math.round(w/70)),sw=w/n,c=this.c;
+  for(var i=0;i<n;i++){this.prect(x+i*sw,y,sw+1,h,cols[i%2],{n:6,s:6,edge:false});}
+  for(var j=0;j<n;j++){c.fillStyle=toHex(cols[j%2]);c.beginPath();c.arc(x+j*sw+sw/2,y+h,sw/2,0,Math.PI);c.fill();}
+  c.save();c.strokeStyle='rgba(31,58,95,.35)';c.lineWidth=3;c.beginPath();c.moveTo(x,y);c.lineTo(x+w,y);c.stroke();c.restore();
+  c.fillStyle='rgba(31,58,95,.14)';c.fillRect(x,y+h+sw/2,w,22);};
+P.bunting=function(x1,x2,y,sag){var c=this.c,cols=[TANG,MAG,NAVY,'#FFFFFF',TANG];c.save();c.strokeStyle='rgba(31,58,95,.6)';c.lineWidth=3;c.beginPath();c.moveTo(x1,y);c.quadraticCurveTo((x1+x2)/2,y+sag*2,x2,y);c.stroke();
+  var n=Math.round((x2-x1)/70);for(var i=0;i<n;i++){var t=(i+.5)/n,px=x1+(x2-x1)*t,py=y+sag*2*2*t*(1-t);c.fillStyle=toHex(cols[i%cols.length]);c.beginPath();c.moveTo(px-24,py);c.lineTo(px+24,py);c.lineTo(px,py+52);c.closePath();c.fill();c.strokeStyle='rgba(31,58,95,.3)';c.lineWidth=2;c.stroke();}
+  c.restore();};
+P.magazine=function(x,y,w,h,col,a){this.rot(x,y,a||0,function(){var c=this.c;this.shadow(-w/2+6,h/2+4,w*.9,8,.15);this.prect(-w/2,-h/2,w,h,col,{n:8,s:6,lw:2});
+  this.prect(-w/2+6,-h/2+6,w-12,h*.18,PAPER,{n:3,s:2,edge:false});c.fillStyle=rgba(NAVY,.75);c.fillRect(-w/2+12,-h/2+12,w*.6,h*.07);
+  /* abstract cover figure */ this.dabCircle(0,h*.06,w*.24,toHex(light(col,.45)));c.fillStyle=rgba(toHex(dark(col,.3)),.55);c.beginPath();c.ellipse(0,h*.42,w*.32,h*.12,0,Math.PI,0);c.fill();
+  c.fillStyle='rgba(255,255,255,.75)';c.fillRect(-w/2+10,h*.3,w*.4,5);c.fillRect(-w/2+10,h*.36,w*.3,5);});};
+P.newspaper=function(x,y,w,h,a){this.rot(x,y,a||0,function(){var c=this.c;this.shadow(-w/2+8,h/2+6,w*.95,10,.15);this.prect(-w/2,-h/2,w,h,'#F7F3EA',{n:6,s:4,lw:2});
+  c.fillStyle=rgba(NAVY,.85);c.fillRect(-w/2+w*.08,-h/2+h*.06,w*.84,h*.09);c.fillStyle=rgba(NAVY,.5);c.fillRect(-w/2+w*.08,-h/2+h*.2,w*.84,h*.04);
+  var cols=3,cw=w*.84/cols;for(var k=0;k<cols;k++){for(var l=0;l<9;l++){c.fillStyle='rgba(31,58,95,'+(.18+this.r()*.15)+')';c.fillRect(-w/2+w*.08+k*cw+4,-h/2+h*.3+l*h*.07,cw-14-this.r()*12,h*.025);}}
+  this.prect(-w/2+w*.08+cw*2+4,-h/2+h*.3,cw-14,h*.25,toHex(light(TANG,.35)),{n:3,s:2,edge:false});});};
+P.paperStack=function(x,y,w,n){for(var i=0;i<n;i++){this.prect(x+this.rand(-6,6),y-i*14,w,14,i%2?'#F7F3EA':'#ECE4D2',{n:3,s:2,lw:1.5});}
+  var c=this.c;c.save();c.strokeStyle=MAG;c.lineWidth=5;c.beginPath();c.moveTo(x+w*.5,y+14);c.lineTo(x+w*.5,y-n*14);c.stroke();c.restore();
+  this.newspaper(x+w/2,y-n*14-30,w*.98,64,this.rand(-.03,.03));};
+P.record=function(x,y,r){var c=this.c;this.dabCircle(x,y,r,'#2E3644');c.save();c.strokeStyle='rgba(255,255,255,.12)';c.lineWidth=2;for(var k=r*.45;k<r*.95;k+=7){c.beginPath();c.arc(x,y,k,0,Math.PI*2);c.stroke();}
+  c.strokeStyle='rgba(255,255,255,.35)';c.lineWidth=6;c.beginPath();c.arc(x,y,r*.75,-1.1,-.4);c.stroke();c.restore();this.dabCircle(x,y,r*.32,TANG);c.fillStyle=PAPER;c.beginPath();c.arc(x,y,r*.05,0,Math.PI*2);c.fill();};
+P.sleeve=function(x,y,s,col,a){this.rot(x,y,a,function(){this.prect(-s/2,-s/2,s,s,col,{n:8,lw:2});this.dabCircle(0,0,s*.28,toHex(light(col,.5)));var c=this.c;c.fillStyle=rgba(NAVY,.7);c.fillRect(-s/2+14,s/2-36,s*.55,12);});};
+P.cassette=function(x,y,w,h,a,col){this.rot(x,y,a||0,function(){var c=this.c;this.prect(-w/2,-h/2,w,h,col||MAG,{n:6,lw:2,r:10});this.prect(-w*.4,-h*.3,w*.8,h*.42,PAPER,{n:3,s:2,lw:2});
+  [-.2,.2].forEach(function(k){this.dabCircle(w*k,-h*.09,h*.12,'#4A5568');c.fillStyle=PAPER;c.beginPath();c.arc(w*k,-h*.09,h*.05,0,Math.PI*2);c.fill();},this);
+  c.fillStyle=rgba(NAVY,.6);c.fillRect(-w*.35,h*.22,w*.7,h*.1);});};
+P.radio=function(x,y,w,h){var c=this.c;this.shadow(x,y+h,w,12,.2);c.save();c.beginPath();c.moveTo(x,y+h);c.lineTo(x,y+h*.4);c.quadraticCurveTo(x,y,x+w/2,y);c.quadraticCurveTo(x+w,y,x+w,y+h*.4);c.lineTo(x+w,y+h);c.closePath();c.fillStyle=WOOD;c.fill();c.clip();
+  for(var i=0;i<20;i++){c.strokeStyle='rgba(90,50,20,.2)';c.lineWidth=this.rand(2,5);c.beginPath();var yy=y+this.r()*h;c.moveTo(x,yy);c.quadraticCurveTo(x+w/2,yy+this.rand(-10,10),x+w,yy);c.stroke();}c.restore();
+  c.save();c.beginPath();c.moveTo(x+w*.15,y+h*.75);c.lineTo(x+w*.15,y+h*.45);c.quadraticCurveTo(x+w*.15,y+h*.15,x+w*.5,y+h*.15);c.quadraticCurveTo(x+w*.85,y+h*.15,x+w*.85,y+h*.45);c.lineTo(x+w*.85,y+h*.75);c.closePath();c.fillStyle='#F3DDB4';c.fill();c.clip();
+  c.strokeStyle='rgba(120,70,30,.45)';c.lineWidth=5;for(var k=x+w*.2;k<x+w*.85;k+=w*.07){c.beginPath();c.moveTo(k,y+h*.1);c.lineTo(k,y+h*.8);c.stroke();}c.restore();
+  this.dabCircle(x+w*.3,y+h*.88,h*.06,PAPER);this.dabCircle(x+w*.7,y+h*.88,h*.06,PAPER);this.prect(x+w*.42,y+h*.84,w*.16,h*.08,TANG,{n:2,s:1,lw:2});};
+P.tv=function(x,y,w,h){var c=this.c;c.save();c.strokeStyle=NAVY;c.lineWidth=5;c.beginPath();c.moveTo(x+w*.5,y);c.lineTo(x+w*.3,y-h*.35);c.moveTo(x+w*.5,y);c.lineTo(x+w*.72,y-h*.4);c.stroke();c.restore();
+  this.prect(x,y,w,h,TANG,{r:26,lw:3});this.prect(x+w*.08,y+h*.12,w*.62,h*.74,'#D6ECF5',{r:30,lw:3});var c2=this.c;c2.fillStyle='rgba(255,255,255,.6)';c2.beginPath();c2.ellipse(x+w*.25,y+h*.3,w*.1,h*.08,-.5,0,Math.PI*2);c2.fill();
+  this.dabCircle(x+w*.85,y+h*.32,w*.06,PAPER);this.dabCircle(x+w*.85,y+h*.58,w*.06,PAPER);this.prect(x+w*.12,y+h,w*.08,h*.12,NAVY,{n:1,s:0});this.prect(x+w*.8,y+h,w*.08,h*.12,NAVY,{n:1,s:0});};
+P.device=function(x,y,w,h,a,kind){this.rot(x,y,a||0,function(){var c=this.c;this.shadow(-w/2+10,h/2+10,w,14,.2);this.prect(-w/2,-h/2,w,h,NAVY,{r:Math.min(w,h)*.12,lw:2});
+  this.prect(-w/2+w*.07,-h/2+h*.07,w*.86,h*.86,'#FDF8EF',{r:Math.min(w,h)*.06,n:4,s:2,lw:1});
+  var bx=-w/2+w*.14,by=-h/2+h*.14,bw=w*.72;
+  if(kind==='share'){this.dabCircle(0,-h*.1,w*.2,TANG);c.strokeStyle=PAPER;c.lineWidth=w*.035;c.lineCap='round';c.beginPath();c.moveTo(0,-h*.02);c.lineTo(0,-h*.2);c.moveTo(-w*.07,-h*.14);c.lineTo(0,-h*.21);c.lineTo(w*.07,-h*.14);c.stroke();
+    this.prect(-w*.32,h*.18,w*.64,h*.09,MAG,{r:h*.04,n:2,s:1});c.fillStyle=PAPER;c.fillRect(-w*.2,h*.215,w*.4,h*.02);return;}
+  for(var i=0;i<4;i++){var right=i%2===1,ww=bw*this.rand(.5,.75),hh=h*.11;this.prect(right?bx+bw-ww:bx,by+i*h*.17,ww,hh,right?toHex(light(TANG,.2)):'#D7E3EF',{r:hh*.4,n:2,s:1,lw:1.5});
+    c.fillStyle=rgba(NAVY,.5);c.fillRect((right?bx+bw-ww:bx)+14,by+i*h*.17+hh*.42,ww*.6,hh*.16);}
+  if(kind==='link'){c.strokeStyle=MAG;c.lineWidth=w*.03;c.lineCap='round';c.beginPath();c.moveTo(bx+bw*.25,by+h*.7);c.lineTo(bx+bw*.75,by+h*.7);c.stroke();}});};
+P.map=function(x,y,w,h,a){this.rot(x,y,a,function(){var c=this.c,panels=4,pw=w/panels;this.shadow(-w/2,h/2+10,w,20,.2);
+  for(var i=0;i<panels;i++){this.prect(-w/2+i*pw,-h/2,pw+1,h,i%2?'#F4EAD2':'#FBF2DF',{n:10,lw:1.5});}
+  c.save();c.beginPath();c.rect(-w/2,-h/2,w,h);c.clip();
+  for(var b=0;b<16;b++){this.prect(-w/2+this.r()*w,-h/2+this.r()*h,this.rand(40,110),this.rand(30,80),this.pick(['#E7D7EA','#D7E6CF','#F6D9B9','#D5E2EE']),{n:2,s:1,lw:1});}
+  c.strokeStyle=TANG;c.lineWidth=16;c.lineCap='round';c.beginPath();c.moveTo(-w/2,h*.1);c.bezierCurveTo(-w*.2,-h*.3,w*.1,h*.35,w/2,-h*.1);c.stroke();
+  c.strokeStyle='#FFFFFF';c.lineWidth=9;c.beginPath();c.moveTo(-w*.2,-h/2);c.bezierCurveTo(-w*.1,0,-w*.3,h*.2,-w*.15,h/2);c.stroke();c.beginPath();c.moveTo(w*.15,-h/2);c.lineTo(w*.25,h/2);c.stroke();
+  c.strokeStyle=NAVY;c.lineWidth=6;c.setLineDash([14,14]);c.beginPath();c.moveTo(-w*.38,h*.3);c.bezierCurveTo(-w*.1,h*.25,0,-h*.3,w*.32,-h*.28);c.stroke();c.setLineDash([]);c.restore();
+  [[-w*.38,h*.3],[w*.32,-h*.28],[w*.05,h*.02]].forEach(function(p,k){c.fillStyle=k===1?MAG:NAVY;c.beginPath();c.arc(p[0],p[1]-34,20,0,Math.PI*2);c.fill();c.beginPath();c.moveTo(p[0]-14,p[1]-26);c.lineTo(p[0],p[1]);c.lineTo(p[0]+14,p[1]-26);c.fill();c.fillStyle=PAPER;c.beginPath();c.arc(p[0],p[1]-34,7,0,Math.PI*2);c.fill();});
+  c.strokeStyle='rgba(31,58,95,.18)';c.lineWidth=3;for(var j=1;j<panels;j++){c.beginPath();c.moveTo(-w/2+j*pw,-h/2);c.lineTo(-w/2+j*pw,h/2);c.stroke();}});};
+P.compass=function(x,y,r){var c=this.c;this.shadow(x-r,y+r*.9,r*2,12,.2);this.dabCircle(x,y,r,'#D9A24E');this.dabCircle(x,y,r*.82,PAPER);c.save();c.translate(x,y);c.rotate(.5);
+  c.fillStyle=MAG;c.beginPath();c.moveTo(0,-r*.7);c.lineTo(r*.12,0);c.lineTo(-r*.12,0);c.fill();c.fillStyle=NAVY;c.beginPath();c.moveTo(0,r*.7);c.lineTo(r*.12,0);c.lineTo(-r*.12,0);c.fill();c.restore();this.dabCircle(x,y,r*.08,'#D9A24E');};
+P.notepad=function(x,y,w,h,a){this.rot(x,y,a,function(){var c=this.c;this.shadow(-w/2,h/2+10,w,18,.2);this.prect(-w/2,-h/2,w,h,'#FFFDF6',{n:6,s:3,lw:2});
+  c.strokeStyle='rgba(31,58,95,.18)';c.lineWidth=2;for(var yy=-h/2+90;yy<h/2-20;yy+=58){c.beginPath();c.moveTo(-w/2+30,yy);c.lineTo(w/2-30,yy);c.stroke();}
+  c.strokeStyle=rgba(MAG,.4);c.beginPath();c.moveTo(-w/2+80,-h/2+20);c.lineTo(-w/2+80,h/2-10);c.stroke();
+  for(var s=0;s<9;s++){c.fillStyle='#8A93A3';c.beginPath();c.arc(-w/2+50+s*(w-100)/8,-h/2,12,0,Math.PI*2);c.fill();}
+  /* key-word boxes with squiggle "handwriting" */
+  for(var row=0;row<5;row++){var by=-h/2+108+row*116;var bx=-w/2+100;for(var k=0;k<5;k++){var bw=this.rand(.1,.15)*w;if(bx+bw>w/2-30)break;c.strokeStyle=rgba(NAVY,.55);c.lineWidth=3;c.strokeRect(bx,by,bw,46);
+    if(k===0){c.fillStyle=rgba(TANG,.45);c.fillRect(bx+2,by+2,bw-4,42);}
+    c.strokeStyle=rgba(NAVY,.75);c.lineWidth=3.5;c.beginPath();c.moveTo(bx+8,by+26);for(var q=bx+8;q<bx+bw-10;q+=9){c.lineTo(q,by+26+Math.sin(q*.6+row)*7);}c.stroke();bx+=bw+16;}}});};
+P.pencil=function(x,y,len,a,col){this.rot(x,y,a,function(){var c=this.c;this.prect(0,-12,len,24,col||TANG,{n:3,s:3,lw:2});this.prect(len,-12,30,24,'#C9CED6',{n:1,s:0,lw:2});this.prect(len+30,-12,24,24,MAG,{n:1,s:0,r:8,lw:2});
+  c.fillStyle='#F3D3A5';c.beginPath();c.moveTo(0,-12);c.lineTo(-44,0);c.lineTo(0,12);c.fill();c.fillStyle=NAVY;c.beginPath();c.moveTo(-30,-4);c.lineTo(-44,0);c.lineTo(-30,4);c.fill();});};
+P.highlighter=function(x,y,len,a,col){this.rot(x,y,a,function(){this.prect(0,-22,len,44,col,{r:14,n:3,lw:2});this.prect(len,-18,70,36,PAPER,{r:10,n:1,lw:2});this.prect(-40,-16,40,32,toHex(dark(col,.15)),{r:6,n:1,lw:2});});};
+P.scissors=function(x,y,s,a){this.rot(x,y,a,function(){var c=this.c;c.fillStyle='#B8C2CF';c.strokeStyle=rgba(NAVY,.5);c.lineWidth=2;
+  [[1],[-1]].forEach(function(k){c.save();c.rotate(k[0]*.18);c.beginPath();c.moveTo(0,-6);c.lineTo(s,-2);c.lineTo(s,2);c.lineTo(0,6);c.closePath();c.fill();c.stroke();c.restore();});
+  c.lineWidth=14;c.strokeStyle=MAG;[[1],[-1]].forEach(function(k){c.beginPath();c.ellipse(-s*.32,k[0]*s*.16,s*.16,s*.1,0,0,Math.PI*2);c.stroke();});});};
+P.clipping=function(x,y,w,h,a,tape){this.rot(x,y,a,function(){var c=this.c;this.prect(-w/2,-h/2,w,h,'#F9F4E8',{n:4,s:2,lw:1.5});c.fillStyle=rgba(NAVY,.7);c.fillRect(-w/2+w*.1,-h/2+h*.12,w*.8,h*.12);
+  for(var l=0;l<6;l++){c.fillStyle='rgba(31,58,95,.25)';c.fillRect(-w/2+w*.1,-h/2+h*.34+l*h*.1,w*(.6+this.r()*.2),h*.04);}
+  c.fillStyle=rgba(TANG,.45);c.fillRect(-w/2+w*.1,-h/2+h*.44,w*.55,h*.07);
+  if(tape!==false){c.fillStyle='rgba(255,245,200,.75)';c.save();c.rotate(-.1);c.fillRect(-w*.15,-h/2-14,w*.3,28);c.restore();}});};
+P.pin=function(x,y,col){var c=this.c;c.fillStyle='rgba(31,58,95,.25)';c.beginPath();c.arc(x+4,y+5,13,0,Math.PI*2);c.fill();this.dabCircle(x,y,13,col||MAG);};
+P.kiosk=function(x,y,w,h){var c=this.c;this.shadow(x,y+h,w,16,.22);this.prect(x,y,w,h,NAVY,{n:30});
+  this.awning(x-30,y-70,w+60,80,[TANG,PAPER]);this.prect(x-34,y-96,w+68,30,MAG,{n:6,lw:2});
+  var ix=x+30,iw=w-60;this.prect(ix,y+40,iw,h-60,'#2C4A73',{n:16});
+  /* shelves of magazines */
+  var rows=3,rh=(h-180)/rows,cols=[TANG,MAG,'#5B8BC0',PAPER,'#F5B861','#E46C9A','#7FB3D5'];
+  for(var r=0;r<rows;r++){var sy=y+60+r*rh;this.prect(ix,sy+rh-14,iw,14,WOOD,{n:4,lw:2});var mx=ix+16;while(mx<ix+iw-60){var mw=this.rand(64,88),mh=rh*.78;this.magazine(mx+mw/2,sy+rh-14-mh/2,mw,mh,this.pick(cols),this.rand(-.06,.06));mx+=mw+this.rand(6,14);}}
+  this.counterBox(x-10,y+h-110,w+20,110);};
+P.counterBox=function(x,y,w,h){this.prect(x,y,w,h,WOOD,{n:12});var n=Math.floor((w-40)/170);for(var i=0;i<n;i++){this.newspaper(x+40+i*170+75,y+30,150,90,this.rand(-.08,.08));}};
+P.grain=function(){var c=this.c;c.save();for(var i=0;i<2600;i++){c.fillStyle=this.r()<.5?'rgba(255,255,255,.05)':'rgba(31,58,95,.035)';c.fillRect(this.r()*1920,this.r()*1080,this.rand(2,6),this.rand(1,3));}c.restore();};
+P.pigeon=function(x,y,s,flip){var c=this.c;c.save();c.translate(x,y);c.scale(flip?-s:s,s);c.fillStyle='#8E9AAE';c.beginPath();c.ellipse(0,0,34,20,0,0,Math.PI*2);c.fill();c.beginPath();c.arc(28,-16,12,0,Math.PI*2);c.fill();
+  c.fillStyle='#6E7B90';c.beginPath();c.ellipse(-6,-4,22,11,.3,0,Math.PI*2);c.fill();c.fillStyle=TANG;c.beginPath();c.moveTo(39,-16);c.lineTo(48,-13);c.lineTo(39,-11);c.fill();c.fillStyle=NAVY;c.beginPath();c.arc(31,-19,2.5,0,Math.PI*2);c.fill();
+  c.strokeStyle=TANG;c.lineWidth=3;c.beginPath();c.moveTo(0,18);c.lineTo(-4,30);c.moveTo(8,18);c.lineTo(6,30);c.stroke();c.restore();};
+P.rack=function(x,y,w,h){/* wall-mounted magazine rack */this.prect(x,y,w,h,'#E9D6B5',{n:20});var rows=Math.floor(h/230),cols=[TANG,MAG,'#5B8BC0','#F5B861','#E46C9A','#7FB3D5',PAPER];
+  for(var r=0;r<rows;r++){var sy=y+20+r*230;this.prect(x+10,sy+196,w-20,18,WOOD,{n:4,lw:2});var mx=x+28;while(mx<x+w-110){var mw=this.rand(120,150);this.magazine(mx+mw/2,sy+100,mw,186,this.pick(cols),this.rand(-.05,.05));mx+=mw+this.rand(10,20);}}};
+
+/* ---------- scenes ---------- */
+var SCENES={
+ title:function(p){p.sky(760);p.sun(1720,150,70);p.buildings(760,360,620);p.sidewalk(760);p.bunting(-20,1940,40,40);p.kiosk(1060,380,720,470);p.pigeon(1000,960,1.1,false);p.pigeon(1880,980,.9,true);p.grain();},
+ tabs:function(p){p.wall('#F3DFC0',0,760);p.rack(-20,-60,1960,780);p.counter(760);
+   p.paperStack(140,1010,230,6);p.paperStack(860,1020,230,8);p.paperStack(1560,1012,230,5);p.grain();},
+ maps:function(p){p.wall('#D9E6EF',0,620);p.awning(-40,-30,2000,90,[TANG,PAPER]);p.counter(620);p.map(380,760,680,440,-.06);p.compass(640,1000,70);p.pencil(120,1030,260,-.15,TANG);
+   p.magazine(150,380,170,240,MAG,-.12);p.magazine(340,360,170,240,'#5B8BC0',.08);p.magazine(530,390,160,230,TANG,-.04);p.grain();},
+ step1:function(p){p.wall('#F6E3C6',0,800);p.rack(1120,-40,800,820);p.counter(800);p.radio(1180,830,250,210);p.tv(1520,860,300,180);
+   p.cassette(980,980,200,120,.12,MAG);p.grain();},
+ step2wiki:function(p){p.wall('#E3ECF4',0,860);p.bunting(-20,1940,-10,30);p.counter(860);
+   p.paperStack(80,1040,260,8);p.paperStack(420,1048,220,5);p.newspaper(1300,960,340,200,-.05);p.newspaper(1650,980,320,190,.07);
+   for(var i=0;i<6;i++){p.clipping(70+i*300,40,150,120,p.rand(-.15,.15),true);}p.grain();},
+ step2ai:function(p){p.wall('#F8E6D6',0,840);p.counter(840);p.device(1500,960,520,300,-.05,'link');p.device(1110,950,190,320,.12,'chat');p.device(1830,900,170,300,-.15,'chat');
+   p.highlighter(200,980,260,-.1,'#F5B861');p.grain();},
+ step3:function(p){p.wall('#E6EEF5',0,1080);p.awning(-40,-60,2000,70,[NAVY,PAPER]);
+   for(var i=0;i<7;i++){p.clipping(130+i*270,1010,170,120,p.rand(-.2,.2),false);}p.grain();},
+ step3b:function(p){p.wall('#E9F0E4',0,860);p.awning(-40,-50,2000,70,[MAG,PAPER]);p.counter(860);p.paperStack(1500,1050,260,6);p.newspaper(1050,980,300,170,-.08);p.pencil(170,960,280,.15,TANG);p.grain();},
+ step4:function(p){p.wall('#F7E4CB',0,760);p.counter(760);
+   p.clipping(250,300,280,210,-.12,true);p.clipping(400,560,250,190,.1,true);p.pin(250,200,MAG);
+   p.scissors(420,930,150,-.5);p.highlighter(110,1010,240,.12,TANG);p.highlighter(150,880,230,-.08,'#F7D04A');p.grain();},
+ step5:function(p){p.wall('#EAF0E6',0,700);p.counter(700);p.notepad(1620,580,500,760,.06);p.pencil(1320,990,300,-.45,TANG);p.highlighter(900,1000,240,.1,MAG);p.grain();},
+ step5b:function(p){p.wall('#E6EEF5',0,1080);p.notepad(1700,960,520,420,-.08);p.notepad(220,980,480,400,.07);p.pencil(820,1040,300,.05,TANG);p.highlighter(1150,1030,240,-.06,MAG);p.grain();},
+ step6:function(p){p.wall('#F5DCC6',0,780);
+   for(var i=0;i<7;i++){p.sleeve(140+i*270,140,200,p.pick([TANG,MAG,'#5B8BC0','#F5B861']),p.rand(-.08,.08));}
+   p.counter(840);p.record(1720,1000,110);p.cassette(160,1010,200,120,-.1,'#5B8BC0');p.device(420,1000,140,240,.15,'share');p.grain();},
+ airight:function(p){p.wall('#E8EEF6',0,1080);p.device(1800,1000,150,260,-.2,'chat');p.device(110,1020,150,260,.18,'chat');p.grain();},
+ tab2:function(p){p.wall('#F6E7CC',0,1080);p.awning(-40,-40,2000,60,[TANG,PAPER]);p.counter(980);p.paperStack(1500,1070,300,3);p.grain();},
+ tab2ai:function(p){p.wall('#F4E0E8',0,820);p.counter(820);p.device(1560,520,420,760,.06,'share');p.cassette(1200,980,210,126,-.1,TANG);p.compass(240,980,60);p.grain();},
+ tab3:function(p){p.wall('#E2D3B6',0,880);p.counter(880);
+   p.paperStack(140,1050,260,6);p.highlighter(620,990,260,-.06,TANG);p.highlighter(980,1020,240,.08,'#F7D04A');p.scissors(1340,990,140,-.4);p.newspaper(1690,985,300,150,.05);p.grain();}
+};
+
+/* ---------- deck engine ---------- */
+var stage=document.getElementById('stage'),slides=[].slice.call(document.querySelectorAll('.slide')),cur=0,painted={};
+function fit(){var s=Math.min(window.innerWidth/1920,window.innerHeight/1080);stage.style.transform='scale('+s+') translate(-50%,-50%)';stage.style.transformOrigin='0 0';
+  stage.style.left='50%';stage.style.top='50%';stage.style.transform='translate(-50%,-50%) scale('+s+')';stage.style.transformOrigin='center center';}
+function paint(i){if(painted[i]||!slides[i])return;var cv=slides[i].querySelector('canvas.bg');cv.width=1920;cv.height=1080;var ctx=cv.getContext('2d');
+  var p=new Painter(ctx,1000+i*7919);try{SCENES[slides[i].dataset.scene](p);}catch(e){console.error(e);}painted[i]=true;}
+function show(i){i=Math.max(0,Math.min(slides.length-1,i));slides[cur].classList.remove('on');cur=i;paint(i);slides[i].classList.add('on');
+  document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';
+  if(i>0)document.getElementById('hint').style.opacity=0;
+  setTimeout(function(){paint(i+1);paint(i-1);},60);
+  try{history.replaceState(null,'','#'+(i+1));}catch(e){}}
+window.addEventListener('resize',fit);
+document.addEventListener('keydown',function(e){if(['ArrowRight',' ','Enter','PageDown'].indexOf(e.key)>-1){e.preventDefault();show(cur+1);}
+  else if(['ArrowLeft','PageUp','Backspace'].indexOf(e.key)>-1){e.preventDefault();show(cur-1);}
+  else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);});
+document.addEventListener('click',function(){show(cur+1);});
+window.__deck={show:show,count:slides.length};
+fit();var start=parseInt((location.hash||'').slice(1),10);show(isNaN(start)?0:start-1);
+})();
+</script>
+</body>
+</html>
