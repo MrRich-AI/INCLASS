@@ -27,7 +27,7 @@ Neither type is a student game: no name/class login, no scoreboard submission, n
 - **Screen:** 16:9, rendered at 1920×1080 and scaled to fit any screen, no scrolling, high contrast, readable from the back of the room.
 - **Navigation, REV (answer progression), click-to-pause:** see SHARED/control/README.md.
 - **Delivery:** one self-contained HTML file.
-- **EXPLAIN (light-bulb rule/pattern explainer):** see SHARED/features/explain/README.md (INCLASS and RVW bulb positions are listed there).
+- **EXPLAIN (light-bulb rule/pattern explainer):** see SHARED/features/explain/README.md (INCLASS and RVW bulb positions are listed there). RVW: not used unless Richard asks for it — don't list EXPLAIN candidates for RVW builds.
 
 ## Workflow: Step 1 (chat) and Step 2 (Claude Code)
 Full workflow: SHARED/WORKFLOW.md. Tags and data blocks: SHARED/TAGGING.md. Applies to INCLASS, RVW and INSTRUCT builds.
@@ -109,7 +109,7 @@ All teacher tools are present (teacher-only; none change the source content).
 - Header strip, header tools (🎡, ⏱, language sign, COPY/NOTE pencil ✏️), work timer, B / W, C, ?, P, cover boxes, click-to-zoom, first screen, click-to-pause: see SHARED/control/README.md (`rvw` frame).
 
 ### Not used in RVW
-O key ("Open your book"), 5/6 break screens and shortcuts, CLUE/VISCLUE, GAMIFY, end-of-deck quiz, Words from today, warmers, student versions (?student/?zh, VI, read-aloud, flashcards).
+O key ("Open your book"), 5/6 break screens and shortcuts, EXPLAIN (unless Richard asks for it), CLUE/VISCLUE, GAMIFY, end-of-deck quiz, Words from today, warmers, student versions (?student/?zh, VI, read-aloud, flashcards).
 
 ### Navigation and media
 - Discreet bottom bar (Contents, Reveal all, Back, slide counter, Next; arrows and Space): see SHARED/control/README.md (`rvw` frame). Contents labels every slide by its source slide/page and section.
