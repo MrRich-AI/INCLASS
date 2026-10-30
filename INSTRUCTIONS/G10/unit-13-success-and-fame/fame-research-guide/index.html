@@ -76,8 +76,12 @@ table.t .bad{background:var(--mag);color:#fff}
 
 /* progress */
 #prog{position:absolute;left:0;bottom:0;height:12px;background:var(--mag);transition:width .4s ease;z-index:50}
-#hint{position:absolute;right:30px;bottom:26px;z-index:50;font-size:43px;font-weight:900;color:var(--navy);
-  background:rgba(255,249,238,.92);border-radius:16px;padding:6px 22px;transition:opacity .6s}
+#next{position:absolute;right:22px;bottom:24px;z-index:60;font-family:'Nunito',sans-serif;font-size:43px;font-weight:900;
+  color:var(--navy);background:var(--tang);border:5px solid var(--navy);border-radius:999px;padding:4px 32px;cursor:pointer;
+  box-shadow:0 8px 0 rgba(31,58,95,.3);transition:transform .15s,opacity .3s}
+#next:hover{transform:translateY(-3px)}
+#next:active{transform:translateY(3px);box-shadow:0 4px 0 rgba(31,58,95,.3)}
+#next.gone{opacity:0;pointer-events:none}
 </style>
 </head>
 <body>
@@ -120,7 +124,7 @@ table.t .bad{background:var(--mag);color:#fff}
       <h1 style="font-size:93px">How to Research Your Celebrity</h1>
       <div class="sub" style="margin-top:10px;font-size:52px;color:var(--mag)">Read this first. Follow the steps in order.</div>
     </div>
-    <div class="card tangedge" style="left:800px;top:520px;width:1050px;padding:36px 50px">
+    <div class="card tangedge" style="left:800px;top:480px;width:1050px;padding:36px 50px">
       <div style="font-size:58px;font-family:'Alfa Slab One';margin-bottom:22px;line-height:1.15">Wikipedia and AI are <span class="hl" style="background:linear-gradient(transparent 55%,rgba(242,140,40,.55) 55%)">maps</span>, not destinations.</div>
       <ul class="steps">
         <li class="no">Never list them as one of your 3 sources</li>
@@ -371,7 +375,7 @@ table.t .bad{background:var(--mag);color:#fff}
 </section>
 
 <div id="prog"></div>
-<div id="hint">Click / → to continue</div>
+<button id="next" type="button" aria-label="Next slide">Next <span aria-hidden="true">→</span></button>
 </div>
 
 <script>
@@ -560,13 +564,14 @@ function paint(i){if(painted[i]||!slides[i])return;var cv=slides[i].querySelecto
   var p=new Painter(ctx,1000+i*7919);try{SCENES[slides[i].dataset.scene](p);}catch(e){console.error(e);}painted[i]=true;}
 function show(i){i=Math.max(0,Math.min(slides.length-1,i));slides[cur].classList.remove('on');cur=i;paint(i);slides[i].classList.add('on');
   document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';
-  if(i>0)document.getElementById('hint').style.opacity=0;
+  document.getElementById('next').classList.toggle('gone',i===slides.length-1);
   setTimeout(function(){paint(i+1);paint(i-1);},60);
   try{history.replaceState(null,'','#'+(i+1));}catch(e){}}
 window.addEventListener('resize',fit);
 document.addEventListener('keydown',function(e){if(['ArrowRight',' ','Enter','PageDown'].indexOf(e.key)>-1){e.preventDefault();show(cur+1);}
   else if(['ArrowLeft','PageUp','Backspace'].indexOf(e.key)>-1){e.preventDefault();show(cur-1);}
   else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);});
+document.getElementById('next').addEventListener('click',function(e){e.stopPropagation();show(cur+1);});
 document.addEventListener('click',function(){show(cur+1);});
 window.__deck={show:show,count:slides.length};
 fit();var start=parseInt((location.hash||'').slice(1),10);show(isNaN(start)?0:start-1);
