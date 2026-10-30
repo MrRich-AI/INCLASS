@@ -16,7 +16,7 @@ Neither type is a student game: no name/class login, no scoreboard submission, n
 - Classes: G9 = 9A1, 9A2, 9A3; G10 = 10A1. Roster nicknames are built into each file — copy them from the most recent build of the same grade and keep them easy to edit.
 
 ## Commits
-- **INCLASS:** ask before the first commit of a new build; commit later edits without asking. Format: `Add INCLASS: G9 Unit 3 Food – Food Mystery` / `Update INCLASS: …`.
+- **INCLASS:** commit and push without asking (Oct 30 2026); never paste the raw HTML code in chat. Format: `Add INCLASS: G9 Unit 3 Food – Food Mystery` / `Update INCLASS: …`.
 - **RVW:** commit to `TEST-REVIEW/` without asking.
 - Never commit API keys or other secrets.
 - If a request clashes with these rules, ask before building.
